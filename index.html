@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="terracotta">
+  <title>Mango Cheladas — Contador de Productos</title>
+
+  <!-- Google Fonts: Paytone One (Branding & Números) + Fredoka (Legibilidad y redondez amigable) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Paytone+One&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS v3.4.17 (CDN Aprobado) -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Paleta Terracotta / Rústico Tropical */
+      --background: #1c110a;
+      --wood-dark: #190e08;
+      --wood-med: #2a170d;
+      --wood-light: #3d2315;
+      --wood-plank: #4e2d1b;
+
+      /* Superficies de Tarjetas y Tablas */
+      --surface-container-low: #fffdf9;
+      --surface-container: #fbf5eb;
+      --surface-container-high: #f3e8d6;
+      --surface-border: #92400e;
+      --surface-border-light: #d97706;
+
+      /* Tintas y Textos */
+      --on-surface: #27170c;
+      --on-surface-variant: #6b4423;
+      --on-wood-text: #fef3c7;
+      --on-wood-muted: #d97706;
+
+      /* Acentos Corporativos Mango Cheladas */
+      --primary: #ea580c;           /* Naranja mango */
+      --primary-hover: #c2410c;
+      --mango-gold: #f59e0b;       /* Amarillo mango maduro */
+      --mango-light: #fbbf24;
+      --lime-green: #65a30d;       /* Verde lima tropical */
+      --lime-hover: #4d7c0f;
+      --lime-light: #84cc16;
+      --danger-red: #dc2626;       /* Rojo botón resta / eliminar */
+      --danger-hover: #b91c1c;
+
+      --outline: #92400e;
+      --outline-variant: #e5d5be;
+      --focus: #ea580c;
+
+      /* Escala de Espacios */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Tipografías */
+      --font-headline: 'Paytone One', system-ui, sans-serif;
+      --font-body: 'Fredoka', system-ui, -apple-system, sans-serif;
+
+      /* Animaciones */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 200ms;
+    }
+
+    /* Fondo simulando tablas de madera oscura de barril */
+    body {
+      font-family: var(--font-body);
+      background-color: var(--wood-dark);
+      background-image: 
+        repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.42) 0px,
+          rgba(0, 0, 0, 0.42) 2px,
+          transparent 2px,
+          transparent 92px
+        ),
+        linear-gradient(
+          90deg,
+          #160c07 0%,
+          #2c170d 25%,
+          #22120a 50%,
+          #321a0f 75%,
+          #1a0d07 100%
+        );
+      background-attachment: fixed;
+      color: var(--on-surface);
+      margin: 0;
+      padding: 0;
+      overflow-x: clip;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .font-headline {
+      font-family: var(--font-headline);
+      letter-spacing: 0.02em;
+    }
+
+    /* Optimización táctil para evitar zoom involuntario en móviles */
+    .touch-btn {
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) ease;
+    }
+    .touch-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Sombras temáticas cálidas */
+    .shadow-wood {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    }
+    .shadow-glow-mango {
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);
+    }
+
+    /* Estilo de la tabla consolidada para impresión y scroll */
+    .consolidado-scroll::-webkit-scrollbar {
+      height: 8px;
+    }
+    .consolidado-scroll::-webkit-scrollbar-track {
+      background: #f1e4d3;
+      border-radius: 4px;
+    }
+    .consolidado-scroll::-webkit-scrollbar-thumb {
+      background: #b45309;
+      border-radius: 4px;
+    }
+
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      #seccion-consolidado {
+        box-shadow: none !important;
+        border: 1px solid #000000 !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen text-stone-900 pb-16">
+
+  <!-- ========================================== -->
+  <!-- BARRA SUPERIOR Y ENCABEZADO CORPORATIVO    -->
+  <!-- ========================================== -->
+  <header class="w-full bg-gradient-to-b from-black/85 via-stone-950/75 to-transparent pt-4 pb-6 px-4 sm:px-6">
+    <div class="max-w-6xl mx-auto flex flex-col items-center text-center">
+
+      <!-- Logo de la Fuente (logo.jpg) con respaldo decorativo -->
+      <div class="relative mb-3 flex items-center justify-center">
+        <div class="absolute -inset-1.5 rounded-full bg-gradient-to-r from-amber-400 via-orange-500 to-lime-400 opacity-80 blur-sm"></div>
+        <div class="relative bg-amber-950/90 rounded-full p-1 border-2 border-amber-400 shadow-2xl overflow-hidden flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28">
+          <!-- Imagen de la fuente con fallback inteligente -->
+          <img 
+            id="brand-logo" 
+            src="logo.jpg" 
+            alt="Logo Mango Cheladas" 
+            class="w-full h-full object-contain rounded-full transition-transform duration-300 hover:scale-105"
+            onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';"
+          >
+          <!-- Respaldo visual si logo.jpg aún no está cargado en el navegador -->
+          <div id="logo-fallback" style="display:none;" class="w-full h-full flex flex-col items-center justify-center text-center text-amber-300 p-1">
+            <svg class="w-8 h-8 text-amber-400" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </svg>
+            <span class="text-[10px] font-headline font-bold text-amber-200 mt-1 uppercase leading-tight">Mango Cheladas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Título de Marca y Eslogan -->
+      <h1 class="font-headline text-3xl sm:text-4xl md:text-5xl font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-400 to-lime-300 drop-shadow-md">
+        Mango Cheladas
+      </h1>
+      <p class="text-amber-200/90 text-xs sm:text-sm font-medium tracking-wide mt-1 uppercase max-w-md">
+        Cocktails & Cervezas • Contador de Productos
+      </p>
+
+      <!-- Barra de Fecha y Hora en Tiempo Real (Requerimiento) -->
+      <div class="mt-3 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-950/80 border border-amber-600/50 shadow-inner text-amber-100 text-xs sm:text-sm">
+        <svg class="w-4 h-4 text-amber-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+          <path stroke-width="2" stroke-linecap="round" d="M12 6v6l4 2"></path>
+        </svg>
+        <span id="reloj-fecha-hora" class="font-mono font-medium">Cargando fecha y hora...</span>
+      </div>
+
+      <!-- Métricas Rápidas Consolidadas Superiores -->
+      <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 w-full max-w-2xl px-2">
+        <div class="bg-amber-950/70 border border-amber-700/40 rounded-xl p-2 sm:p-2.5 text-center shadow">
+          <div class="flex items-center justify-center gap-1 text-amber-300 text-xs font-semibold">
+            <span>🥭</span> <span>Mangos</span>
+          </div>
+          <div id="stat-total-mango" class="font-headline text-xl sm:text-2xl font-bold text-amber-100">0</div>
+        </div>
+        <div class="bg-amber-950/70 border border-amber-700/40 rounded-xl p-2 sm:p-2.5 text-center shadow">
+          <div class="flex items-center justify-center gap-1 text-lime-300 text-xs font-semibold">
+            <span>🍋</span> <span>Micheladas</span>
+          </div>
+          <div id="stat-total-michelada" class="font-headline text-xl sm:text-2xl font-bold text-lime-100">0</div>
+        </div>
+        <div class="bg-amber-950/70 border border-amber-700/40 rounded-xl p-2 sm:p-2.5 text-center shadow">
+          <div class="flex items-center justify-center gap-1 text-orange-300 text-xs font-semibold">
+            <span>🍾</span> <span>Botellas</span>
+          </div>
+          <div id="stat-total-botella" class="font-headline text-xl sm:text-2xl font-bold text-orange-100">0</div>
+        </div>
+        <div class="bg-gradient-to-br from-amber-600/80 to-orange-700/80 border border-amber-400/50 rounded-xl p-2 sm:p-2.5 text-center shadow-lg">
+          <div class="flex items-center justify-center gap-1 text-amber-100 text-xs font-bold uppercase">
+            <span>⭐</span> <span>Gran Total</span>
+          </div>
+          <div id="stat-gran-total" class="font-headline text-xl sm:text-2xl font-black text-white">0</div>
+        </div>
+      </div>
+
+      <!-- Barra de Acciones Globales Rápidas -->
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+        <button 
+          type="button" 
+          onclick="abrirModalNuevaBebida()" 
+          class="touch-btn px-3 py-2 sm:px-4 sm:py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-amber-950 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-md border border-amber-300"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+          </svg>
+          <span>Nueva Bebida</span>
+        </button>
+
+        <a 
+          href="#seccion-consolidado" 
+          class="touch-btn px-3 py-2 sm:px-4 sm:py-2 rounded-lg bg-stone-800/90 hover:bg-stone-700 text-amber-200 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow border border-stone-600"
+        >
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <span>Ver Consolidado</span>
+        </a>
+
+        <button 
+          type="button" 
+          onclick="abrirModalReinicioGeneral()" 
+          class="touch-btn px-3 py-2 sm:px-4 sm:py-2 rounded-lg bg-red-950/80 hover:bg-red-900 text-red-200 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow border border-red-800"
+        >
+          <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          <span>Reiniciar Todo</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- CONTENEDOR PRINCIPAL DE TARJETAS           -->
+  <!-- ========================================== -->
+  <main class="max-w-6xl mx-auto px-3 sm:px-6 mt-4">
+    
+    <!-- Título de Sección -->
+    <div class="flex items-center justify-between mb-3 px-1">
+      <h2 class="font-headline text-lg sm:text-xl text-amber-200 flex items-center gap-2">
+        <span>🍻</span> Lista de Bebidas y Contadores
+      </h2>
+      <span id="conteo-bebidas-badge" class="text-xs bg-amber-950/90 text-amber-300 border border-amber-700/60 px-2.5 py-0.5 rounded-full font-medium">
+        0 referencias
+      </span>
+    </div>
+
+    <!-- Rejilla de Tarjetas Dinámica -->
+    <div id="grid-bebidas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5">
+      <!-- Se llena dinámicamente con renderTarjetas() -->
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN CONSOLIDADA DE VENTAS              -->
+    <!-- ========================================== -->
+    <section id="seccion-consolidado" class="mt-10 bg-[#fdfbf7] rounded-2xl border-4 border-amber-900 shadow-wood overflow-hidden text-stone-900">
+      
+      <!-- Encabezado de la Tabla -->
+      <div class="bg-gradient-to-r from-amber-950 via-amber-900 to-amber-950 text-amber-100 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b-2 border-amber-700">
+        <div>
+          <h3 class="font-headline text-xl sm:text-2xl text-amber-300 flex items-center gap-2">
+            <span>📋</span> Consolidado de Ventas en Vivo
+          </h3>
+          <p class="text-xs sm:text-sm text-amber-200/80 mt-0.5">
+            Cómputo instantáneo de unidades servidas y botellas despachadas.
+          </p>
+        </div>
+
+        <!-- Botones de Acción de la Tabla -->
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- Botón de Exportar a PDF (Requerimiento) -->
+          <button 
+            type="button" 
+            onclick="exportarTablaPDF()" 
+            id="btn-exportar-pdf"
+            class="touch-btn px-4 py-2.5 rounded-xl bg-red-700 hover:bg-red-600 text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-lg border border-red-500 transition-all"
+            title="Descargar documento PDF oficial con fecha y hora"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span>Guardar PDF</span>
+          </button>
+
+          <!-- Botón para Copiar Resumen para WhatsApp -->
+          <button 
+            type="button" 
+            onclick="copiarResumenWhatsApp()" 
+            class="touch-btn px-3.5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-lg border border-emerald-500"
+            title="Copiar texto con formato para enviar por chat de WhatsApp"
+          >
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2zm.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.27-2.42 5.82a8.17 8.17 0 01-5.82 2.42c-1.45 0-2.88-.38-4.14-1.11l-.3-.17-3.12.82.83-3.04-.2-.31a8.192 8.192 0 01-1.25-4.43c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07s.89 2.4 1.01 2.57c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.18-.47-.3z"/>
+            </svg>
+            <span class="hidden sm:inline">WhatsApp</span>
+          </button>
+
+          <!-- Botón de Reinicio General -->
+          <button 
+            type="button" 
+            onclick="abrirModalReinicioGeneral()" 
+            class="touch-btn px-3 py-2.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold text-xs sm:text-sm flex items-center gap-1 border border-amber-300"
+            title="Reiniciar todos los contadores a cero"
+          >
+            <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            <span class="hidden md:inline">Reiniciar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de Filtro Rápido en la Tabla -->
+      <div class="px-4 py-2.5 bg-amber-100/60 border-b border-amber-200 flex items-center justify-between gap-3 text-xs sm:text-sm">
+        <div class="flex items-center gap-2 flex-1 max-w-sm">
+          <svg class="w-4 h-4 text-amber-800 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <input 
+            type="text" 
+            id="input-filtro-tabla" 
+            oninput="filtrarTablaConsolidado(this.value)" 
+            placeholder="Buscar bebida en la tabla..." 
+            class="w-full bg-white px-2.5 py-1 rounded-md border border-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-600 text-stone-800 text-xs sm:text-sm"
+          >
+        </div>
+        <div class="text-stone-600 text-[11px] sm:text-xs">
+          Mostrando <span id="lbl-total-filas" class="font-bold text-amber-900">0</span> bebidas
+        </div>
+      </div>
+
+      <!-- Tabla Consolidada (Sin overflow restrictivo para exportación fiel) -->
+      <div class="consolidado-scroll overflow-x-auto">
+        <table id="tabla-datos-consolidado" class="w-full text-left border-collapse min-w-[580px]">
+          <thead>
+            <tr class="bg-amber-800 text-amber-100 text-xs sm:text-sm uppercase font-headline tracking-wider">
+              <th class="py-3 px-4 border-b border-amber-700">Producto / Bebida</th>
+              <th class="py-3 px-3 text-center border-b border-amber-700">
+                <div class="flex items-center justify-center gap-1">
+                  <span>🥭</span> <span>Mangochelada</span>
+                </div>
+              </th>
+              <th class="py-3 px-3 text-center border-b border-amber-700">
+                <div class="flex items-center justify-center gap-1">
+                  <span>🍋</span> <span>Michelada</span>
+                </div>
+              </th>
+              <th class="py-3 px-3 text-center border-b border-amber-700">
+                <div class="flex items-center justify-center gap-1">
+                  <span>🍾</span> <span>Botella</span>
+                </div>
+              </th>
+              <th class="py-3 px-4 text-right border-b border-amber-700">Total Producto</th>
+              <th class="py-3 px-3 text-center border-b border-amber-700 no-print">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-consolidado" class="text-sm divide-y divide-amber-200/80 bg-white">
+            <!-- Filas dinámicas generadas por renderTablaConsolidado() -->
+          </tbody>
+          <tfoot>
+            <tr class="bg-amber-200/90 font-headline font-bold text-amber-950 text-sm sm:text-base border-t-2 border-amber-800">
+              <td class="py-3.5 px-4 uppercase">Totales Consolidados</td>
+              <td id="td-total-mango" class="py-3.5 px-3 text-center text-amber-900 font-black">0</td>
+              <td id="td-total-michelada" class="py-3.5 px-3 text-center text-lime-900 font-black">0</td>
+              <td id="td-total-botella" class="py-3.5 px-3 text-center text-orange-900 font-black">0</td>
+              <td id="td-gran-total" class="py-3.5 px-4 text-right text-lg sm:text-xl text-amber-950 font-black">0</td>
+              <td class="py-3.5 px-3 text-center text-xs text-stone-500 no-print">—</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Pie informativo del reporte -->
+      <div class="bg-amber-50 px-4 py-3 border-t border-amber-200 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-600 gap-2">
+        <div class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
+          <span>Valores sincronizados en vivo con cada clic en los botones <strong>[+]</strong> y <strong>[-]</strong>.</span>
+        </div>
+        <div class="font-mono text-[11px] text-stone-500">
+          Mango Cheladas • Sistema de Punto de Venta
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODALES DE CONFIRMACIÓN REQUERIDOS         -->
+  <!-- ========================================== -->
+
+  <!-- 1. Modal Confirmar Eliminación de Bebida -->
+  <div id="modal-eliminar" style="display:none;" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="bg-[#fefcf8] border-4 border-red-800 rounded-2xl max-w-sm w-full p-5 shadow-2xl text-stone-900">
+      <div class="flex items-center gap-3 text-red-700 mb-3">
+        <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-headline text-lg font-bold text-red-900">Eliminar Bebida</h3>
+          <p class="text-xs text-stone-500">Confirmación requerida</p>
+        </div>
+      </div>
+      <p class="text-sm text-stone-700 leading-relaxed">
+        ¿Estás seguro de que deseas eliminar permanentemente <strong id="nombre-bebida-eliminar" class="text-red-950 font-bold"></strong> del inventario? Esta acción borrará sus contadores del consolidado.
+      </p>
+      <div class="mt-5 flex justify-end gap-2.5">
+        <button 
+          type="button" 
+          onclick="cerrarModalEliminar()" 
+          class="px-4 py-2 rounded-lg bg-stone-200 hover:bg-stone-300 text-stone-800 text-xs sm:text-sm font-semibold touch-btn"
+        >
+          Cancelar
+        </button>
+        <button 
+          type="button" 
+          id="btn-confirmar-eliminar" 
+          onclick="confirmarEliminarBebida()" 
+          class="px-4 py-2 rounded-lg bg-red-700 hover:bg-red-800 text-white text-xs sm:text-sm font-bold shadow-md touch-btn"
+        >
+          Sí, eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Modal Confirmar Reinicio Individual a Cero -->
+  <div id="modal-reinicio-individual" style="display:none;" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="bg-[#fefcf8] border-4 border-amber-800 rounded-2xl max-w-sm w-full p-5 shadow-2xl text-stone-900">
+      <div class="flex items-center gap-3 text-amber-700 mb-3">
+        <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
+          <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-headline text-lg font-bold text-amber-950">Reiniciar Bebida a Cero</h3>
+          <p class="text-xs text-stone-500">Confirmación individual</p>
+        </div>
+      </div>
+      <p class="text-sm text-stone-700 leading-relaxed">
+        ¿Deseas restablecer a cero todos los contadores de <strong id="nombre-bebida-reinicio" class="text-amber-950 font-bold"></strong>?
+      </p>
+      <div id="resumen-valores-reinicio" class="mt-2.5 p-2 bg-amber-50 rounded-lg text-xs font-mono text-amber-900 border border-amber-200">
+        <!-- Valores actuales -->
+      </div>
+      <div class="mt-5 flex justify-end gap-2.5">
+        <button 
+          type="button" 
+          onclick="cerrarModalReinicioIndividual()" 
+          class="px-4 py-2 rounded-lg bg-stone-200 hover:bg-stone-300 text-stone-800 text-xs sm:text-sm font-semibold touch-btn"
+        >
+          Cancelar
+        </button>
+        <button 
+          type="button" 
+          id="btn-confirmar-reinicio-individual" 
+          onclick="confirmarReinicioIndividual()" 
+          class="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-bold shadow-md touch-btn"
+        >
+          Sí, poner en cero
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Modal Confirmar Reinicio General a Cero -->
+  <div id="modal-reinicio-general" style="display:none;" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="bg-[#fefcf8] border-4 border-red-900 rounded-2xl max-w-md w-full p-6 shadow-2xl text-stone-900">
+      <div class="flex items-center gap-3 text-red-700 mb-3">
+        <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+          <svg class="w-7 h-7 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-headline text-xl font-bold text-red-950">¡Reinicio General!</h3>
+          <p class="text-xs text-red-600 font-medium">Atención: acción global de turno</p>
+        </div>
+      </div>
+      <p class="text-sm text-stone-700 leading-relaxed">
+        ¿Estás totalmente seguro de que deseas <strong>reiniciar TODOS los contadores a cero</strong>?
+      </p>
+      <div class="mt-3 p-3 bg-red-50 rounded-xl border border-red-200 text-xs text-red-900">
+        Se borrarán todos los conteos de Mangocheladas, Micheladas y Botellas en todas las cervezas y bebidas. Esta acción se utiliza normalmente al iniciar un nuevo turno o jornada.
+      </div>
+      <div class="mt-6 flex justify-end gap-3">
+        <button 
+          type="button" 
+          onclick="cerrarModalReinicioGeneral()" 
+          class="px-4 py-2.5 rounded-lg bg-stone-200 hover:bg-stone-300 text-stone-800 text-xs sm:text-sm font-semibold touch-btn"
+        >
+          Cancelar
+        </button>
+        <button 
+          type="button" 
+          onclick="confirmarReinicioGeneral()" 
+          class="px-5 py-2.5 rounded-lg bg-red-700 hover:bg-red-800 text-white text-xs sm:text-sm font-bold shadow-lg touch-btn"
+        >
+          Sí, reiniciar todo a cero
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Modal para Agregar Nueva Bebida -->
+  <div id="modal-nueva-bebida" style="display:none;" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="bg-[#fefcf8] border-4 border-amber-800 rounded-2xl max-w-sm w-full p-5 shadow-2xl text-stone-900">
+      <div class="flex items-center gap-3 text-amber-700 mb-3">
+        <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
+          <svg class="w-6 h-6 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-headline text-lg font-bold text-amber-950">Nueva Bebida</h3>
+          <p class="text-xs text-stone-500">Agregar al menú</p>
+        </div>
+      </div>
+      <div class="space-y-3">
+        <div>
+          <label for="input-nombre-nueva-bebida" class="block text-xs font-bold text-stone-700 mb-1">
+            Nombre del Producto:
+          </label>
+          <input 
+            type="text" 
+            id="input-nombre-nueva-bebida" 
+            placeholder="Ej. Heineken, Costeñita, Sprite..." 
+            class="w-full px-3 py-2 border-2 border-amber-300 rounded-lg focus:outline-none focus:border-amber-600 text-stone-900 text-sm"
+          >
+        </div>
+        <div>
+          <label for="select-categoria-nueva-bebida" class="block text-xs font-bold text-stone-700 mb-1">
+            Categoría:
+          </label>
+          <select 
+            id="select-categoria-nueva-bebida" 
+            class="w-full px-3 py-2 border-2 border-amber-300 rounded-lg focus:outline-none focus:border-amber-600 text-stone-900 text-sm bg-white"
+          >
+            <option value="Cerveza Nacional">Cerveza Nacional</option>
+            <option value="Cerveza Importada">Cerveza Importada</option>
+            <option value="Mezclador / Soda">Mezclador / Soda</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-5 flex justify-end gap-2.5">
+        <button 
+          type="button" 
+          onclick="cerrarModalNuevaBebida()" 
+          class="px-4 py-2 rounded-lg bg-stone-200 hover:bg-stone-300 text-stone-800 text-xs sm:text-sm font-semibold touch-btn"
+        >
+          Cancelar
+        </button>
+        <button 
+          type="button" 
+          onclick="guardarNuevaBebida()" 
+          class="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-bold shadow-md touch-btn"
+        >
+          Agregar Bebida
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de Notificación Flotante -->
+  <div id="toast-aviso" style="display:none;" class="fixed bottom-4 right-4 z-50 bg-amber-950 text-amber-100 border-2 border-amber-400 px-4 py-2.5 rounded-xl shadow-2xl text-xs sm:text-sm flex items-center gap-2">
+    <span id="toast-icono">✅</span>
+    <span id="toast-mensaje">Notificación</span>
+  </div>
+
+  <!-- Tag de shim obligatorio para persistencia en Gemini Notebook -->
+  <api-shim></api-shim>
+
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT COMPLETO Y DEFENSIVO            -->
+  <!-- ========================================== -->
+  <script>
+    /* -------------------------------------------------------------
+       1. ESTADO DE LA APLICACIÓN Y BEBIDAS INICIALES
+       (Basado en las bebidas requeridas en las fuentes:
+       Aguila, Club Colombia, Poker, Corona, Stella, Bretaña, Canada Dry)
+       ------------------------------------------------------------- */
+    const BEBIDAS_PREDETERMINADAS = [
+      { id: 'aguila-light', nombre: `Aguila Light`, categoria: `Cerveza Nacional`, mango: 0, michelada: 0, botella: 0 },
+      { id: 'aguila-original', nombre: `Aguila Original`, categoria: `Cerveza Nacional`, mango: 0, michelada: 0, botella: 0 },
+      { id: 'club-colombia-dorada', nombre: `Club Colombia Dorada`, categoria: `Cerveza Nacional`, mango: 0, michelada: 0, botella: 0 },
+      { id: 'club-colombia-roja', nombre: `Club Colombia Roja`, categoria: `Cerveza Nacional`, mango: 0, michelada: 0, botella: 0 },
+      { id: 'poker', nombre: `Poker`, categoria: `Cerveza Nacional`, mango: 0, michelada: 0, botella: 0 },
+      { id: 'corona', nombre: `Corona Extra`, categoria: `Cerveza Importada`, mango: 0, michelada: 0, botella: 0 },
+      { id: 'stella', nombre: `Stella Artois`, categoria: `Cerveza Importada`, mango: 0, michelada: 0, botella: 0 },
+      { id: 'bretana', nombre: `Bretaña`, categoria: `Mezclador / Soda`, mango: 0, michelada: 0, botella: 0 },
+      { id: 'canada-dry', nombre: `Canada Dry`, categoria: `Mezclador / Soda`, mango: 0, michelada: 0, botella: 0 }
+    ];
+
+    let bebidas = JSON.parse(JSON.stringify(BEBIDAS_PREDETERMINADAS));
+    let bebidaIdParaEliminar = null;
+    let bebidaIdParaReinicio = null;
+    let textoFiltro = ``;
+
+    /* -------------------------------------------------------------
+       2. SVG ICONS REQUERIDOS: Mango, Limón y Botella
+       ------------------------------------------------------------- */
+    const SVG_MANGO = `<svg class="w-5 h-5 shrink-0 text-amber-500 drop-shadow-sm" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12.8 2.2c-.3 0-.6.1-.8.3-1.5 1.5-1.9 3.8-1 5.6C7.3 9.4 4.5 12.8 4.6 16.5c.2 4.2 3.6 7.5 7.8 7.5 4.6 0 8.6-3.8 8.6-8.7 0-4.3-3.4-8.7-7-12.7-.3-.3-.7-.4-1.2-.4zm.2 2.7c2.9 3.5 5.7 7.2 5.7 10.8 0 3.7-3 6.7-6.7 6.7-3.2 0-5.8-2.5-6-5.7-.1-3 2.1-5.8 5-7 0 .3.1.5.2.8.5 1.3 1.7 2.1 3 2 .2 0 .4-.1.6-.2.4-.3.6-.7.6-1.1 0-2.3-.9-4.7-2.4-6.3z"/>
+    </svg>`;
+
+    const SVG_LIMON = `<svg class="w-5 h-5 shrink-0 text-lime-500 drop-shadow-sm" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-14v5.08l3.6-3.6-1.41-1.41L11 6zm-2 2.47L5.4 12.07l1.41 1.41L10 10.29V8.47zm7.6 3.6L13 8.47v1.82l3.19 3.19 1.41-1.41zM6.81 14.9l4.19-4.19v2.12l-2.78 2.78-1.41-.71zm6.38 0l2.78-2.78 1.41.71-4.19 4.19v-2.12zM11 14.83l-3.6 3.6 1.41 1.41 2.19-2.19v-2.82zm2 0v2.82l2.19 2.19 1.41-1.41-3.6-3.6z"/>
+    </svg>`;
+
+    const SVG_BOTELLA = `<svg class="w-5 h-5 shrink-0 text-orange-500 drop-shadow-sm" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M9 2h6v2h-1v3.17c1.8.88 3 2.7 3 4.83v8c0 1.66-1.34 3-3 3H10c-1.66 0-3-1.34-3-3v-8c0-2.13 1.2-3.95 3-4.83V4H9V2zm2 2v3.83l-.5.25C9.4 8.63 8.6 9.75 8.5 11h7c-.1-1.25-.9-2.37-2-2.92l-.5-.25V4h-2zm-2.5 9v7c0 .83.67 1.5 1.5 1.5h4c.83 0 1.5-.67 1.5-1.5v-7h-7z"/>
+    </svg>`;
+
+    /* -------------------------------------------------------------
+       3. INICIALIZACIÓN Y FECHA / HORA EN TIEMPO REAL
+       ------------------------------------------------------------- */
+    document.addEventListener('DOMContentLoaded', async function() {
+      iniciarReloj();
+      await cargarEstadoGuardado();
+      renderizarTodo();
+    });
+
+    function iniciarReloj() {
+      actualizarReloj();
+      setInterval(actualizarReloj, 1000);
+    }
+
+    function actualizarReloj() {
+      const el = document.getElementById('reloj-fecha-hora');
+      if (!el) return;
+
+      const ahora = new Date();
+      // Formato en español legible y profesional
+      const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+      const nombreDia = dias[ahora.getDay()];
+      const diaNum = String(ahora.getDate()).padStart(2, '0');
+      const nombreMes = meses[ahora.getMonth()];
+      const anio = ahora.getFullYear();
+
+      const horas = String(ahora.getHours()).padStart(2, '0');
+      const minutos = String(ahora.getMinutes()).padStart(2, '0');
+      const segundos = String(ahora.getSeconds()).padStart(2, '0');
+
+      el.textContent = `${nombreDia}, ${diaNum} de ${nombreMes} de ${anio} • ${horas}:${minutos}:${segundos}`;
+    }
+
+    /* -------------------------------------------------------------
+       4. PERSISTENCIA DE ESTADO CON NOTEBOOK APP API
+       ------------------------------------------------------------- */
+    async function cargarEstadoGuardado() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+          const guardado = await window.notebookAppApi.getAppState();
+          if (guardado && Array.isArray(guardado.bebidas) && guardado.bebidas.length > 0) {
+            bebidas = guardado.bebidas;
+          }
+        }
+      } catch (err) {
+        console.warn(`No se pudo cargar el estado guardado:`, err);
+      }
+    }
+
+    async function guardarEstado() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+          await window.notebookAppApi.setAppState({
+            bebidas: bebidas,
+            ultimaActualizacion: new Date().toISOString()
+          });
+        }
+      } catch (err) {
+        console.warn(`Error al persistir estado:`, err);
+      }
+    }
+
+    /* -------------------------------------------------------------
+       5. RENDERIZADO GENERAL Y DE TARJETAS
+       (Optimizado para móviles: el nombre 'MANGOCHELADA' se lee completo)
+       ------------------------------------------------------------- */
+    function renderizarTodo() {
+      renderTarjetas();
+      renderTablaConsolidado();
+      actualizarEstadisticas();
+      guardarEstado();
+    }
+
+    function renderTarjetas() {
+      const contenedor = document.getElementById('grid-bebidas');
+      const badgeConteo = document.getElementById('conteo-bebidas-badge');
+      if (!contenedor) return;
+
+      if (badgeConteo) {
+        badgeConteo.textContent = `${bebidas.length} referencias`;
+      }
+
+      if (bebidas.length === 0) {
+        contenedor.innerHTML = `
+          <div class="col-span-full bg-[#fdfbf7] border-2 border-dashed border-amber-600/60 rounded-2xl p-8 text-center text-amber-900">
+            <p class="font-headline text-lg mb-2">No hay bebidas registradas</p>
+            <p class="text-sm text-stone-600 mb-4">Agrega una bebida con el botón "Nueva Bebida" para comenzar a contar.</p>
+            <button type="button" onclick="restaurarBebidasPredeterminadas()" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-lg text-sm touch-btn">
+              Restaurar Lista Inicial
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      let html = ``;
+
+      bebidas.forEach(function(b) {
+        const subtotal = (b.mango || 0) + (b.michelada || 0) + (b.botella || 0);
+
+        html += `
+          <article class="bg-[#fffdfa] rounded-2xl border-2 sm:border-3 border-amber-900 shadow-wood overflow-hidden flex flex-col justify-between transition-all">
+            
+            <!-- Cabecera de la Tarjeta de Bebida -->
+            <div class="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 p-3 sm:p-3.5 text-amber-100 flex items-center justify-between gap-2 border-b-2 border-amber-950">
+              <div class="min-w-0 flex-1">
+                <span class="inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-950/70 text-amber-300 border border-amber-700/50 mb-0.5">
+                  ${b.categoria || 'Cerveza'}
+                </span>
+                <h3 class="font-headline text-base sm:text-lg font-bold text-white truncate" title="${b.nombre}">
+                  ${b.nombre}
+                </h3>
+              </div>
+
+              <!-- Acciones de la Tarjeta: Reiniciar individual y Eliminar -->
+              <div class="flex items-center gap-1 shrink-0">
+                <button 
+                  type="button" 
+                  onclick="abrirModalReinicioIndividual('${b.id}')" 
+                  class="touch-btn w-8 h-8 rounded-lg bg-amber-800/80 hover:bg-amber-700 text-amber-200 flex items-center justify-center border border-amber-600/70"
+                  title="Reiniciar a cero los contadores de ${b.nombre}"
+                  aria-label="Reiniciar ${b.nombre}"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                  </svg>
+                </button>
+
+                <button 
+                  type="button" 
+                  onclick="abrirModalEliminar('${b.id}')" 
+                  class="touch-btn w-8 h-8 rounded-lg bg-red-900/80 hover:bg-red-800 text-red-200 flex items-center justify-center border border-red-700/70"
+                  title="Eliminar ${b.nombre} del menú"
+                  aria-label="Eliminar ${b.nombre}"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Filas de Contadores (Mangocheladas, Micheladas, Botella) -->
+            <!-- Layout optimizado: tipografía y botones reducidos para que 'MANGOCHELADA' se lea completo en móviles -->
+            <div class="p-3 sm:p-4 space-y-2.5 sm:space-y-3 bg-[#fefcf8]">
+              
+              <!-- 1. MANGOCHELADA -->
+              <div class="flex items-center justify-between p-2 rounded-xl bg-amber-50/90 border border-amber-200/90 hover:border-amber-300 transition-colors">
+                <div class="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1">
+                  ${SVG_MANGO}
+                  <span class="font-bold text-[11px] sm:text-xs text-amber-950 uppercase tracking-tight truncate">
+                    Mangochelada
+                  </span>
+                </div>
+                <!-- Controles: Menos, Número Grande, Más -->
+                <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                  <button 
+                    type="button" 
+                    onclick="ajustarContador('${b.id}', 'mango', -1)" 
+                    class="touch-btn w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-base flex items-center justify-center shadow-sm select-none"
+                    aria-label="Restar Mangochelada"
+                  >
+                    -
+                  </button>
+                  <span class="font-headline font-bold text-xl sm:text-2xl text-amber-950 w-9 sm:w-11 text-center select-none tabular-nums">
+                    ${b.mango || 0}
+                  </span>
+                  <button 
+                    type="button" 
+                    onclick="ajustarContador('${b.id}', 'mango', 1)" 
+                    class="touch-btn w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-lime-600 hover:bg-lime-700 text-white font-bold text-base flex items-center justify-center shadow-sm select-none"
+                    aria-label="Sumar Mangochelada"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <!-- 2. MICHELADA -->
+              <div class="flex items-center justify-between p-2 rounded-xl bg-lime-50/80 border border-lime-200/90 hover:border-lime-300 transition-colors">
+                <div class="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1">
+                  ${SVG_LIMON}
+                  <span class="font-bold text-[11px] sm:text-xs text-lime-950 uppercase tracking-tight truncate">
+                    Michelada
+                  </span>
+                </div>
+                <!-- Controles: Menos, Número Grande, Más -->
+                <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                  <button 
+                    type="button" 
+                    onclick="ajustarContador('${b.id}', 'michelada', -1)" 
+                    class="touch-btn w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-base flex items-center justify-center shadow-sm select-none"
+                    aria-label="Restar Michelada"
+                  >
+                    -
+                  </button>
+                  <span class="font-headline font-bold text-xl sm:text-2xl text-lime-950 w-9 sm:w-11 text-center select-none tabular-nums">
+                    ${b.michelada || 0}
+                  </span>
+                  <button 
+                    type="button" 
+                    onclick="ajustarContador('${b.id}', 'michelada', 1)" 
+                    class="touch-btn w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-lime-600 hover:bg-lime-700 text-white font-bold text-base flex items-center justify-center shadow-sm select-none"
+                    aria-label="Sumar Michelada"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <!-- 3. BOTELLA -->
+              <div class="flex items-center justify-between p-2 rounded-xl bg-orange-50/80 border border-orange-200/90 hover:border-orange-300 transition-colors">
+                <div class="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1">
+                  ${SVG_BOTELLA}
+                  <span class="font-bold text-[11px] sm:text-xs text-orange-950 uppercase tracking-tight truncate">
+                    Botella
+                  </span>
+                </div>
+                <!-- Controles: Menos, Número Grande, Más -->
+                <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                  <button 
+                    type="button" 
+                    onclick="ajustarContador('${b.id}', 'botella', -1)" 
+                    class="touch-btn w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-base flex items-center justify-center shadow-sm select-none"
+                    aria-label="Restar Botella"
+                  >
+                    -
+                  </button>
+                  <span class="font-headline font-bold text-xl sm:text-2xl text-orange-950 w-9 sm:w-11 text-center select-none tabular-nums">
+                    ${b.botella || 0}
+                  </span>
+                  <button 
+                    type="button" 
+                    onclick="ajustarContador('${b.id}', 'botella', 1)" 
+                    class="touch-btn w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-lime-600 hover:bg-lime-700 text-white font-bold text-base flex items-center justify-center shadow-sm select-none"
+                    aria-label="Sumar Botella"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Pie de la Tarjeta: Subtotal de la Bebida -->
+            <div class="px-3.5 py-2.5 bg-amber-100/70 border-t border-amber-200 flex items-center justify-between text-xs">
+              <span class="font-medium text-stone-600">Subtotal despachado:</span>
+              <span class="font-headline font-bold text-amber-950 bg-amber-200/90 px-2.5 py-0.5 rounded-full border border-amber-300">
+                ${subtotal} unids.
+              </span>
+            </div>
+
+          </article>
+        `;
+      });
+
+      contenedor.innerHTML = html;
+    }
+
+    /* -------------------------------------------------------------
+       6. ACTUALIZACIÓN DE CONTADORES (+ y -)
+       ------------------------------------------------------------- */
+    function ajustarContador(bebidaId, tipo, delta) {
+      const idx = bebidas.findIndex(function(item) { return item.id === bebidaId; });
+      if (idx === -1) return;
+
+      const valorActual = bebidas[idx][tipo] || 0;
+      const nuevoValor = Math.max(0, valorActual + delta);
+      bebidas[idx][tipo] = nuevoValor;
+
+      renderizarTodo();
+    }
+
+    /* -------------------------------------------------------------
+       7. TABLA CONSOLIDADA INFERIOR Y ESTADÍSTICAS
+       ------------------------------------------------------------- */
+    function renderTablaConsolidado() {
+      const tbody = document.getElementById('tbody-consolidado');
+      const lblTotalFilas = document.getElementById('lbl-total-filas');
+      if (!tbody) return;
+
+      let filtro = (textoFiltro || '').toLowerCase().trim();
+      let bebidasFiltradas = bebidas.filter(function(b) {
+        if (!filtro) return true;
+        return (b.nombre || '').toLowerCase().includes(filtro) || (b.categoria || '').toLowerCase().includes(filtro);
+      });
+
+      if (lblTotalFilas) {
+        lblTotalFilas.textContent = String(bebidasFiltradas.length);
+      }
+
+      if (bebidasFiltradas.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="py-6 px-4 text-center text-stone-500 italic">
+              No se encontraron bebidas que coincidan con la búsqueda.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      let html = ``;
+
+      bebidasFiltradas.forEach(function(b, idx) {
+        const subtotal = (b.mango || 0) + (b.michelada || 0) + (b.botella || 0);
+        const bgClase = idx % 2 === 0 ? 'bg-white' : 'bg-[#fcf9f2]';
+
+        html += `
+          <tr class="${bgClase} hover:bg-amber-100/60 transition-colors">
+            <td class="py-2.5 px-4 font-bold text-stone-900 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-600"></span>
+              <span>${b.nombre}</span>
+              <span class="text-[10px] text-stone-500 font-normal ml-1">(${b.categoria || 'General'})</span>
+            </td>
+            <td class="py-2.5 px-3 text-center font-bold text-amber-900 bg-amber-50/40">
+              ${b.mango || 0}
+            </td>
+            <td class="py-2.5 px-3 text-center font-bold text-lime-900 bg-lime-50/40">
+              ${b.michelada || 0}
+            </td>
+            <td class="py-2.5 px-3 text-center font-bold text-orange-900 bg-orange-50/40">
+              ${b.botella || 0}
+            </td>
+            <td class="py-2.5 px-4 text-right font-headline font-bold text-amber-950 text-base">
+              ${subtotal}
+            </td>
+            <td class="py-2.5 px-3 text-center no-print">
+              <button 
+                type="button" 
+                onclick="abrirModalReinicioIndividual('${b.id}')" 
+                class="touch-btn text-xs text-amber-800 hover:text-amber-950 font-semibold px-2 py-1 rounded bg-amber-100 hover:bg-amber-200 border border-amber-300"
+                title="Poner en cero esta bebida"
+              >
+                Cero
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    function filtrarTablaConsolidado(valor) {
+      textoFiltro = valor;
+      renderTablaConsolidado();
+    }
+
+    function actualizarEstadisticas() {
+      let totalMango = 0;
+      let totalMichelada = 0;
+      let totalBotella = 0;
+
+      bebidas.forEach(function(b) {
+        totalMango += (b.mango || 0);
+        totalMichelada += (b.michelada || 0);
+        totalBotella += (b.botella || 0);
+      });
+
+      const granTotal = totalMango + totalMichelada + totalBotella;
+
+      // Actualizar tarjeta métricas superiores
+      const statMango = document.getElementById('stat-total-mango');
+      const statMichelada = document.getElementById('stat-total-michelada');
+      const statBotella = document.getElementById('stat-total-botella');
+      const statGranTotal = document.getElementById('stat-gran-total');
+
+      if (statMango) statMango.textContent = String(totalMango);
+      if (statMichelada) statMichelada.textContent = String(totalMichelada);
+      if (statBotella) statBotella.textContent = String(totalBotella);
+      if (statGranTotal) statGranTotal.textContent = String(granTotal);
+
+      // Actualizar fila de totales en la tabla
+      const tdMango = document.getElementById('td-total-mango');
+      const tdMichelada = document.getElementById('td-total-michelada');
+      const tdBotella = document.getElementById('td-total-botella');
+      const tdGranTotal = document.getElementById('td-gran-total');
+
+      if (tdMango) tdMango.textContent = String(totalMango);
+      if (tdMichelada) tdMichelada.textContent = String(totalMichelada);
+      if (tdBotella) tdBotella.textContent = String(totalBotella);
+      if (tdGranTotal) tdGranTotal.textContent = `${granTotal} unids.`;
+    }
+
+    /* -------------------------------------------------------------
+       8. MODALES DE CONFIRMACIÓN REQUERIDOS
+       ------------------------------------------------------------- */
+    // 8.1 Eliminar Bebida
+    function abrirModalEliminar(id) {
+      bebidaIdParaEliminar = id;
+      const b = bebidas.find(function(item) { return item.id === id; });
+      if (!b) return;
+
+      const lbl = document.getElementById('nombre-bebida-eliminar');
+      if (lbl) lbl.textContent = `"${b.nombre}"`;
+
+      const modal = document.getElementById('modal-eliminar');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function cerrarModalEliminar() {
+      bebidaIdParaEliminar = null;
+      const modal = document.getElementById('modal-eliminar');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function confirmarEliminarBebida() {
+      if (!bebidaIdParaEliminar) return;
+      const b = bebidas.find(function(item) { return item.id === bebidaIdParaEliminar; });
+      const nombre = b ? b.nombre : 'Bebida';
+
+      bebidas = bebidas.filter(function(item) { return item.id !== bebidaIdParaEliminar; });
+      cerrarModalEliminar();
+      renderizarTodo();
+      mostrarToast(`🗑 Bebida "${nombre}" eliminada.`);
+    }
+
+    // 8.2 Reinicio Individual a Cero
+    function abrirModalReinicioIndividual(id) {
+      bebidaIdParaReinicio = id;
+      const b = bebidas.find(function(item) { return item.id === id; });
+      if (!b) return;
+
+      const lbl = document.getElementById('nombre-bebida-reinicio');
+      if (lbl) lbl.textContent = `"${b.nombre}"`;
+
+      const resumen = document.getElementById('resumen-valores-reinicio');
+      if (resumen) {
+        resumen.innerHTML = `
+          Conteo actual: 🥭 Mangocheladas: <strong>${b.mango || 0}</strong> | 🍋 Micheladas: <strong>${b.michelada || 0}</strong> | 🍾 Botellas: <strong>${b.botella || 0}</strong> (Total: ${(b.mango||0)+(b.michelada||0)+(b.botella||0)})
+        `;
+      }
+
+      const modal = document.getElementById('modal-reinicio-individual');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function cerrarModalReinicioIndividual() {
+      bebidaIdParaReinicio = null;
+      const modal = document.getElementById('modal-reinicio-individual');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function confirmarReinicioIndividual() {
+      if (!bebidaIdParaReinicio) return;
+      const idx = bebidas.findIndex(function(item) { return item.id === bebidaIdParaReinicio; });
+      if (idx !== -1) {
+        const nombre = bebidas[idx].nombre;
+        bebidas[idx].mango = 0;
+        bebidas[idx].michelada = 0;
+        bebidas[idx].botella = 0;
+        cerrarModalReinicioIndividual();
+        renderizarTodo();
+        mostrarToast(`↺ Contadores de "${nombre}" reiniciados a 0.`);
+      }
+    }
+
+    // 8.3 Reinicio General a Cero
+    function abrirModalReinicioGeneral() {
+      const modal = document.getElementById('modal-reinicio-general');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function cerrarModalReinicioGeneral() {
+      const modal = document.getElementById('modal-reinicio-general');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function confirmarReinicioGeneral() {
+      bebidas.forEach(function(b) {
+        b.mango = 0;
+        b.michelada = 0;
+        b.botella = 0;
+      });
+      cerrarModalReinicioGeneral();
+      renderizarTodo();
+      mostrarToast(`⚠️ Todos los contadores se han reiniciado a 0.`);
+    }
+
+    // 8.4 Agregar Nueva Bebida
+    function abrirModalNuevaBebida() {
+      const input = document.getElementById('input-nombre-nueva-bebida');
+      if (input) input.value = '';
+      const modal = document.getElementById('modal-nueva-bebida');
+      if (modal) modal.style.display = 'flex';
+      if (input) input.focus();
+    }
+
+    function cerrarModalNuevaBebida() {
+      const modal = document.getElementById('modal-nueva-bebida');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function guardarNuevaBebida() {
+      const input = document.getElementById('input-nombre-nueva-bebida');
+      const select = document.getElementById('select-categoria-nueva-bebida');
+      if (!input) return;
+
+      const nombre = input.value.trim();
+      if (!nombre) {
+        alert('Por favor escribe el nombre de la bebida.');
+        return;
+      }
+
+      const categoria = select ? select.value : 'Cerveza';
+      const id = 'bebida-' + Date.now();
+
+      bebidas.push({
+        id: id,
+        nombre: nombre,
+        categoria: categoria,
+        mango: 0,
+        michelada: 0,
+        botella: 0
+      });
+
+      cerrarModalNuevaBebida();
+      renderizarTodo();
+      mostrarToast(`✅ Bebida "${nombre}" agregada al menú.`);
+    }
+
+    function restaurarBebidasPredeterminadas() {
+      bebidas = JSON.parse(JSON.stringify(BEBIDAS_PREDETERMINADAS));
+      renderizarTodo();
+      mostrarToast(`Lista de bebidas restaurada a los valores iniciales.`);
+    }
+
+    /* -------------------------------------------------------------
+       9. EXPORTACIÓN A PDF PURA EN JAVASCRIPT (Requerimiento)
+       Formato estricto: Ventas_del_DD_MM_AAAA_HH_MM.pdf
+       Totalmente nativo, sin librerías externas que generen páginas en blanco
+       ------------------------------------------------------------- */
+    function exportarTablaPDF() {
+      const ahora = new Date();
+      const dd = String(ahora.getDate()).padStart(2, '0');
+      const mm = String(ahora.getMonth() + 1).padStart(2, '0');
+      const aaaa = ahora.getFullYear();
+      const hh = String(ahora.getHours()).padStart(2, '0');
+      const min = String(ahora.getMinutes()).padStart(2, '0');
+
+      // Nombre de archivo exigido: Ventas_del_DD_MM_AAAA_HH_MM.pdf
+      const nombreArchivo = `Ventas_del_${dd}_${mm}_${aaaa}_${hh}_${min}.pdf`;
+
+      // Calcular totales
+      let totalM = 0;
+      let totalMich = 0;
+      let totalB = 0;
+      bebidas.forEach(function(b) {
+        totalM += (b.mango || 0);
+        totalMich += (b.michelada || 0);
+        totalB += (b.botella || 0);
+      });
+      const granTotal = totalM + totalMich + totalB;
+
+      // Generación de documento PDF estándar (Versión 1.4 Vectorial Nativa)
+      // Página tamaño A4: 595.28 x 841.89 puntos
+      const fechaTexto = `${dd}/${mm}/${aaaa} ${hh}:${min}`;
+      
+      let streamCommands = [];
+
+      // Función auxiliar para escapar texto PDF
+      function escPdf(str) {
+        return (str || '')
+          .replace(/\\/g, '\\\\')
+          .replace(/\(/g, '\\(')
+          .replace(/\)/g, '\\)')
+          // Normalizar caracteres con tilde para fuentes estándar Type 1
+          .replace(/[Áá]/g, 'A')
+          .replace(/[Éé]/g, 'E')
+          .replace(/[Íí]/g, 'I')
+          .replace(/[Óó]/g, 'O')
+          .replace(/[Úú]/g, 'U')
+          .replace(/[Ññ]/g, 'N');
+      }
+
+      // Fondo superior encabezado (Naranja / Terracotta oscuro: #78350f)
+      streamCommands.push(`0.47 0.21 0.06 rg`); // Fill color #78350f
+      streamCommands.push(`30 750 535 60 re f`); // Header banner rect
+
+      // Título en el encabezado
+      streamCommands.push(`BT`);
+      streamCommands.push(`/F2 20 Tf`); // Helvetica-Bold 20pt
+      streamCommands.push(`1 0.95 0.7 rg`); // Texto dorado claro
+      streamCommands.push(`1 0 0 1 45 785 Tm`);
+      streamCommands.push(`(${escPdf('MANGO CHELADAS - REPORTE DE VENTAS')}) Tj`);
+      streamCommands.push(`ET`);
+
+      // Subtítulo con fecha y hora
+      streamCommands.push(`BT`);
+      streamCommands.push(`/F1 10 Tf`); // Helvetica 10pt
+      streamCommands.push(`1 1 1 rg`); // Blanco
+      streamCommands.push(`1 0 0 1 45 765 Tm`);
+      streamCommands.push(`(${escPdf('Consolidado Oficial de Productos  |  Fecha: ' + fechaTexto)}) Tj`);
+      streamCommands.push(`ET`);
+
+      // Cajas de resumen superior (KPIs)
+      const kpis = [
+        { label: 'Mangocheladas', valor: String(totalM), color: [0.96, 0.62, 0.07] },
+        { label: 'Micheladas', valor: String(totalMich), color: [0.4, 0.64, 0.05] },
+        { label: 'Botellas', valor: String(totalB), color: [0.92, 0.45, 0.08] },
+        { label: 'Gran Total', valor: String(granTotal), color: [0.47, 0.21, 0.06] }
+      ];
+
+      kpis.forEach(function(k, idx) {
+        const x = 30 + (idx * 136);
+        // Caja de fondo
+        streamCommands.push(`${k.color[0]} ${k.color[1]} ${k.color[2]} rg`);
+        streamCommands.push(`${x} 695 128 42 re f`);
+        // Borde
+        streamCommands.push(`0.2 0.1 0.05 RG 1 w`);
+        streamCommands.push(`${x} 695 128 42 re S`);
+
+        // Etiqueta
+        streamCommands.push(`BT`);
+        streamCommands.push(`/F1 8 Tf`);
+        streamCommands.push(`1 1 1 rg`);
+        streamCommands.push(`1 0 0 1 ${x + 8} 724 Tm`);
+        streamCommands.push(`(${escPdf(k.label.toUpperCase())}) Tj`);
+        // Valor
+        streamCommands.push(`/F2 15 Tf`);
+        streamCommands.push(`1 1 1 rg`);
+        streamCommands.push(`1 0 0 1 ${x + 8} 704 Tm`);
+        streamCommands.push(`(${escPdf(k.valor)}) Tj`);
+        streamCommands.push(`ET`);
+      });
+
+      // Encabezado de la Tabla
+      let tableY = 665;
+      streamCommands.push(`0.2 0.12 0.07 rg`); // Fondo cabecera tabla #331f12
+      streamCommands.push(`30 ${tableY} 535 24 re f`);
+
+      streamCommands.push(`BT`);
+      streamCommands.push(`/F2 9 Tf`);
+      streamCommands.push(`1 0.95 0.7 rg`); // Oro claro
+      streamCommands.push(`1 0 0 1 40 ${tableY + 7} Tm`);
+      streamCommands.push(`(${escPdf('BEBIDA / PRODUCTO')}) Tj`);
+
+      streamCommands.push(`1 0 0 1 240 ${tableY + 7} Tm`);
+      streamCommands.push(`(${escPdf('MANGOCHELADA')}) Tj`);
+
+      streamCommands.push(`1 0 0 1 335 ${tableY + 7} Tm`);
+      streamCommands.push(`(${escPdf('MICHELADA')}) Tj`);
+
+      streamCommands.push(`1 0 0 1 420 ${tableY + 7} Tm`);
+      streamCommands.push(`(${escPdf('BOTELLA')}) Tj`);
+
+      streamCommands.push(`1 0 0 1 490 ${tableY + 7} Tm`);
+      streamCommands.push(`(${escPdf('TOTAL')}) Tj`);
+      streamCommands.push(`ET`);
+
+      // Filas de la tabla
+      let rowY = tableY - 20;
+      bebidas.forEach(function(b, i) {
+        const sub = (b.mango || 0) + (b.michelada || 0) + (b.botella || 0);
+        
+        // Color de fila alternante
+        if (i % 2 === 0) {
+          streamCommands.push(`0.97 0.95 0.91 rg`); // #f7f3e8
+          streamCommands.push(`30 ${rowY - 4} 535 20 re f`);
+        }
+
+        // Línea divisoria
+        streamCommands.push(`0.85 0.8 0.7 RG 0.5 w`);
+        streamCommands.push(`30 ${rowY - 4} m 565 ${rowY - 4} l S`);
+
+        // Textos de la fila
+        streamCommands.push(`BT`);
+        streamCommands.push(`/F2 9 Tf`);
+        streamCommands.push(`0.1 0.05 0 rg`); // Texto oscuro
+        streamCommands.push(`1 0 0 1 40 ${rowY + 1} Tm`);
+        streamCommands.push(`(${escPdf(b.nombre)}) Tj`);
+
+        streamCommands.push(`/F1 9 Tf`);
+        streamCommands.push(`1 0 0 1 260 ${rowY + 1} Tm`);
+        streamCommands.push(`(${escPdf(String(b.mango || 0))}) Tj`);
+
+        streamCommands.push(`1 0 0 1 355 ${rowY + 1} Tm`);
+        streamCommands.push(`(${escPdf(String(b.michelada || 0))}) Tj`);
+
+        streamCommands.push(`1 0 0 1 435 ${rowY + 1} Tm`);
+        streamCommands.push(`(${escPdf(String(b.botella || 0))}) Tj`);
+
+        streamCommands.push(`/F2 9 Tf`);
+        streamCommands.push(`0.47 0.21 0.06 rg`); // Color terracotta para total
+        streamCommands.push(`1 0 0 1 500 ${rowY + 1} Tm`);
+        streamCommands.push(`(${escPdf(String(sub))}) Tj`);
+        streamCommands.push(`ET`);
+
+        rowY -= 20;
+      });
+
+      // Fila de Totales Finales
+      streamCommands.push(`0.89 0.79 0.65 rg`); // #e3caa6
+      streamCommands.push(`30 ${rowY - 6} 535 24 re f`);
+      streamCommands.push(`0.47 0.21 0.06 RG 1.5 w`);
+      streamCommands.push(`30 ${rowY - 6} 535 24 re S`);
+
+      streamCommands.push(`BT`);
+      streamCommands.push(`/F2 10 Tf`);
+      streamCommands.push(`0.2 0.08 0 rg`);
+      streamCommands.push(`1 0 0 1 40 ${rowY + 1} Tm`);
+      streamCommands.push(`(${escPdf('TOTALES GENERALES')}) Tj`);
+
+      streamCommands.push(`1 0 0 1 260 ${rowY + 1} Tm`);
+      streamCommands.push(`(${escPdf(String(totalM))}) Tj`);
+
+      streamCommands.push(`1 0 0 1 355 ${rowY + 1} Tm`);
+      streamCommands.push(`(${escPdf(String(totalMich))}) Tj`);
+
+      streamCommands.push(`1 0 0 1 435 ${rowY + 1} Tm`);
+      streamCommands.push(`(${escPdf(String(totalB))}) Tj`);
+
+      streamCommands.push(`/F2 11 Tf`);
+      streamCommands.push(`0.6 0.1 0.05 rg`);
+      streamCommands.push(`1 0 0 1 495 ${rowY + 1} Tm`);
+      streamCommands.push(`(${escPdf(String(granTotal))}) Tj`);
+      streamCommands.push(`ET`);
+
+      // Pie de Página
+      streamCommands.push(`BT`);
+      streamCommands.push(`/F1 8 Tf`);
+      streamCommands.push(`0.5 0.5 0.5 rg`);
+      streamCommands.push(`1 0 0 1 40 40 Tm`);
+      streamCommands.push(`(${escPdf('Mango Cheladas  |  Reporte de Ventas e Inventario  |  Generado: ' + fechaTexto)}) Tj`);
+      streamCommands.push(`ET`);
+
+      const streamContent = streamCommands.join('\n');
+      const streamLength = streamContent.length;
+
+      // Estructura de Objetos PDF 1.4
+      let objects = [];
+      objects.push(`1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj`);
+      objects.push(`2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj`);
+      objects.push(`3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>\nendobj`);
+      objects.push(`4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>\nendobj`);
+      objects.push(`5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>\nendobj`);
+      objects.push(`6 0 obj\n<< /Length ${streamLength} >>\nstream\n${streamContent}\nendstream\nendobj`);
+
+      // Construcción del archivo completo con tabla de referencias cruzadas (xref)
+      let pdfBody = `%PDF-1.4\n%âãÏÓ\n`;
+      let xrefOffsets = [];
+
+      objects.forEach(function(obj) {
+        xrefOffsets.push(pdfBody.length);
+        pdfBody += obj + `\n`;
+      });
+
+      const startXref = pdfBody.length;
+      pdfBody += `xref\n0 ${objects.length + 1}\n`;
+      pdfBody += `0000000000 65535 f \n`;
+      xrefOffsets.forEach(function(offset) {
+        pdfBody += String(offset).padStart(10, '0') + ` 00000 n \n`;
+      });
+      pdfBody += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${startXref}\n%%EOF`;
+
+      // Descarga segura del archivo Blob
+      const blob = new Blob([pdfBody], { type: 'application/pdf' });
+
+      // Intentar primero con la API de Notebook si está disponible
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === 'function') {
+        try {
+          window.notebookAppApi.triggerFileDownload({
+            content: pdfBody,
+            contentType: 'application/pdf',
+            encoding: 'utf-8',
+            filename: nombreArchivo
+          });
+          mostrarToast(`📄 Reporte descargado: ${nombreArchivo}`);
+          return;
+        } catch (e) {
+          console.log('Fallback a descarga nativa de navegador', e);
+        }
+      }
+
+      // Descarga mediante enlace temporal estándar en navegadores
+      const enlace = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      enlace.href = url;
+      enlace.download = nombreArchivo;
+      document.body.appendChild(enlace);
+      enlace.click();
+      setTimeout(function() {
+        document.body.removeChild(enlace);
+        URL.revokeObjectURL(url);
+      }, 500);
+
+      mostrarToast(`📄 Reporte guardado: ${nombreArchivo}`);
+    }
+
+    /* -------------------------------------------------------------
+       10. COPIAR RESUMEN PARA WHATSAPP
+       ------------------------------------------------------------- */
+    function copiarResumenWhatsApp() {
+      const ahora = new Date();
+      const dd = String(ahora.getDate()).padStart(2, '0');
+      const mm = String(ahora.getMonth() + 1).padStart(2, '0');
+      const aaaa = ahora.getFullYear();
+      const hh = String(ahora.getHours()).padStart(2, '0');
+      const min = String(ahora.getMinutes()).padStart(2, '0');
+
+      let totalM = 0;
+      let totalMich = 0;
+      let totalB = 0;
+
+      let lineas = [];
+      lineas.push(`🥭🍺 *MANGO CHELADAS - REPORTE DE VENTAS* 🍺🥭`);
+      lineas.push(`📅 *Fecha:* ${dd}/${mm}/${aaaa} | ⏰ *Hora:* ${hh}:${min}`);
+      lineas.push(`----------------------------------------`);
+      lineas.push(`🍻 *DETALLE POR PRODUCTO:*`);
+
+      bebidas.forEach(function(b) {
+        const sub = (b.mango || 0) + (b.michelada || 0) + (b.botella || 0);
+        totalM += (b.mango || 0);
+        totalMich += (b.michelada || 0);
+        totalB += (b.botella || 0);
+
+        if (sub > 0) {
+          lineas.push(`• *${b.nombre}*: ${b.mango||0} Mango | ${b.michelada||0} Michelada | ${b.botella||0} Botella ➔ *Total: ${sub}*`);
+        } else {
+          lineas.push(`• *${b.nombre}*: 0 despachadas`);
+        }
+      });
+
+      const granTotal = totalM + totalMich + totalB;
+
+      lineas.push(`----------------------------------------`);
+      lineas.push(`📊 *TOTALES GENERALES:*`);
+      lineas.push(`🥭 *Mangocheladas:* ${totalM}`);
+      lineas.push(`🍋 *Micheladas:* ${totalMich}`);
+      lineas.push(`🍾 *Botellas:* ${totalB}`);
+      lineas.push(`⭐ *GRAN TOTAL DESPACHADO: ${granTotal} bebidas*`);
+      lineas.push(`----------------------------------------`);
+      lineas.push(`_Reporte generado automáticamente para cuadre de caja e inventario._`);
+
+      const textoCompleto = lineas.join('\n');
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textoCompleto).then(function() {
+          mostrarToast(`📋 ¡Copiado! Listo para pegar en WhatsApp.`);
+        }).catch(function() {
+          copiarTextoFallback(textoCompleto);
+        });
+      } else {
+        copiarTextoFallback(textoCompleto);
+      }
+    }
+
+    function copiarTextoFallback(texto) {
+      const area = document.createElement('textarea');
+      area.value = texto;
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.appendChild(area);
+      area.select();
+      try {
+        document.execCommand('copy');
+        mostrarToast(`📋 ¡Copiado! Listo para pegar en WhatsApp.`);
+      } catch (err) {
+        alert('No se pudo copiar automáticamente. Por favor toma una captura de pantalla.');
+      }
+      document.body.removeChild(area);
+    }
+
+    /* -------------------------------------------------------------
+       11. NOTIFICACIONES TOAST FLOTANTES
+       ------------------------------------------------------------- */
+    let timerToast = null;
+    function mostrarToast(mensaje, icono) {
+      const toast = document.getElementById('toast-aviso');
+      const texto = document.getElementById('toast-mensaje');
+      const ic = document.getElementById('toast-icono');
+      if (!toast || !texto) return;
+
+      texto.textContent = mensaje;
+      if (ic && icono) ic.textContent = icono;
+
+      toast.style.display = 'flex';
+
+      if (timerToast) clearTimeout(timerToast);
+      timerToast = setTimeout(function() {
+        toast.style.display = 'none';
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
