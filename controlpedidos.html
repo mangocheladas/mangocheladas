@@ -6,81 +6,83 @@
 <meta name="artifact-type" content="tool">
 <meta name="design-style" content="sticker">
 <title>Mangocheladas — Comandero y Control de Turno</title>
-<!-- Google Fonts: Paytone One (Headlines & Numbers) & Fredoka (Body & Labels) -->
+
+<!-- Google Fonts: Paytone One (Headlines & Numbers) & Fredoka (Body & UI) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Paytone+One&display=swap" rel="stylesheet">
-<!-- Approved Lucide Icons -->
+
+<!-- Approved CDN for Lucide Icons -->
 <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+
 <style>
 :root {
   color-scheme: light;
 
-  /* Fresh Tropical Palette - Yellows, Limes, Orange, with minimal coffee */
-  --background: #fffdf5;
+  /* Surfaces & Backgrounds */
+  --background: #fffdf7;
   --surface-container-low: #ffffff;
-  --surface-container: #fef9e8;
+  --surface-container: #fef8e7;
   --surface-container-high: #fef0cd;
-  --surface-container-highest: #fde68a;
+  --surface-well: #fcf2dc;
 
-  /* Ink / Text - Crisp deep forest & dark slate for ultra-clean legibility */
-  --on-surface: #142800;
-  --on-surface-variant: #4b5563;
-  --on-surface-muted: #6b7280;
+  /* Inks */
+  --on-surface: #2b170c;
+  --on-surface-variant: #6b4423;
+  --on-surface-muted: #8c603b;
 
-  /* Borders & Accents */
-  --outline: #d97706;
-  --outline-variant: #fde68a;
-  --outline-soft: rgba(217, 119, 6, 0.15);
-
-  /* Primary: Juicy Mango Gold */
+  /* Brand & Tropical Accents */
   --primary: #f59e0b;
-  --primary-dark: #d97706;
-  --on-primary: #ffffff;
+  --primary-hover: #d97706;
+  --primary-dark: #b45309;
+  --on-primary: #2b170c;
   --primary-container: #fef08a;
-  --on-primary-container: #78350f;
+  --on-primary-container: #451a03;
 
-  /* Secondary: Fresh Tropical Lime */
-  --secondary: #65a30d;
-  --secondary-light: #84cc16;
+  --secondary: #84cc16;
+  --secondary-hover: #65a30d;
   --secondary-dark: #4d7c0f;
   --on-secondary: #ffffff;
   --secondary-container: #ecfccb;
   --on-secondary-container: #365314;
 
-  /* Tertiary: Chamoy Orange */
   --tertiary: #ea580c;
+  --tertiary-hover: #c2410c;
   --on-tertiary: #ffffff;
   --tertiary-container: #ffedd5;
-  --on-tertiary-container: #9a3412;
+  --on-tertiary-container: #7c2d12;
 
-  /* Minimal Coffee: Used only for small subtle accents */
-  --brand-coffee: #78350f;
-  --brand-wood: #451a03;
+  --brand-coffee: #451a03;
+  --brand-wood: #2e1405;
+  --brand-ice: #0284c7;
+  --brand-ice-container: #e0f2fe;
 
-  /* Semantic UI */
+  /* Semantics */
   --positive: #16a34a;
+  --positive-bg: #dcfce7;
+  --positive-border: #bbf7d0;
   --on-positive: #ffffff;
-  --positive-container: #dcfce7;
-  --on-positive-container: #166534;
 
   --warning: #f59e0b;
+  --warning-bg: #fef3c7;
+  --warning-border: #fde68a;
   --on-warning: #ffffff;
-  --warning-container: #fef3c7;
-  --on-warning-container: #92400e;
 
   --error: #dc2626;
+  --error-bg: #fee2e2;
+  --error-border: #fca5a5;
   --on-error: #ffffff;
-  --error-container: #fee2e2;
-  --on-error-container: #991b1b;
 
+  --outline: #d97706;
+  --outline-variant: #fcd34d;
   --focus: #d97706;
 
-  /* Series */
+  /* Data Series */
   --data-1: #f59e0b;
   --data-2: #84cc16;
   --data-3: #ea580c;
   --data-4: #0284c7;
+  --data-context: #cbd5e1;
 
   /* Typography */
   --font-headline: 'Paytone One', cursive, sans-serif;
@@ -96,14 +98,20 @@
   /* Tinted Colorful Shadows */
   --shadow-mango: 0 4px 18px rgba(245, 158, 11, 0.22);
   --shadow-mango-deep: 0 10px 28px rgba(217, 119, 6, 0.32);
-  --shadow-lime: 0 4px 18px rgba(101, 163, 13, 0.22);
-  --shadow-lime-deep: 0 10px 28px rgba(101, 163, 13, 0.32);
-  --shadow-card: 0 4px 16px rgba(101, 163, 13, 0.08);
-  --shadow-card-deep: 0 12px 30px rgba(101, 163, 13, 0.16);
+  --shadow-lime: 0 4px 18px rgba(132, 204, 22, 0.24);
+  --shadow-orange: 0 4px 18px rgba(234, 88, 12, 0.24);
+  --shadow-card: 0 4px 16px rgba(69, 26, 3, 0.08);
+  --shadow-card-deep: 0 12px 32px rgba(69, 26, 3, 0.16);
+
+  /* Microinteractions */
   --pop-scale: scale(1.025);
   --lift: translateY(-3px);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
 
   /* Spacing Scale */
   --space-xs: 0.25rem;
@@ -143,6 +151,7 @@ header {
   position: static !important;
 }
 
+/* Page Container */
 .page-grid {
   display: grid;
   gap: var(--space-md);
@@ -152,18 +161,21 @@ header {
   overflow: hidden;
 }
 
-.page-grid * { min-width: 0; }
+.page-grid * {
+  min-width: 0;
+}
 
 :focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
 
+/* Typography Helpers */
 h1, h2, h3, h4, .font-headline {
   font-family: var(--font-headline);
   margin: 0;
   letter-spacing: -0.01em;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .font-label {
@@ -206,28 +218,43 @@ h1, h2, h3, h4, .font-headline {
 
 .btn-primary {
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--on-primary);
   box-shadow: var(--shadow-mango);
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-dark);
+  background-color: var(--primary-hover);
   box-shadow: var(--shadow-mango-deep);
 }
 
 .btn-secondary {
   background-color: var(--secondary);
-  color: #ffffff;
+  color: var(--brand-coffee);
   box-shadow: var(--shadow-lime);
 }
 
 .btn-secondary:hover {
-  background-color: var(--secondary-dark);
-  box-shadow: var(--shadow-lime-deep);
+  background-color: var(--secondary-hover);
 }
 
 .btn-tertiary {
   background-color: var(--tertiary);
+  color: var(--on-tertiary);
+  box-shadow: var(--shadow-orange);
+}
+
+.btn-tertiary:hover {
+  background-color: var(--tertiary-hover);
+}
+
+.btn-coffee {
+  background-color: var(--brand-coffee);
+  color: #ffffff;
+  box-shadow: var(--shadow-card);
+}
+
+.btn-coffee:hover {
+  background-color: var(--brand-wood);
   color: #ffffff;
 }
 
@@ -243,14 +270,24 @@ h1, h2, h3, h4, .font-headline {
 }
 
 .btn-danger {
-  background-color: var(--error-container);
+  background-color: var(--error-bg);
   color: var(--error);
-  border: 1px solid rgba(220, 38, 38, 0.3);
+  border: 1px solid var(--error-border);
 }
 
 .btn-danger:hover {
   background-color: var(--error);
   color: var(--on-error);
+}
+
+.btn-danger-solid {
+  background-color: var(--error);
+  color: var(--on-error);
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.28);
+}
+
+.btn-danger-solid:hover {
+  background-color: #b91c1c;
 }
 
 .btn-sm {
@@ -267,13 +304,21 @@ h1, h2, h3, h4, .font-headline {
   flex-shrink: 0;
 }
 
+.btn-circle-sm {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: var(--rounded-full);
+  flex-shrink: 0;
+}
+
 /* Cards */
 .card {
   background: var(--surface-container-low);
   border-radius: var(--rounded);
   box-shadow: var(--shadow-card);
   padding: var(--space-md);
-  border: 1px solid rgba(217, 119, 6, 0.16);
+  border: 1px solid rgba(217, 119, 6, 0.14);
   transition: transform var(--dur-short) var(--ease-bounce), box-shadow var(--dur-short) var(--ease-out);
 }
 
@@ -292,8 +337,8 @@ h1, h2, h3, h4, .font-headline {
   align-items: center;
   gap: 0.3rem;
   border-radius: var(--rounded-full);
-  padding: 0.25rem 0.75rem;
-  font-size: 0.76rem;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.74rem;
   font-weight: 700;
   font-family: var(--font-label);
   text-transform: uppercase;
@@ -302,21 +347,21 @@ h1, h2, h3, h4, .font-headline {
 }
 
 .badge-pending {
-  background-color: var(--error-container);
-  color: var(--on-error-container);
-  border: 1px solid rgba(220, 38, 38, 0.3);
+  background-color: var(--error-bg);
+  color: #991b1b;
+  border: 1px solid var(--error-border);
 }
 
 .badge-partial {
-  background-color: var(--warning-container);
-  color: var(--on-warning-container);
-  border: 1px solid var(--outline-variant);
+  background-color: var(--warning-bg);
+  color: #92400e;
+  border: 1px solid var(--warning-border);
 }
 
 .badge-paid {
-  background-color: var(--positive-container);
-  color: var(--on-positive-container);
-  border: 1px solid rgba(22, 163, 74, 0.3);
+  background-color: var(--positive-bg);
+  color: #166534;
+  border: 1px solid var(--positive-border);
 }
 
 .badge-mango {
@@ -328,16 +373,75 @@ h1, h2, h3, h4, .font-headline {
 .badge-lime {
   background-color: var(--secondary-container);
   color: var(--on-secondary-container);
-  border: 1px solid rgba(132, 204, 22, 0.4);
+  border: 1px solid #bef264;
 }
 
-.badge-protected {
-  background-color: #e0f2fe;
+.badge-coffee {
+  background-color: #f5ebe6;
+  color: var(--brand-coffee);
+  border: 1px solid #e6d5cc;
+}
+
+.badge-ice {
+  background-color: var(--brand-ice-container);
   color: #0369a1;
   border: 1px solid #bae6fd;
 }
 
-/* Header Component */
+.badge-protected {
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: var(--surface-container);
+  padding: 0.35rem;
+  border-radius: var(--rounded-full);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--outline-variant);
+}
+
+.nav-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--rounded-full);
+  border: none;
+  background: transparent;
+  color: var(--on-surface-variant);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-bounce);
+}
+
+.nav-tab-btn:hover {
+  color: var(--on-surface);
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.nav-tab-btn.active {
+  background: #ffffff;
+  color: var(--brand-coffee);
+  box-shadow: 0 2px 8px rgba(69, 26, 3, 0.12);
+  font-weight: 700;
+}
+
+/* App Header */
 .app-header {
   display: flex;
   align-items: center;
@@ -361,7 +465,7 @@ h1, h2, h3, h4, .font-headline {
   width: 58px;
   height: 58px;
   border-radius: var(--rounded-full);
-  background: linear-gradient(135deg, #f59e0b 0%, #84cc16 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -372,10 +476,10 @@ h1, h2, h3, h4, .font-headline {
 
 .brand-text h1 {
   font-size: 1.55rem;
-  color: var(--on-surface);
+  color: var(--brand-coffee);
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.35rem;
 }
 
 .brand-text h1 span.tropical {
@@ -389,16 +493,63 @@ h1, h2, h3, h4, .font-headline {
   font-weight: 500;
 }
 
-.shift-status-pill {
+/* Real-Time Header Widgets */
+.header-meta-widgets {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.live-clock-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   background: var(--surface-container);
   padding: 0.4rem 0.85rem;
   border-radius: var(--rounded-full);
   border: 1px solid var(--outline-variant);
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   font-weight: 600;
+  color: var(--brand-coffee);
+}
+
+.shift-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: var(--surface-container);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--rounded-full);
+  border: 1px solid var(--outline-variant);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--brand-coffee);
+}
+
+.tariff-mode-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--rounded-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  transition: transform var(--dur-micro) var(--ease-bounce);
+  border: 1px solid var(--outline-variant);
+}
+
+.tariff-mode-pill.normal {
+  background: var(--primary-container);
+  color: var(--brand-coffee);
+}
+
+.tariff-mode-pill.event {
+  background: var(--tertiary-container);
+  color: var(--tertiary);
+  border-color: #fdba74;
 }
 
 .pulse-dot {
@@ -407,154 +558,12 @@ h1, h2, h3, h4, .font-headline {
   border-radius: 50%;
   background-color: var(--positive);
   box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.25);
+  flex-shrink: 0;
 }
 
 .pulse-dot.closed {
   background-color: var(--error);
   box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
-}
-
-/* TARIFF SELECTOR BANNER */
-.tariff-banner {
-  background: linear-gradient(135deg, #fef9e8 0%, #ecfccb 100%);
-  border-radius: var(--rounded);
-  border: 2px solid var(--outline-variant);
-  padding: 0.75rem var(--space-lg);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--space-md);
-  box-shadow: var(--shadow-card);
-}
-
-.tariff-banner-left {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-}
-
-.tariff-icon-badge {
-  width: 42px;
-  height: 42px;
-  border-radius: var(--rounded-full);
-  background: #ffffff;
-  border: 2px solid var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary-dark);
-  box-shadow: var(--shadow-mango);
-}
-
-.tariff-title-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.tariff-label {
-  font-family: var(--font-headline);
-  font-size: 0.95rem;
-  color: var(--on-surface);
-}
-
-.tariff-desc {
-  margin: 0;
-  font-size: 0.8rem;
-  color: var(--on-surface-variant);
-}
-
-.tariff-controls {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  flex-wrap: wrap;
-}
-
-.segmented-control {
-  display: inline-flex;
-  background: #ffffff;
-  padding: 0.3rem;
-  border-radius: var(--rounded-full);
-  border: 2px solid var(--outline-variant);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-}
-
-.segmented-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.45rem 1rem;
-  border-radius: var(--rounded-full);
-  border: none;
-  background: transparent;
-  color: var(--on-surface-variant);
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 0.88rem;
-  cursor: pointer;
-  transition: all var(--dur-short) var(--ease-bounce);
-  white-space: nowrap;
-}
-
-.segmented-btn.active {
-  background: var(--primary);
-  color: #ffffff;
-  box-shadow: var(--shadow-mango);
-}
-
-.segmented-btn.active.event-mode {
-  background: var(--tertiary);
-  color: #ffffff;
-  box-shadow: 0 4px 16px rgba(234, 88, 12, 0.3);
-}
-
-/* Navigation Tabs */
-.nav-tabs {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  background: var(--surface-container);
-  padding: 0.35rem;
-  border-radius: var(--rounded-full);
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  border: 1px solid var(--outline-variant);
-}
-
-.nav-tabs::-webkit-scrollbar { display: none; }
-
-.nav-tab-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.55rem 1.15rem;
-  border-radius: var(--rounded-full);
-  border: none;
-  background: transparent;
-  color: var(--on-surface-variant);
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-bounce);
-}
-
-.nav-tab-btn:hover {
-  color: var(--on-surface);
-  background: rgba(255, 255, 255, 0.7);
-}
-
-.nav-tab-btn.active {
-  background: #ffffff;
-  color: var(--on-surface);
-  box-shadow: 0 2px 10px rgba(101, 163, 13, 0.12);
-  font-weight: 700;
-  border: 1px solid var(--outline-variant);
 }
 
 /* Orders Grid */
@@ -594,12 +603,26 @@ h1, h2, h3, h4, .font-headline {
 .order-ref {
   font-family: var(--font-headline);
   font-size: 1.25rem;
-  color: var(--on-surface);
+  color: var(--brand-coffee);
   line-height: 1.2;
 }
 
-.timestamp-box {
+.order-waiter-badge {
   display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--rounded-full);
+  padding: 0.15rem 0.55rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+.timestamp-box {
+  display: flex;
   align-items: center;
   gap: 0.35rem;
   font-size: 0.76rem;
@@ -615,7 +638,7 @@ h1, h2, h3, h4, .font-headline {
   flex-direction: column;
   gap: 0.35rem;
   margin: 0.3rem 0;
-  max-height: 180px;
+  max-height: 190px;
   overflow-y: auto;
   padding-right: 0.25rem;
 }
@@ -630,7 +653,7 @@ h1, h2, h3, h4, .font-headline {
 .order-item-qty {
   font-weight: 700;
   background: var(--surface-container-high);
-  color: var(--on-surface);
+  color: var(--brand-coffee);
   padding: 0.1rem 0.45rem;
   border-radius: var(--rounded-full);
   font-size: 0.78rem;
@@ -648,11 +671,11 @@ h1, h2, h3, h4, .font-headline {
 
 .order-price {
   font-family: var(--font-headline);
-  font-size: 1.3rem;
-  color: var(--on-surface);
+  font-size: 1.25rem;
+  color: var(--brand-coffee);
 }
 
-/* Quick Bar Counter Grid */
+/* Counter Grid */
 .counter-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
@@ -669,6 +692,10 @@ h1, h2, h3, h4, .font-headline {
   flex-direction: column;
 }
 
+.counter-card.protected-card {
+  border-color: rgba(2, 132, 199, 0.3);
+}
+
 .counter-card-header {
   background: linear-gradient(90deg, #fef3c7 0%, #ecfccb 100%);
   padding: 0.75rem var(--space-md);
@@ -678,10 +705,15 @@ h1, h2, h3, h4, .font-headline {
   border-bottom: 2px solid var(--outline-variant);
 }
 
+.counter-card-header.ice-header {
+  background: linear-gradient(90deg, #e0f2fe 0%, #fef08a 100%);
+  border-bottom-color: #bae6fd;
+}
+
 .counter-card-title {
   font-family: var(--font-headline);
   font-size: 1.15rem;
-  color: var(--on-surface);
+  color: var(--brand-coffee);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -699,7 +731,6 @@ h1, h2, h3, h4, .font-headline {
   justify-content: space-between;
   padding: 0.75rem var(--space-md);
   border-bottom: 1px solid var(--surface-container);
-  gap: var(--space-sm);
 }
 
 .counter-row:last-child {
@@ -711,9 +742,11 @@ h1, h2, h3, h4, .font-headline {
   flex-direction: column;
   gap: 0.1rem;
   flex: 1;
+  padding-right: 0.5rem;
 }
 
 .counter-row-name {
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: 0.95rem;
   color: var(--on-surface);
@@ -732,18 +765,19 @@ h1, h2, h3, h4, .font-headline {
   display: flex;
   align-items: center;
   gap: 0.55rem;
+  flex-shrink: 0;
 }
 
 .counter-num {
-  min-width: 48px;
+  min-width: 44px;
   text-align: center;
   font-family: var(--font-headline);
-  font-size: 1.7rem;
-  color: var(--on-surface);
+  font-size: 1.6rem;
+  color: var(--brand-coffee);
   line-height: 1;
 }
 
-/* Consolidated Table */
+/* Consolidated & History Tables */
 .table-container {
   background: #ffffff;
   border-radius: var(--rounded);
@@ -758,14 +792,14 @@ h1, h2, h3, h4, .font-headline {
   border-collapse: collapse;
   text-align: left;
   font-size: 0.9rem;
-  min-width: 720px;
+  min-width: 680px;
 }
 
 .consolidated-table th {
   background: var(--surface-container);
-  color: var(--on-surface);
+  color: var(--brand-coffee);
   font-family: var(--font-label);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 0.85rem var(--space-md);
@@ -787,15 +821,15 @@ h1, h2, h3, h4, .font-headline {
   background-color: #fef0cd;
   font-weight: 700;
   border-top: 2px solid var(--outline);
-  color: var(--on-surface);
+  color: var(--brand-coffee);
   font-size: 1rem;
 }
 
-/* Modal Styling */
+/* Modals */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(20, 40, 0, 0.6);
+  background: rgba(43, 23, 12, 0.65);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -816,9 +850,9 @@ h1, h2, h3, h4, .font-headline {
   background: #ffffff;
   border-radius: var(--rounded-lg);
   border: 3px solid var(--primary);
-  box-shadow: 0 20px 45px rgba(20, 40, 0, 0.35);
+  box-shadow: 0 20px 45px rgba(43, 23, 12, 0.35);
   width: 100%;
-  max-width: 700px;
+  max-width: 680px;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
@@ -831,6 +865,10 @@ h1, h2, h3, h4, .font-headline {
   transform: scale(1);
 }
 
+.modal-card.modal-danger {
+  border-color: var(--error);
+}
+
 .modal-header {
   background: linear-gradient(135deg, var(--surface-container) 0%, #ecfccb 100%);
   padding: var(--space-md) var(--space-lg);
@@ -839,6 +877,11 @@ h1, h2, h3, h4, .font-headline {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-md);
+}
+
+.modal-header.danger-header {
+  background: linear-gradient(135deg, #fee2e2 0%, #ffedd5 100%);
+  border-bottom-color: #fca5a5;
 }
 
 .modal-body {
@@ -860,7 +903,7 @@ h1, h2, h3, h4, .font-headline {
   flex-wrap: wrap;
 }
 
-/* Forms */
+/* Forms & Inputs */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -902,7 +945,7 @@ h1, h2, h3, h4, .font-headline {
 
 .chip {
   background: var(--surface-container);
-  color: var(--on-surface);
+  color: var(--brand-coffee);
   border: 1px solid var(--outline-variant);
   border-radius: var(--rounded-full);
   padding: 0.3rem 0.75rem;
@@ -935,7 +978,7 @@ h1, h2, h3, h4, .font-headline {
   padding-bottom: 0.4rem;
 }
 
-/* Toast Notification */
+/* Toasts */
 .toast-container {
   position: fixed;
   bottom: var(--space-lg);
@@ -948,11 +991,11 @@ h1, h2, h3, h4, .font-headline {
 }
 
 .toast {
-  background: #1e293b;
+  background: var(--brand-coffee);
   color: #ffffff;
   padding: 0.75rem 1.25rem;
   border-radius: var(--rounded-full);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 24px rgba(43, 23, 12, 0.3);
   font-size: 0.9rem;
   font-weight: 600;
   display: flex;
@@ -967,7 +1010,7 @@ h1, h2, h3, h4, .font-headline {
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* Print styles */
+/* Print Styles for 80mm POS Thermal Receipt */
 @media print {
   body * {
     visibility: hidden;
@@ -982,9 +1025,9 @@ h1, h2, h3, h4, .font-headline {
     width: 100%;
     max-width: 80mm;
     margin: 0;
-    padding: 5mm;
+    padding: 4mm;
     font-family: monospace;
-    font-size: 11pt;
+    font-size: 10pt;
     color: #000000;
     background: #ffffff;
   }
@@ -1002,8 +1045,8 @@ h1, h2, h3, h4, .font-headline {
   }
 }
 
-/* Mobile adjustments */
-@media (max-width: 640px) {
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
   .page-grid {
     padding: var(--space-sm);
     gap: var(--space-sm);
@@ -1013,19 +1056,16 @@ h1, h2, h3, h4, .font-headline {
     flex-direction: column;
     align-items: flex-start;
   }
-  .tariff-banner {
-    padding: var(--space-sm);
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .tariff-controls {
+  .header-meta-widgets {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
   .header-actions {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
   }
   .btn {
     padding: 0.55rem 0.95rem;
@@ -1035,20 +1075,21 @@ h1, h2, h3, h4, .font-headline {
 </head>
 <body>
 
-<!-- Hidden Print Area for 80mm POS Thermal Receipts -->
+<!-- Hidden Print Area for POS Receipts -->
 <div id="print-ticket-area" style="display: none;"></div>
 
-<!-- Toast Notification Container -->
+<!-- Live Toast Notifications -->
 <div class="toast-container" id="toast-container"></div>
 
-<!-- Main Application Layout -->
+<!-- Application Main Layout -->
 <div class="page-grid no-print">
 
-  <!-- TOP HEADER -->
+  <!-- Top Application Header -->
   <header class="app-header">
     <div class="brand-block">
+      <!-- Stylized Tropical Logo -->
       <div class="logo-container" aria-label="Logo Mangocheladas">
-        <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <circle cx="50" cy="50" r="46" fill="#f59e0b" stroke="#ffffff" stroke-width="3"/>
           <path d="M42 22C30 30 24 50 34 68C42 82 64 85 74 72C84 59 82 40 70 28C60 18 48 18 42 22Z" fill="#ea580c"/>
           <path d="M44 26C35 34 30 48 38 64C44 76 60 78 68 68C76 58 74 42 64 32C56 24 48 24 44 26Z" fill="#facc15"/>
@@ -1061,21 +1102,44 @@ h1, h2, h3, h4, .font-headline {
       </div>
       <div class="brand-text">
         <h1>MANGO<span class="tropical">CHELADAS</span></h1>
-        <p>Comandero Oficial & Control de Turno</p>
+        <p>Comandero Profesional & Control de Turno</p>
       </div>
     </div>
 
-    <!-- Live Shift Badge -->
-    <div class="shift-status-pill" id="shift-pill">
-      <span class="pulse-dot" id="shift-dot"></span>
-      <span id="shift-info-text">Turno Activo: Cargando...</span>
+    <!-- Live Widgets: Clock, Shift Status, Price Tariff Switcher -->
+    <div class="header-meta-widgets">
+      <!-- Live Real-Time Clock -->
+      <div class="live-clock-pill" id="live-clock-badge" title="Hora actual del sistema">
+        <i data-lucide="clock" style="width: 15px; height: 15px; color: var(--tertiary);"></i>
+        <span id="live-clock-text">Cargando hora...</span>
+      </div>
+
+      <!-- Active Shift Badge -->
+      <div class="shift-status-pill" id="shift-pill">
+        <span class="pulse-dot" id="shift-dot"></span>
+        <span id="shift-info-text">Turno Activo: Cargando...</span>
+      </div>
+
+      <!-- Active Tariff Mode Switcher -->
+      <div class="tariff-mode-pill normal" id="tariff-pill" onclick="toggleTariffMode()" title="Haz clic para alternar entre Tarifa Normal y Tarifa Eventos">
+        <i data-lucide="tag" style="width: 14px; height: 14px;"></i>
+        <span id="tariff-mode-text">Tarifa Normal (Local)</span>
+      </div>
     </div>
 
     <!-- Header Actions -->
     <div class="header-actions" style="display: flex; align-items: center; gap: var(--space-sm);">
-      <button type="button" class="btn btn-ghost btn-circle" id="sound-toggle-btn" title="Activar/Silenciar Sonido">
+      <button type="button" class="btn btn-ghost btn-circle" id="sound-toggle-btn" title="Activar/Silenciar Sonidos">
         <i data-lucide="volume-2" id="sound-icon"></i>
       </button>
+
+      <!-- Botón Reiniciar Todo / Borrar Turno con Confirmación -->
+      <button type="button" class="btn btn-danger" onclick="openResetTurnModal()" title="Reiniciar comandas y barra del turno con confirmación segura">
+        <i data-lucide="rotate-ccw"></i>
+        <span>Reiniciar Turno</span>
+      </button>
+
+      <!-- Botón Nueva Comanda -->
       <button type="button" class="btn btn-primary" onclick="openNewOrderModal()">
         <i data-lucide="plus-circle"></i>
         <span>Nueva Comanda</span>
@@ -1083,39 +1147,7 @@ h1, h2, h3, h4, .font-headline {
     </div>
   </header>
 
-  <!-- TARIFF SELECTOR BANNER -->
-  <div class="tariff-banner">
-    <div class="tariff-banner-left">
-      <div class="tariff-icon-badge">
-        <i data-lucide="tag"></i>
-      </div>
-      <div>
-        <div class="tariff-title-row">
-          <span class="tariff-label">Tarifa de Precios Activa:</span>
-          <span class="badge badge-mango" id="tariff-status-indicator">🏷️ Precios Normales</span>
-        </div>
-        <p class="tariff-desc">Cambia al instante entre precios estándar y tarifa especial para eventos o festivales.</p>
-      </div>
-    </div>
-    <div class="tariff-controls">
-      <div class="segmented-control" role="radiogroup" aria-label="Selector de Tarifas">
-        <button type="button" class="segmented-btn active" id="btn-tariff-normal" onclick="setTariffMode('normal')">
-          <i data-lucide="badge-percent"></i>
-          <span>Precios Normales</span>
-        </button>
-        <button type="button" class="segmented-btn" id="btn-tariff-event" onclick="setTariffMode('event')">
-          <i data-lucide="party-popper"></i>
-          <span>Precios de Eventos</span>
-        </button>
-      </div>
-      <button type="button" class="btn btn-ghost btn-sm" onclick="switchTab('tariffs')" title="Ver detalle del catálogo y tarifas">
-        <i data-lucide="eye"></i>
-        <span>Ver Tarifas</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- NAVIGATION TABS -->
+  <!-- Navigation Tabs -->
   <nav class="nav-tabs" role="tablist">
     <button type="button" class="nav-tab-btn active" id="tab-orders" onclick="switchTab('orders')">
       <i data-lucide="clipboard-list"></i>
@@ -1123,19 +1155,15 @@ h1, h2, h3, h4, .font-headline {
     </button>
     <button type="button" class="nav-tab-btn" id="tab-counter" onclick="switchTab('counter')">
       <i data-lucide="zap"></i>
-      <span>Contador de Barra</span>
+      <span>Contador de Barra (Menú)</span>
     </button>
     <button type="button" class="nav-tab-btn" id="tab-consolidated" onclick="switchTab('consolidated')">
       <i data-lucide="table"></i>
       <span>Consolidado de Ventas</span>
     </button>
-    <button type="button" class="nav-tab-btn" id="tab-tariffs" onclick="switchTab('tariffs')">
-      <i data-lucide="layers"></i>
-      <span>Catálogo y Precios</span>
-    </button>
     <button type="button" class="nav-tab-btn" id="tab-closed" onclick="switchTab('closed')">
       <i data-lucide="check-check"></i>
-      <span>Historial Cobrado</span>
+      <span>Pedidos Cobrados</span>
     </button>
     <button type="button" class="nav-tab-btn" id="tab-shift" onclick="switchTab('shift')">
       <i data-lucide="clock"></i>
@@ -1147,50 +1175,59 @@ h1, h2, h3, h4, .font-headline {
   <main id="view-orders" style="display: block;">
     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-md);">
       <div>
-        <h2 style="font-size: var(--headline-size); color: var(--on-surface);">Mesas y Clientes en Atención</h2>
-        <p style="margin: 0; font-size: 0.85rem; color: var(--on-surface-variant);">Toca una comanda para añadir rondas, cambiar ítems (+ / -) o liquidar pagos.</p>
+        <h2 style="font-size: var(--headline-size); color: var(--brand-coffee);">Mesas y Clientes en Atención</h2>
+        <p style="margin: 0; font-size: 0.85rem; color: var(--on-surface-variant);">
+          Registra el mesero o atendedor en cada orden, agrega rondas y despacha pedidos.
+        </p>
       </div>
       <div style="display: flex; align-items: center; gap: var(--space-sm);">
-        <input type="text" id="order-search" class="form-input" placeholder="Buscar mesa o cliente..." style="width: 220px; padding: 0.45rem 0.85rem; font-size: 0.85rem;" oninput="renderOrders()">
+        <input type="text" id="order-search" class="form-input" placeholder="Buscar por mesa, cliente o mesero..." style="width: 250px; padding: 0.45rem 0.95rem; font-size: 0.85rem;" oninput="renderOrders()">
       </div>
     </div>
 
-    <!-- Active Orders Grid -->
+    <!-- Orders Grid Container -->
     <div class="orders-grid" id="orders-container">
-      <!-- Rendered dynamically -->
+      <!-- Rendered dynamically via JavaScript -->
     </div>
 
-    <!-- Empty State -->
-    <div id="orders-empty-state" class="card" style="display: none; text-align: center; padding: var(--space-2xl) var(--space-lg);">
-      <div style="width: 72px; height: 72px; border-radius: var(--rounded-full); background: var(--surface-container); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md);">
-        <i data-lucide="clipboard" style="width: 36px; height: 36px;"></i>
+    <!-- Clean Empty State (Starts clean when no active orders) -->
+    <div id="orders-empty-state" class="card" style="display: none; text-align: center; padding: var(--space-2xl) var(--space-lg); border: 2px dashed var(--outline-variant);">
+      <div style="width: 76px; height: 76px; border-radius: var(--rounded-full); background: var(--surface-container); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md);">
+        <i data-lucide="clipboard-check" style="width: 40px; height: 40px;"></i>
       </div>
-      <h3 style="font-size: 1.3rem; color: var(--on-surface); margin-bottom: 0.5rem;">No hay comandas activas</h3>
-      <p style="color: var(--on-surface-variant); max-width: 440px; margin: 0 auto var(--space-lg);">Crea una nueva comanda para una mesa o usa el Contador de Barra para sumar despachos directos.</p>
+      <h3 style="font-size: 1.35rem; color: var(--brand-coffee); margin-bottom: 0.5rem;">No hay comandas activas en este momento</h3>
+      <p style="color: var(--on-surface-variant); max-width: 460px; margin: 0 auto var(--space-lg); font-size: 0.92rem;">
+        La aplicación ha iniciado limpia. Haz clic abajo para crear tu primera comanda asignando el nombre del mesero/atendedor, o usa el Contador de Barra para ventas rápidas.
+      </p>
       <button type="button" class="btn btn-primary" onclick="openNewOrderModal()">
         <i data-lucide="plus-circle"></i>
-        <span>Abrir Nueva Comanda</span>
+        <span>Crear Primera Comanda</span>
       </button>
     </div>
   </main>
 
-  <!-- TAB 2: CONTADOR DE BARRA -->
+  <!-- TAB 2: CONTADOR DE BARRA (DESPACHO RÁPIDO) -->
   <section id="view-counter" style="display: none;">
     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-md);">
       <div>
-        <h2 style="font-size: var(--headline-size); color: var(--on-surface);">Contador Rápido de Barra</h2>
-        <p style="margin: 0; font-size: 0.85rem; color: var(--on-surface-variant);">Registra despachos directos al instante con números grandes y botones táctiles.</p>
+        <h2 style="font-size: var(--headline-size); color: var(--brand-coffee);">Contador Rápido de Barra</h2>
+        <p style="margin: 0; font-size: 0.85rem; color: var(--on-surface-variant);">
+          Suma y resta directamente los despachos por bebida, granizado y presentación con un solo toque.
+        </p>
       </div>
-      <div style="display: flex; align-items: center; gap: var(--space-sm);">
-        <span class="badge badge-lime" id="counter-tariff-badge">Tarifa: Precios Normales</span>
+      <div style="display: flex; gap: var(--space-sm); align-items: center; flex-wrap: wrap;">
+        <span class="badge badge-protected">
+          <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i>
+          Granizados Protegidos
+        </span>
         <button type="button" class="btn btn-ghost btn-sm" onclick="resetBarCounters()">
           <i data-lucide="rotate-ccw"></i>
-          <span>Reiniciar Contadores</span>
+          <span>Reiniciar Solo Barra</span>
         </button>
       </div>
     </div>
 
-    <!-- Grid of Counter Cards -->
+    <!-- Grid of Beverage & Granizado Counter Cards -->
     <div class="counter-grid" id="counter-cards-container">
       <!-- Rendered by JavaScript -->
     </div>
@@ -1200,15 +1237,17 @@ h1, h2, h3, h4, .font-headline {
   <section id="view-consolidated" style="display: none;">
     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-md);">
       <div>
-        <h2 style="font-size: var(--headline-size); color: var(--on-surface);">Consolidado General del Turno</h2>
-        <p style="margin: 0; font-size: 0.85rem; color: var(--on-surface-variant);">Acumulado total de unidades vendidas y recaudos del turno actual.</p>
+        <h2 style="font-size: var(--headline-size); color: var(--brand-coffee);">Consolidado General de Productos y Atendedores</h2>
+        <p style="margin: 0; font-size: 0.85rem; color: var(--on-surface-variant);">
+          Reporte total de unidades despachadas, ventas COP y balance por mesero/atendedor en tiempo real.
+        </p>
       </div>
       <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap;">
         <button type="button" class="btn btn-secondary btn-sm" onclick="exportConsolidatedToWhatsApp()">
           <i data-lucide="share-2"></i>
           <span>WhatsApp Consolidado</span>
         </button>
-        <button type="button" class="btn btn-primary btn-sm" onclick="downloadConsolidatedPdf()">
+        <button type="button" class="btn btn-coffee btn-sm" onclick="downloadConsolidatedPdf()">
           <i data-lucide="download"></i>
           <span>Descargar PDF</span>
         </button>
@@ -1219,8 +1258,11 @@ h1, h2, h3, h4, .font-headline {
       </div>
     </div>
 
-    <!-- Consolidated Table -->
-    <div class="table-container" id="consolidated-table-wrapper">
+    <!-- Table 1: Consolidated Products Breakdown -->
+    <h3 style="font-size: 1.15rem; color: var(--brand-coffee); margin: var(--space-md) 0 var(--space-xs);">
+      Desglose de Productos Vendidos
+    </h3>
+    <div class="table-container" style="margin-bottom: var(--space-lg);">
       <table class="consolidated-table" id="consolidated-table-view">
         <thead>
           <tr>
@@ -1237,53 +1279,42 @@ h1, h2, h3, h4, .font-headline {
           <!-- Rendered by JavaScript -->
         </tbody>
         <tfoot id="consolidated-tfoot">
-          <!-- Totals Row rendered by JavaScript -->
+          <!-- Totals row rendered by JavaScript -->
         </tfoot>
       </table>
     </div>
-  </section>
 
-  <!-- TAB 4: CATÁLOGO Y TARIFAS -->
-  <section id="view-tariffs" style="display: none;">
-    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-md);">
-      <div>
-        <h2 style="font-size: var(--headline-size); color: var(--on-surface);">Catálogo de Productos y Matriz de Tarifas</h2>
-        <p style="margin: 0; font-size: 0.85rem; color: var(--on-surface-variant);">Consulta las tarifas fijas de venta Normal vs. Eventos especiales.</p>
-      </div>
-      <div style="display: flex; gap: var(--space-sm); align-items: center;">
-        <span class="badge badge-protected">
-          <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i>
-          <span>Granizados: Ítem Protegido</span>
-        </span>
-      </div>
-    </div>
-
+    <!-- Table 2: Sales Breakdown by Waiter / Attendant -->
+    <h3 style="font-size: 1.15rem; color: var(--brand-coffee); margin: var(--space-md) 0 var(--space-xs);">
+      Desglose por Mesero / Atendedor
+    </h3>
     <div class="table-container">
       <table class="consolidated-table">
         <thead>
           <tr>
-            <th>Producto</th>
-            <th>Categoría</th>
-            <th>Mangochelada</th>
-            <th>Michelada</th>
-            <th>Botella</th>
-            <th>Granizado (Mango / Sencillo)</th>
-            <th style="text-align: center;">Regla de Catálogo</th>
+            <th>Mesero / Atendedor</th>
+            <th style="text-align: center;">Comandas Atendidas</th>
+            <th style="text-align: center;">Total Unidades</th>
+            <th style="text-align: right;">Ventas Cobradas ($ COP)</th>
+            <th style="text-align: right;">Saldo Pendiente</th>
+            <th style="text-align: center;">Participación</th>
           </tr>
         </thead>
-        <tbody id="tariffs-tbody">
-          <!-- Rendered dynamically -->
+        <tbody id="waiters-consolidated-tbody">
+          <!-- Rendered by JavaScript -->
         </tbody>
       </table>
     </div>
   </section>
 
-  <!-- TAB 5: PEDIDOS COBRADOS -->
+  <!-- TAB 4: PEDIDOS COBRADOS -->
   <section id="view-closed" style="display: none;">
     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-md);">
       <div>
-        <h2 style="font-size: var(--headline-size); color: var(--on-surface);">Historial de Comandas Cobradas</h2>
-        <p style="margin: 0; font-size: 0.85rem; color: var(--on-surface-variant);">Comandas completamente facturadas en el turno activo.</p>
+        <h2 style="font-size: var(--headline-size); color: var(--brand-coffee);">Historial de Comandas Cobradas</h2>
+        <p style="margin: 0; font-size: 0.85rem; color: var(--on-surface-variant);">
+          Registro de comandas liquidadas en el turno con el detalle del mesero que atendió.
+        </p>
       </div>
     </div>
     <div class="table-container">
@@ -1291,11 +1322,12 @@ h1, h2, h3, h4, .font-headline {
         <thead>
           <tr>
             <th>N° Comanda</th>
-            <th>Cliente / Referencia</th>
-            <th>Apertura</th>
-            <th>Último Pedido / Cierre</th>
+            <th>Mesa / Referencia</th>
+            <th>Mesero / Atendedor</th>
+            <th>Hora Inicio</th>
+            <th>Hora Cierre</th>
             <th>Método de Pago</th>
-            <th style="text-align: right;">Total Facturado</th>
+            <th style="text-align: right;">Total Cobrado</th>
             <th style="text-align: center;">Acciones</th>
           </tr>
         </thead>
@@ -1309,31 +1341,37 @@ h1, h2, h3, h4, .font-headline {
     </div>
   </section>
 
-  <!-- TAB 6: GESTIÓN DE TURNOS -->
+  <!-- TAB 5: GESTIÓN DE TURNOS -->
   <section id="view-shift" style="display: none;">
     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-md);">
       <div>
-        <h2 style="font-size: var(--headline-size); color: var(--on-surface);">Control y Cierre de Jornada</h2>
-        <p style="margin: 0; font-size: 0.85rem; color: var(--on-surface-variant);">Arqueo de caja, verificación de recaudos e histórico de turnos.</p>
+        <h2 style="font-size: var(--headline-size); color: var(--brand-coffee);">Control y Cierre de Jornada</h2>
+        <p style="margin: 0; font-size: 0.85rem; color: var(--on-surface-variant);">
+          Arqueo de caja, balance financiero, métricas de atendedores y reportes.
+        </p>
       </div>
-      <div style="display: flex; gap: var(--space-sm);">
+      <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap;">
+        <button type="button" class="btn btn-danger btn-sm" onclick="openResetTurnModal()">
+          <i data-lucide="rotate-ccw"></i>
+          <span>Reiniciar Turno</span>
+        </button>
         <button type="button" class="btn btn-primary btn-sm" id="btn-open-new-shift" onclick="openStartShiftModal()" style="display: none;">
           <i data-lucide="play"></i>
           <span>Abrir Nuevo Turno</span>
         </button>
-        <button type="button" class="btn btn-danger btn-sm" id="btn-close-current-shift" onclick="openCloseShiftModal()">
+        <button type="button" class="btn btn-coffee btn-sm" id="btn-close-current-shift" onclick="openCloseShiftModal()">
           <i data-lucide="lock"></i>
           <span>Cerrar Turno Actual</span>
         </button>
       </div>
     </div>
 
-    <!-- Summary Metrics -->
+    <!-- Current Shift Stats -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: var(--space-md); margin-bottom: var(--space-lg);">
       <div class="card" style="border-left: 4px solid var(--primary);">
         <span class="font-label" style="color: var(--on-surface-variant);">Ventas Totales</span>
-        <div style="font-family: var(--font-headline); font-size: 1.8rem; color: var(--on-surface); margin-top: 0.25rem;" id="shift-stat-total">$0</div>
-        <span style="font-size: 0.78rem; color: var(--on-surface-variant);" id="shift-stat-orders-count">0 pedidos facturados</span>
+        <div style="font-family: var(--font-headline); font-size: 1.8rem; color: var(--brand-coffee); margin-top: 0.25rem;" id="shift-stat-total">$0</div>
+        <span style="font-size: 0.78rem; color: var(--on-surface-variant);" id="shift-stat-orders-count">0 pedidos cobrados</span>
       </div>
       <div class="card" style="border-left: 4px solid var(--secondary);">
         <span class="font-label" style="color: var(--on-surface-variant);">Total Recaudado</span>
@@ -1345,27 +1383,29 @@ h1, h2, h3, h4, .font-headline {
         <div style="font-family: var(--font-headline); font-size: 1.8rem; color: var(--error); margin-top: 0.25rem;" id="shift-stat-pending">$0</div>
         <span style="font-size: 0.78rem; color: var(--on-surface-variant);" id="shift-stat-pending-orders">En comandas activas</span>
       </div>
-      <div class="card" style="border-left: 4px solid var(--primary-dark);">
+      <div class="card" style="border-left: 4px solid var(--brand-coffee);">
         <span class="font-label" style="color: var(--on-surface-variant);">Base Inicial en Caja</span>
-        <div style="font-family: var(--font-headline); font-size: 1.8rem; color: var(--on-surface); margin-top: 0.25rem;" id="shift-stat-base">$50.000</div>
+        <div style="font-family: var(--font-headline); font-size: 1.8rem; color: var(--brand-coffee); margin-top: 0.25rem;" id="shift-stat-base">$50.000</div>
         <span style="font-size: 0.78rem; color: var(--on-surface-variant);" id="shift-stat-cashier">Cajero: Mateo Restrepo</span>
       </div>
     </div>
 
     <!-- Shift History Table -->
     <div class="card">
-      <h3 style="font-size: 1.15rem; color: var(--on-surface); margin-bottom: var(--space-md);">Historial de Turnos y Cierres Anteriores</h3>
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-md); flex-wrap: wrap; gap: var(--space-sm);">
+        <h3 style="font-size: 1.15rem; color: var(--brand-coffee);">Historial de Turnos Archivados</h3>
+        <span class="badge badge-coffee" id="history-count-badge">0 turnos guardados</span>
+      </div>
       <div class="table-container">
         <table class="consolidated-table">
           <thead>
             <tr>
               <th>Turno N°</th>
               <th>Fecha y Horario</th>
-              <th>Responsable</th>
+              <th>Cajero / Turno</th>
               <th>Pedidos</th>
               <th>Unidades</th>
               <th>Venta Total</th>
-              <th>Diferencia Caja</th>
               <th style="text-align: center;">Reporte</th>
             </tr>
           </thead>
@@ -1376,19 +1416,22 @@ h1, h2, h3, h4, .font-headline {
       </div>
     </div>
   </section>
-</div>
 
-<!-- MODAL: CREAR / EDITAR COMANDA -->
+</div> <!-- End page-grid -->
+
+<!-- ========================================================================= -->
+<!-- MODAL: CREAR / EDITAR COMANDA (CON CAMPO MESERO / ATENDEDOR)               -->
+<!-- ========================================================================= -->
 <div class="modal-backdrop" id="order-modal">
   <div class="modal-card">
     <div class="modal-header">
       <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <div style="width: 38px; height: 38px; border-radius: var(--rounded-full); background: var(--primary); display: flex; align-items: center; justify-content: center; color: #ffffff;">
+        <div style="width: 36px; height: 36px; border-radius: var(--rounded-full); background: var(--primary); display: flex; align-items: center; justify-content: center; color: var(--brand-coffee);">
           <i data-lucide="clipboard-pen" style="width: 20px; height: 20px;"></i>
         </div>
         <div>
-          <h3 style="font-size: 1.25rem; color: var(--on-surface);" id="modal-order-title">Comanda #1</h3>
-          <span class="badge badge-mango" id="modal-order-timestamp">Apertura: --:--:--</span>
+          <h3 style="font-size: 1.2rem; color: var(--brand-coffee);" id="modal-order-title">Comanda #1</h3>
+          <span class="badge badge-coffee" id="modal-order-timestamp">Iniciado: --:--</span>
         </div>
       </div>
       <button type="button" class="btn btn-ghost btn-circle" onclick="closeOrderModal()" title="Cerrar ventana">
@@ -1397,11 +1440,11 @@ h1, h2, h3, h4, .font-headline {
     </div>
 
     <div class="modal-body">
-      <!-- Client Reference Input -->
+      <!-- 1. Campo de Referencia de Mesa o Cliente -->
       <div class="form-group">
         <label class="form-label" for="order-ref-input">Referencia de Mesa o Cliente</label>
-        <input type="text" id="order-ref-input" class="form-input" placeholder="Ej. Mesa 4, Julián, Gorra amarilla, Terraza...">
-        <div class="chip-group" style="margin-top: 0.35rem;">
+        <input type="text" id="order-ref-input" class="form-input" placeholder="Ej. Mesa 4, Julián, El de gorra amarilla...">
+        <div class="chip-group" style="margin-top: 0.4rem;">
           <button type="button" class="chip" onclick="setRefPreset('Mesa 1')">Mesa 1</button>
           <button type="button" class="chip" onclick="setRefPreset('Mesa 2')">Mesa 2</button>
           <button type="button" class="chip" onclick="setRefPreset('Mesa 3')">Mesa 3</button>
@@ -1413,19 +1456,35 @@ h1, h2, h3, h4, .font-headline {
         </div>
       </div>
 
-      <!-- Live Timestamp of Last Added Product -->
-      <div style="background: var(--surface-container); padding: 0.5rem 0.85rem; border-radius: var(--rounded-full); font-size: 0.85rem; color: var(--on-surface); display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--outline-variant);">
-        <span style="display: flex; align-items: center; gap: 0.4rem;">
-          <i data-lucide="clock" style="width: 15px; height: 15px; color: var(--primary-dark);"></i>
-          <span>Hora del último producto agregado:</span>
-        </span>
-        <strong id="modal-last-product-time" style="font-family: var(--font-headline); color: var(--on-surface);">--:--:--</strong>
+      <!-- 2. NUEVO CAMPO: Mesero o Atendedor en el registro de pedidos -->
+      <div class="form-group">
+        <label class="form-label" for="order-waiter-input">
+          <i data-lucide="user-check" style="width: 14px; height: 14px; vertical-align: middle; color: var(--secondary-dark); margin-right: 0.25rem;"></i>
+          Mesero o Atendedor Responsable
+        </label>
+        <input type="text" id="order-waiter-input" class="form-input" placeholder="Nombre de quien atiende (ej. Carlos, Laura, Mateo...)">
+        <div class="chip-group" style="margin-top: 0.4rem;">
+          <button type="button" class="chip" onclick="setWaiterPreset('Mateo')">Mateo</button>
+          <button type="button" class="chip" onclick="setWaiterPreset('Laura')">Laura</button>
+          <button type="button" class="chip" onclick="setWaiterPreset('Carlos')">Carlos</button>
+          <button type="button" class="chip" onclick="setWaiterPreset('Sofía')">Sofía</button>
+          <button type="button" class="chip" onclick="setWaiterPreset('Barra Directa')">Barra Directa</button>
+        </div>
       </div>
 
-      <!-- Order Rondas Section -->
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.4rem;">
-        <h4 style="font-family: var(--font-headline); font-size: 1.15rem; color: var(--on-surface); margin: 0;">
-          Rondas de Pedidos
+      <!-- Real-Time Tracker of Last Added/Modified Product -->
+      <div style="background: var(--surface-container); padding: 0.5rem 0.85rem; border-radius: var(--rounded-full); font-size: 0.82rem; color: var(--brand-coffee); display: flex; align-items: center; justify-content: space-between;">
+        <span style="display: flex; align-items: center; gap: 0.4rem;">
+          <i data-lucide="clock" style="width: 15px; height: 15px; color: var(--tertiary);"></i>
+          <span>Último producto añadido/modificado:</span>
+        </span>
+        <strong id="modal-last-product-time">Sin productos</strong>
+      </div>
+
+      <!-- Order Rondas Container -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.5rem;">
+        <h4 style="font-family: var(--font-headline); font-size: 1.1rem; color: var(--brand-coffee); margin: 0;">
+          Rondas de la Mesa
         </h4>
         <button type="button" class="btn btn-secondary btn-sm" onclick="addNewRoundToCurrentOrder()">
           <i data-lucide="plus"></i>
@@ -1433,55 +1492,64 @@ h1, h2, h3, h4, .font-headline {
         </button>
       </div>
 
-      <!-- Rondas List Container -->
       <div id="modal-rondas-container" style="display: flex; flex-direction: column; gap: var(--space-md);">
-        <!-- Rendered dynamically -->
+        <!-- Rendered dynamically via JavaScript -->
       </div>
 
-      <!-- Quick Product Adder Form -->
+      <!-- Quick Product Adder Card -->
       <div class="card" style="background: var(--surface-container-high); border: 2px dashed var(--outline);">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-          <span class="font-label" style="color: var(--on-surface);">Agregar Producto a Ronda</span>
-          <span class="badge badge-lime" id="modal-active-round-label">Destino: Ronda 1</span>
+          <span class="font-label" style="color: var(--brand-coffee);">Agregar Producto a Ronda Activa</span>
+          <span style="font-size: 0.78rem; font-weight: 600;" id="modal-active-round-label">Ronda 1</span>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm);">
-          <div class="form-group">
-            <label class="form-label" for="add-beverage-select">Producto / Bebida</label>
-            <select id="add-beverage-select" class="form-select" onchange="onBeverageSelectChange()">
-              <option value="aguila">Águila Light</option>
-              <option value="poker">Poker</option>
-              <option value="club">Club Colombia</option>
-              <option value="corona">Corona Extra</option>
-              <option value="stella">Stella Artois</option>
-              <option value="smirnoff">Smirnoff Ice ⭐</option>
-              <option value="bretana">Soda Bretaña</option>
-              <option value="canada">Canada Dry Ginger</option>
-              <option value="granizados">🍧 Granizados Tropicales (Protegido)</option>
-              <option value="extra_mango">Extra Mango Biche Picado</option>
-              <option value="extra_salsas">Salsas Chamoy & Tajín</option>
-              <option value="extra_gomitas">Gomitas Cítricas</option>
+          <div>
+            <label class="form-label" for="add-beverage-select">Bebida o Granizado</label>
+            <select id="add-beverage-select" class="form-select" onchange="updateAddPricePreview()">
+              <optgroup label="Cervezas">
+                <option value="aguila">Águila Light</option>
+                <option value="club">Club Colombia</option>
+                <option value="poker">Poker</option>
+                <option value="corona">Corona Extra</option>
+                <option value="stella">Stella Artois</option>
+              </optgroup>
+              <optgroup label="Gaseosas & Sodas">
+                <option value="bretana">Soda Bretaña</option>
+                <option value="canada">Canada Dry Ginger</option>
+              </optgroup>
+              <optgroup label="Granizados Especiales (Protegidos)">
+                <option value="granizado_mango">Granizado Mango Biche Tradicional 🥭🍧</option>
+                <option value="granizado_chamoy">Granizado Mango Chamoy & Tajín 🔥🍧</option>
+              </optgroup>
+              <optgroup label="Adicionales & Toppings">
+                <option value="extra_mango">Extra Mango Biche Picado</option>
+                <option value="extra_salsas">Salsas Chamoy & Tajín</option>
+                <option value="extra_gomitas">Gomitas Cítricas</option>
+              </optgroup>
             </select>
           </div>
 
-          <div class="form-group">
-            <label class="form-label" for="add-style-select">Presentación / Estilo</label>
+          <div>
+            <label class="form-label" for="add-style-select">Presentación</label>
             <select id="add-style-select" class="form-select" onchange="updateAddPricePreview()">
               <option value="mangochelada">🥭 Mangochelada</option>
               <option value="michelada">🍋 Michelada</option>
-              <option value="botella">🍾 Botella</option>
+              <option value="botella">🍾 Botella / Vaso Personal</option>
+              <option value="copa_litro">🍧 Copa Litro Familiar</option>
+              <option value="adicional">⭐ Topping / Extra</option>
             </select>
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.75rem; flex-wrap: wrap; gap: var(--space-sm);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.75rem;">
           <div>
-            <span style="font-size: 0.8rem; color: var(--on-surface-variant);">Tarifa activa: <strong id="modal-tariff-applied-label">Normal</strong></span>
-            <div style="font-family: var(--font-headline); font-size: 1.25rem; color: var(--on-surface);" id="add-item-price-preview">$14.000</div>
+            <span style="font-size: 0.8rem; color: var(--on-surface-variant);">Precio unitario (<span id="modal-tariff-label">Tarifa Normal</span>):</span>
+            <strong style="font-size: 1.15rem; color: var(--brand-coffee); margin-left: 0.35rem;" id="add-item-price-preview">$12.000</strong>
           </div>
-          <button type="button" class="btn btn-primary" onclick="addItemToActiveRound()">
+          <button type="button" class="btn btn-primary btn-sm" onclick="addItemToActiveRound()">
             <i data-lucide="plus-circle"></i>
-            <span>Agregar a la Comanda</span>
+            <span>Agregar a la Ronda</span>
           </button>
         </div>
       </div>
@@ -1489,39 +1557,36 @@ h1, h2, h3, h4, .font-headline {
       <!-- Payment Control Section -->
       <div class="card" style="border: 2px solid var(--outline-variant);">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-          <span class="font-label" style="color: var(--on-surface);">Control y Estado de Pago</span>
-          <div style="font-family: var(--font-headline); font-size: 1.4rem; color: var(--on-surface);" id="modal-order-total">$0</div>
+          <span class="font-label" style="color: var(--brand-coffee);">Control de Cobro y Pago</span>
+          <div style="font-family: var(--font-headline); font-size: 1.4rem; color: var(--brand-coffee);" id="modal-order-total">$0</div>
         </div>
 
-        <!-- Status Buttons -->
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.4rem; margin-bottom: 0.75rem;">
           <button type="button" class="btn btn-sm" id="btn-pay-status-pending" onclick="setPaymentStatus('pending')">
-            🔴 Pendiente
+            Pendiente
           </button>
           <button type="button" class="btn btn-sm" id="btn-pay-status-partial" onclick="setPaymentStatus('partial')">
-            🟡 Abono Parcial
+            Abono Parcial
           </button>
           <button type="button" class="btn btn-sm" id="btn-pay-status-paid" onclick="setPaymentStatus('paid')">
-            🟢 Pagado Total
+            Pagado Total
           </button>
         </div>
 
-        <!-- Partial payment row -->
         <div id="partial-pay-controls" style="display: none; background: #fef3c7; padding: 0.65rem; border-radius: var(--rounded); margin-bottom: 0.75rem;">
           <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm);">
             <label class="form-label" for="partial-amount-input" style="margin: 0;">Monto Abonado ($):</label>
             <input type="number" id="partial-amount-input" class="form-input" style="width: 140px; padding: 0.35rem 0.65rem;" value="0" oninput="updatePartialPaymentCalculations()">
           </div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-top: 0.4rem; color: var(--on-surface);">
-            <span>Saldo Pendiente por Cobrar:</span>
-            <strong id="partial-balance-due" style="color: var(--error); font-size: 1rem;">$0</strong>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-top: 0.4rem; color: var(--brand-coffee);">
+            <span>Saldo Pendiente:</span>
+            <strong id="partial-balance-due" style="color: var(--error);">$0</strong>
           </div>
         </div>
 
-        <!-- Payment Method -->
         <div id="payment-method-row" style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm);">
           <label class="form-label" for="order-payment-method" style="margin: 0;">Método de Pago:</label>
-          <select id="order-payment-method" class="form-select" style="width: 190px; padding: 0.4rem 0.85rem; font-size: 0.88rem;">
+          <select id="order-payment-method" class="form-select" style="width: 190px; padding: 0.4rem 0.85rem; font-size: 0.85rem;">
             <option value="Efectivo">Efectivo 💵</option>
             <option value="Nequi">Nequi 📱</option>
             <option value="Daviplata">Daviplata 📱</option>
@@ -1535,13 +1600,13 @@ h1, h2, h3, h4, .font-headline {
     <div class="modal-footer">
       <button type="button" class="btn btn-danger btn-sm" onclick="deleteCurrentOrderPrompt()">
         <i data-lucide="trash-2"></i>
-        <span>Eliminar Comanda</span>
+        <span>Eliminar</span>
       </button>
       <button type="button" class="btn btn-secondary btn-sm" onclick="exportCurrentOrderToWhatsApp()">
         <i data-lucide="share-2"></i>
         <span>WhatsApp</span>
       </button>
-      <button type="button" class="btn btn-primary btn-sm" onclick="downloadCurrentOrderPdf()">
+      <button type="button" class="btn btn-coffee btn-sm" onclick="downloadCurrentOrderPdf()">
         <i data-lucide="file-text"></i>
         <span>Ticket PDF</span>
       </button>
@@ -1556,7 +1621,78 @@ h1, h2, h3, h4, .font-headline {
   </div>
 </div>
 
-<!-- MODAL: EXPORTAR A WHATSAPP -->
+<!-- ========================================================================= -->
+<!-- MODAL: REINICIAR TODO / BORRAR TURNO CON CONFIRMACIÓN SEGURA               -->
+<!-- ========================================================================= -->
+<div class="modal-backdrop" id="reset-turn-modal">
+  <div class="modal-card modal-danger" style="max-width: 520px;">
+    <div class="modal-header danger-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <div style="width: 38px; height: 38px; border-radius: var(--rounded-full); background: var(--error); display: flex; align-items: center; justify-content: center; color: #ffffff;">
+          <i data-lucide="alert-triangle" style="width: 22px; height: 22px;"></i>
+        </div>
+        <div>
+          <h3 style="font-size: 1.25rem; color: #991b1b;">¿Reiniciar Todo el Turno?</h3>
+          <span style="font-size: 0.78rem; color: #7f1d1d; font-weight: 600;">Confirmación de seguridad anti-borrado accidental</span>
+        </div>
+      </div>
+      <button type="button" class="btn btn-ghost btn-circle" onclick="closeResetTurnModal()">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div style="background: #fee2e2; border: 1px solid #fca5a5; padding: var(--space-md); border-radius: var(--rounded); color: #991b1b; font-size: 0.9rem;">
+        <p style="margin: 0 0 0.5rem 0; font-weight: 700;">
+          ⚠️ Esta acción borrará todas las comandas activas, pedidos cobrados del turno actual y pondrá los contadores de barra en cero.
+        </p>
+        <p style="margin: 0; font-size: 0.85rem;">
+          Usa esta opción al comenzar una nueva jornada laboral o cuando desees dejar el comandero completamente en blanco.
+        </p>
+      </div>
+
+      <!-- Protección de Granizados y Recetas -->
+      <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: var(--space-md); border-radius: var(--rounded); color: #065f46; font-size: 0.86rem; display: flex; gap: 0.5rem; align-items: flex-start;">
+        <i data-lucide="shield-check" style="width: 22px; height: 22px; color: var(--positive); flex-shrink: 0; margin-top: 0.1rem;"></i>
+        <div>
+          <strong>Protección permanente activa:</strong>
+          <br>
+          El catálogo de bebidas, los <strong>Granizados</strong> (recetas y presentaciones), las tarifas normales y de eventos están blindados y <strong>NO se borrarán</strong>.
+        </div>
+      </div>
+
+      <!-- Checkbox opción de guardar copia en historial -->
+      <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0;">
+        <input type="checkbox" id="reset-archive-checkbox" checked style="width: 18px; height: 18px; accent-color: var(--primary);">
+        <label for="reset-archive-checkbox" style="font-size: 0.88rem; font-weight: 600; color: var(--brand-coffee); cursor: pointer;">
+          Archivar este turno en el historial antes de borrar (Recomendado)
+        </label>
+      </div>
+
+      <!-- Confirmación por palabra de seguridad -->
+      <div class="form-group">
+        <label class="form-label" for="reset-confirm-word-input" style="color: #991b1b;">
+          Escribe la palabra <strong>BORRAR</strong> para habilitar el reinicio:
+        </label>
+        <input type="text" id="reset-confirm-word-input" class="form-input" placeholder="Escribe BORRAR aquí..." oninput="checkResetWordConfirmation()" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-ghost" onclick="closeResetTurnModal()">
+        Cancelar
+      </button>
+      <button type="button" class="btn btn-danger-solid" id="btn-confirm-reset-turn" onclick="executeResetTurn()" disabled style="opacity: 0.5; cursor: not-allowed;">
+        <i data-lucide="trash-2"></i>
+        <span>Sí, Reiniciar Turno Completo</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- MODAL: EXPORTAR A WHATSAPP                                                -->
+<!-- ========================================================================= -->
 <div class="modal-backdrop" id="whatsapp-modal">
   <div class="modal-card" style="max-width: 520px;">
     <div class="modal-header">
@@ -1564,23 +1700,23 @@ h1, h2, h3, h4, .font-headline {
         <div style="width: 36px; height: 36px; border-radius: var(--rounded-full); background: #25d366; display: flex; align-items: center; justify-content: center; color: #ffffff;">
           <i data-lucide="message-circle" style="width: 22px; height: 22px;"></i>
         </div>
-        <h3 style="font-size: 1.2rem; color: var(--on-surface);">Compartir en WhatsApp</h3>
+        <h3 style="font-size: 1.2rem; color: var(--brand-coffee);">Compartir en WhatsApp</h3>
       </div>
       <button type="button" class="btn btn-ghost btn-circle" onclick="closeWhatsAppModal()">
         <i data-lucide="x"></i>
       </button>
     </div>
     <div class="modal-body">
-      <p style="font-size: 0.88rem; color: var(--on-surface-variant); margin: 0;">
-        Mensaje formateado con horas de pedidos, detalle de rondas y resumen financiero listo para enviar al grupo o cliente:
+      <p style="font-size: 0.86rem; color: var(--on-surface-variant); margin: 0;">
+        Mensaje listo con trazabilidad de hora, detalle de bebidas, atendedor y totales:
       </p>
-      <textarea id="whatsapp-message-preview" class="form-input" style="height: 250px; font-family: monospace; font-size: 0.84rem; border-radius: var(--rounded); line-height: 1.4; resize: none;" readonly></textarea>
+      <textarea id="whatsapp-message-preview" class="form-input" style="height: 250px; font-family: monospace; font-size: 0.82rem; border-radius: var(--rounded); line-height: 1.45; resize: none;" readonly></textarea>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-ghost" onclick="closeWhatsAppModal()">Cerrar</button>
       <button type="button" class="btn btn-secondary" onclick="shareViaNavigator()">
         <i data-lucide="share"></i>
-        <span>Compartir Directo</span>
+        <span>Compartir</span>
       </button>
       <button type="button" class="btn btn-primary" id="btn-copy-wa" onclick="copyWhatsAppText()">
         <i data-lucide="copy"></i>
@@ -1590,7 +1726,9 @@ h1, h2, h3, h4, .font-headline {
   </div>
 </div>
 
-<!-- MODAL: CIERRE DE TURNO / ARQUEO -->
+<!-- ========================================================================= -->
+<!-- MODAL: CIERRE DE TURNO / ARQUEO                                           -->
+<!-- ========================================================================= -->
 <div class="modal-backdrop" id="close-shift-modal">
   <div class="modal-card" style="max-width: 560px;">
     <div class="modal-header">
@@ -1598,46 +1736,48 @@ h1, h2, h3, h4, .font-headline {
         <div style="width: 36px; height: 36px; border-radius: var(--rounded-full); background: var(--error); display: flex; align-items: center; justify-content: center; color: #ffffff;">
           <i data-lucide="lock" style="width: 20px; height: 20px;"></i>
         </div>
-        <h3 style="font-size: 1.2rem; color: var(--on-surface);">Arqueo y Cierre de Turno</h3>
+        <h3 style="font-size: 1.2rem; color: var(--brand-coffee);">Arqueo y Cierre de Turno</h3>
       </div>
       <button type="button" class="btn btn-ghost btn-circle" onclick="closeCloseShiftModal()">
         <i data-lucide="x"></i>
       </button>
     </div>
+
     <div class="modal-body">
-      <div style="background: var(--surface-container); padding: var(--space-md); border-radius: var(--rounded); display: flex; flex-direction: column; gap: 0.5rem; border: 1px solid var(--outline-variant);">
+      <div style="background: var(--surface-container); padding: var(--space-md); border-radius: var(--rounded); display: flex; flex-direction: column; gap: 0.5rem;">
         <div style="display: flex; justify-content: space-between;">
           <span style="color: var(--on-surface-variant);">Base Inicial en Caja:</span>
           <strong id="close-shift-base">$50.000</strong>
         </div>
         <div style="display: flex; justify-content: space-between;">
-          <span style="color: var(--on-surface-variant);">Ventas Recaudadas en Efectivo:</span>
+          <span style="color: var(--on-surface-variant);">Ventas en Efectivo:</span>
           <strong id="close-shift-cash-sales">$0</strong>
         </div>
         <div style="display: flex; justify-content: space-between; border-top: 1px dashed var(--outline-variant); padding-top: 0.4rem;">
-          <span style="font-weight: 700; color: var(--on-surface);">Efectivo Total Esperado en Caja:</span>
-          <strong id="close-shift-expected-cash" style="font-size: 1.2rem; color: var(--on-surface);">$50.000</strong>
+          <span style="font-weight: 700; color: var(--brand-coffee);">Efectivo Total Esperado:</span>
+          <strong id="close-shift-expected-cash" style="font-size: 1.15rem; color: var(--brand-coffee);">$50.000</strong>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="real-cash-input">Efectivo Real Contado en Físico ($ COP)</label>
-        <input type="number" id="real-cash-input" class="form-input" placeholder="Ingresa el monto contado..." oninput="calculateCashDiscrepancy()">
+        <label class="form-label" for="real-cash-input">Efectivo Físico Contado en Caja ($)</label>
+        <input type="number" id="real-cash-input" class="form-input" placeholder="Ingresa el dinero contado..." oninput="calculateCashDiscrepancy()">
       </div>
 
-      <div id="cash-discrepancy-box" style="padding: 0.65rem; border-radius: var(--rounded-full); text-align: center; font-weight: 700; font-size: 0.92rem; background: var(--surface-container); color: var(--on-surface);">
+      <div id="cash-discrepancy-box" style="padding: 0.65rem; border-radius: var(--rounded-full); text-align: center; font-weight: 700; font-size: 0.92rem; background: var(--surface-container); color: var(--brand-coffee);">
         Ingresa el conteo para cuadrar caja
       </div>
 
       <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--on-surface-variant); padding: 0 0.5rem;">
-        <span>Ventas Digitales (Nequi / Tarjeta):</span>
+        <span>Ventas Digitales (Nequi / Daviplata / Tarjeta):</span>
         <strong id="close-shift-digital-sales">$0</strong>
       </div>
       <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--on-surface-variant); padding: 0 0.5rem;">
-        <span>Total Facturado de la Jornada:</span>
-        <strong id="close-shift-grand-total" style="color: var(--on-surface); font-size: 1.05rem;">$0</strong>
+        <span>Total Facturado del Turno:</span>
+        <strong id="close-shift-grand-total" style="color: var(--brand-coffee);">$0</strong>
       </div>
     </div>
+
     <div class="modal-footer">
       <button type="button" class="btn btn-ghost" onclick="closeCloseShiftModal()">Cancelar</button>
       <button type="button" class="btn btn-danger" onclick="confirmShiftClosure()">
@@ -1648,15 +1788,17 @@ h1, h2, h3, h4, .font-headline {
   </div>
 </div>
 
-<!-- MODAL: APERTURA DE NUEVO TURNO -->
+<!-- ========================================================================= -->
+<!-- MODAL: APERTURA DE NUEVO TURNO                                            -->
+<!-- ========================================================================= -->
 <div class="modal-backdrop" id="open-shift-modal">
   <div class="modal-card" style="max-width: 480px;">
     <div class="modal-header">
       <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <div style="width: 36px; height: 36px; border-radius: var(--rounded-full); background: var(--secondary); display: flex; align-items: center; justify-content: center; color: #ffffff;">
+        <div style="width: 36px; height: 36px; border-radius: var(--rounded-full); background: var(--secondary); display: flex; align-items: center; justify-content: center; color: var(--brand-coffee);">
           <i data-lucide="play" style="width: 20px; height: 20px;"></i>
         </div>
-        <h3 style="font-size: 1.2rem; color: var(--on-surface);">Apertura de Nuevo Turno</h3>
+        <h3 style="font-size: 1.2rem; color: var(--brand-coffee);">Apertura de Nuevo Turno</h3>
       </div>
       <button type="button" class="btn btn-ghost btn-circle" onclick="closeStartShiftModal()">
         <i data-lucide="x"></i>
@@ -1664,7 +1806,7 @@ h1, h2, h3, h4, .font-headline {
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label class="form-label" for="new-shift-cashier">Responsable / Cajero</label>
+        <label class="form-label" for="new-shift-cashier">Cajero / Responsable</label>
         <input type="text" id="new-shift-cashier" class="form-input" placeholder="Ej. Mateo Restrepo, Laura G...">
       </div>
       <div class="form-group">
@@ -1673,7 +1815,7 @@ h1, h2, h3, h4, .font-headline {
       </div>
       <div class="form-group">
         <label class="form-label" for="new-shift-notes">Notas u Observaciones del Turno</label>
-        <input type="text" id="new-shift-notes" class="form-input" placeholder="Ej. Turno noche fin de semana, Festival...">
+        <input type="text" id="new-shift-notes" class="form-input" placeholder="Ej. Turno Noche, Festival de Mangocheladas...">
       </div>
     </div>
     <div class="modal-footer">
@@ -1686,137 +1828,139 @@ h1, h2, h3, h4, .font-headline {
   </div>
 </div>
 
-<!-- REQUIRED STATE PERSISTENCE SHIM TAG -->
+<!-- REQUIRED GEMINI NOTEBOOK SHIM FOR REAL PERSISTENCE -->
 <api-shim></api-shim>
 
-<!-- JAVASCRIPT APPLICATION LOGIC -->
+<!-- ========================================================================= -->
+<!-- JAVASCRIPT APPLICATION LOGIC                                              -->
+<!-- ========================================================================= -->
 <script>
-// --- OFFICIAL CATALOG WITH NORMAL & EVENT TARIFFS (COP) ---
-const PRODUCTS = [
+// --- PRODUCT CATALOG: BEVERAGES, GRANIZADOS & TOPPINGS ---
+// Includes Normal Prices (Bar/Local) and Event Prices (Festivals/Events)
+const BEVERAGES = [
   {
     id: 'aguila',
     name: 'Águila Light',
-    category: 'Cerveza Nacional',
-    isProtected: false,
+    type: 'cerveza',
     prices: {
-      normal: { mangochelada: 14000, michelada: 10000, botella: 5000 },
-      event:  { mangochelada: 15000, michelada: 12000, botella: 7000 }
-    }
-  },
-  {
-    id: 'poker',
-    name: 'Poker',
-    category: 'Cerveza Nacional',
-    isProtected: false,
-    prices: {
-      normal: { mangochelada: 14000, michelada: 10000, botella: 5000 },
-      event:  { mangochelada: 15000, michelada: 12000, botella: 7000 }
+      normal: { mangochelada: 12000, michelada: 10000, botella: 7000 },
+      evento: { mangochelada: 14000, michelada: 12000, botella: 9000 }
     }
   },
   {
     id: 'club',
     name: 'Club Colombia',
-    category: 'Cerveza Premium',
-    isProtected: false,
+    type: 'cerveza',
     prices: {
-      normal: { mangochelada: 14000, michelada: 10000, botella: 5000 },
-      event:  { mangochelada: 15000, michelada: 12000, botella: 7000 }
+      normal: { mangochelada: 13000, michelada: 11000, botella: 8000 },
+      evento: { mangochelada: 15000, michelada: 13000, botella: 10000 }
+    }
+  },
+  {
+    id: 'poker',
+    name: 'Poker',
+    type: 'cerveza',
+    prices: {
+      normal: { mangochelada: 12000, michelada: 10000, botella: 7000 },
+      evento: { mangochelada: 14000, michelada: 12000, botella: 9000 }
     }
   },
   {
     id: 'corona',
     name: 'Corona Extra',
-    category: 'Cerveza Importada',
-    isProtected: false,
+    type: 'cerveza',
     prices: {
-      normal: { mangochelada: 15000, michelada: 12000, botella: 7000 },
-      event:  { mangochelada: 15000, michelada: 14000, botella: 9000 }
+      normal: { mangochelada: 15000, michelada: 13000, botella: 10000 },
+      evento: { mangochelada: 18000, michelada: 15000, botella: 12000 }
     }
   },
   {
     id: 'stella',
     name: 'Stella Artois',
-    category: 'Cerveza Importada',
-    isProtected: false,
+    type: 'cerveza',
     prices: {
-      normal: { mangochelada: 15000, michelada: 12000, botella: 7000 },
-      event:  { mangochelada: 18000, michelada: 14000, botella: 9000 }
-    }
-  },
-  {
-    id: 'smirnoff',
-    name: 'Smirnoff Ice',
-    category: 'Licores / RTD',
-    isProtected: false,
-    prices: {
-      normal: { mangochelada: 20000, michelada: 14000, botella: 10000 },
-      event:  { mangochelada: 25000, michelada: 15000, botella: 12000 }
+      normal: { mangochelada: 15000, michelada: 13000, botella: 10000 },
+      evento: { mangochelada: 18000, michelada: 15000, botella: 12000 }
     }
   },
   {
     id: 'bretana',
     name: 'Soda Bretaña',
-    category: 'Gaseosas & Sodas',
-    isProtected: false,
+    type: 'soda',
     prices: {
-      normal: { mangochelada: 14000, michelada: 10000, botella: 5000 },
-      event:  { mangochelada: 15000, michelada: 12000, botella: 7000 }
+      normal: { mangochelada: 10000, michelada: 8000, botella: 5000 },
+      evento: { mangochelada: 12000, michelada: 10000, botella: 7000 }
     }
   },
   {
     id: 'canada',
     name: 'Canada Dry Ginger',
-    category: 'Gaseosas & Sodas',
-    isProtected: false,
+    type: 'soda',
     prices: {
-      normal: { mangochelada: 14000, michelada: 10000, botella: 5000 },
-      event:  { mangochelada: 15000, michelada: 12000, botella: 7000 }
-    }
-  },
-  {
-    id: 'granizados',
-    name: 'Granizados Tropicales',
-    category: 'Especialidades',
-    isProtected: true, // PROTECTED PRODUCT: CANNOT BE DELETED
-    protectionReason: 'Ítem Institucional de Alta Rotación — Protegido contra eliminación del sistema',
-    prices: {
-      normal: { con_mango: 15000, sencillo: 10000 },
-      event:  { con_mango: 15000, sencillo: 10000 }
+      normal: { mangochelada: 10000, michelada: 8000, botella: 5000 },
+      evento: { mangochelada: 12000, michelada: 10000, botella: 7000 }
     }
   }
 ];
 
+// GRANIZADOS CATALOG (Protected against deletion)
+const GRANIZADOS = [
+  {
+    id: 'granizado_mango',
+    name: 'Granizado Mango Biche Tradicional 🥭🍧',
+    shortName: 'Granizado Mango Biche',
+    isProtected: true,
+    prices: {
+      normal: { botella: 12000, mangochelada: 16000, copa_litro: 20000 },
+      evento: { botella: 14000, mangochelada: 18000, copa_litro: 24000 }
+    }
+  },
+  {
+    id: 'granizado_chamoy',
+    name: 'Granizado Mango Chamoy & Tajín 🔥🍧',
+    shortName: 'Granizado Chamoy & Tajín',
+    isProtected: true,
+    prices: {
+      normal: { botella: 13000, mangochelada: 17000, copa_litro: 22000 },
+      evento: { botella: 15000, mangochelada: 19000, copa_litro: 25000 }
+    }
+  }
+];
+
+// TOPPINGS & EXTRAS
 const EXTRAS = [
-  { id: 'extra_mango', name: 'Extra Mango Biche Picado', prices: { normal: 3000, event: 4000 } },
-  { id: 'extra_salsas', name: 'Salsas Chamoy & Tajín', prices: { normal: 2000, event: 3000 } },
-  { id: 'extra_gomitas', name: 'Gomitas Cítricas', prices: { normal: 2500, event: 3500 } }
+  { id: 'extra_mango', name: 'Extra Mango Biche Picado', price: 3000 },
+  { id: 'extra_salsas', name: 'Salsas Chamoy & Tajín', price: 2000 },
+  { id: 'extra_gomitas', name: 'Gomitas Cítricas', price: 2500 }
 ];
 
 // --- APPLICATION STATE ---
+// REQUIREMENT 1: Starts totally clean without pre-seeded active test orders.
 let appState = {
-  activeTariff: 'normal', // 'normal' | 'event'
   currentShift: {
     id: 1,
     isOpen: true,
     cashier: 'Mateo Restrepo',
-    startTime: '18:00:00',
-    startDate: '2026-11-06',
-    startTimestamp: Date.now() - (2 * 3600 * 1000 + 20 * 60 * 1000),
+    defaultWaiter: 'Carlos',
+    tariffMode: 'normal', // 'normal' | 'evento'
+    startTime: '18:00',
+    startDate: '2026-11-07',
+    startTimestamp: Date.now(),
     baseCash: 50000,
-    notes: 'Jornada Noche'
+    notes: 'Jornada Inicial'
   },
-  orders: [],
-  closedOrders: [],
-  barCounts: {}, // id: { mangochelada, michelada, botella } or { con_mango, sencillo }
+  orders: [],        // Completely clean start
+  closedOrders: [],  // Completely clean start
+  barCounts: {},     // All zero
   shiftHistory: [],
   soundEnabled: true
 };
 
 let editingOrder = null;
 let activeRoundIndex = 0;
-
-// --- AUDIO FEEDBACK (WEB AUDIO SYNTHESIZER) ---
 let audioCtx = null;
+
+// --- AUDIO FEEDBACK ---
 function playTapSound(type = 'click') {
   if (!appState.soundEnabled) return;
   try {
@@ -1834,18 +1978,18 @@ function playTapSound(type = 'click') {
 
     if (type === 'plus') {
       osc.frequency.setValueAtTime(580, now);
-      osc.frequency.exponentialRampToValueAtTime(880, now + 0.05);
-      gain.gain.setValueAtTime(0.12, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.06);
+      gain.gain.setValueAtTime(0.14, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
       osc.start(now);
-      osc.stop(now + 0.05);
+      osc.stop(now + 0.06);
     } else if (type === 'minus') {
       osc.frequency.setValueAtTime(440, now);
-      osc.frequency.exponentialRampToValueAtTime(280, now + 0.05);
-      gain.gain.setValueAtTime(0.12, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+      osc.frequency.exponentialRampToValueAtTime(280, now + 0.06);
+      gain.gain.setValueAtTime(0.14, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
       osc.start(now);
-      osc.stop(now + 0.05);
+      osc.stop(now + 0.06);
     } else {
       osc.frequency.setValueAtTime(520, now);
       gain.gain.setValueAtTime(0.1, now);
@@ -1854,11 +1998,11 @@ function playTapSound(type = 'click') {
       osc.stop(now + 0.04);
     }
   } catch (e) {
-    // Silent ignore
+    // Silent ignore if Web Audio unavailable
   }
 }
 
-// --- HELPER FORMATTERS ---
+// --- HELPER UTILITIES ---
 function formatMoney(amount) {
   return '$' + (amount || 0).toLocaleString('es-CO');
 }
@@ -1870,20 +2014,17 @@ function formatTimeNow() {
 
 function formatDateNow() {
   const d = new Date();
-  const dd = String(d.getDate()).padStart(2, '0');
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const yyyy = d.getFullYear();
-  return `${dd}/${mm}/${yyyy}`;
+  return d.toLocaleDateString('es-CO', { year: 'numeric', month: '2-digit', day: '2-digit' });
 }
 
-function getCompliantDateStamp() {
+function getFormattedDateForFilename() {
   const d = new Date();
-  const dd = String(d.getDate()).padStart(2, '0');
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const yyyy = d.getFullYear();
-  const hh = String(d.getHours()).padStart(2, '0');
-  const min = String(d.getMinutes()).padStart(2, '0');
-  return `${dd}_${mm}_${yyyy}_${hh}_${min}`;
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  const hours = String(d.getHours()).padStart(2, '0');
+  const mins = String(d.getMinutes()).padStart(2, '0');
+  return `${day}_${month}_${year}_${hours}_${mins}`;
 }
 
 function showToast(message, icon = 'check-circle') {
@@ -1902,15 +2043,90 @@ function showToast(message, icon = 'check-circle') {
   }, 2800);
 }
 
-// --- INITIALIZE COUNTERS MATRIX ---
+// Real-Time Clock Update
+function updateRealTimeClock() {
+  const clockEl = document.getElementById('live-clock-text');
+  if (clockEl) {
+    const now = new Date();
+    const days = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+    const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    const dayName = days[now.getDay()];
+    const day = String(now.getDate()).padStart(2, '0');
+    const monthName = months[now.getMonth()];
+    const year = now.getFullYear();
+    const timeStr = now.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+    clockEl.innerText = `${dayName}, ${day} ${monthName} ${year} • ${timeStr}`;
+  }
+}
+setInterval(updateRealTimeClock, 1000);
+
+// --- TARIFF MODE TOGGLE (NORMAL VS EVENTO) ---
+function toggleTariffMode() {
+  playTapSound('click');
+  const s = appState.currentShift;
+  s.tariffMode = (s.tariffMode === 'evento') ? 'normal' : 'evento';
+  updateTariffUI();
+  renderCounterView();
+  updateAddPricePreview();
+  saveState();
+  showToast(`Tarifa cambiada a: ${s.tariffMode === 'evento' ? '🎪 Tarifa Evento / Festival' : '🌴 Tarifa Normal (Local)'}`);
+}
+
+function updateTariffUI() {
+  const s = appState.currentShift;
+  const pill = document.getElementById('tariff-pill');
+  const text = document.getElementById('tariff-mode-text');
+  const modalLabel = document.getElementById('modal-tariff-label');
+  const isEvent = (s.tariffMode === 'evento');
+
+  if (pill) {
+    pill.className = `tariff-mode-pill ${isEvent ? 'event' : 'normal'}`;
+  }
+  if (text) {
+    text.innerText = isEvent ? '🎪 Tarifa Eventos' : '🌴 Tarifa Normal';
+  }
+  if (modalLabel) {
+    modalLabel.innerText = isEvent ? 'Tarifa Evento' : 'Tarifa Normal';
+  }
+}
+
+// Helper to get active price of an item given current tariff
+function getItemPrice(beverageId, style) {
+  const tariff = appState.currentShift.tariffMode || 'normal';
+
+  // Check beverages
+  const bev = BEVERAGES.find(b => b.id === beverageId);
+  if (bev) {
+    const priceTable = bev.prices[tariff] || bev.prices['normal'];
+    return priceTable[style] || priceTable['mangochelada'] || 12000;
+  }
+
+  // Check granizados
+  const gran = GRANIZADOS.find(g => g.id === beverageId);
+  if (gran) {
+    const priceTable = gran.prices[tariff] || gran.prices['normal'];
+    return priceTable[style] || priceTable['botella'] || 12000;
+  }
+
+  // Check extras
+  const ext = EXTRAS.find(e => e.id === beverageId);
+  if (ext) {
+    return ext.price;
+  }
+
+  return 12000;
+}
+
+// --- INITIALIZE COUNTERS ---
 function initBarCounts() {
-  PRODUCTS.forEach(p => {
-    if (!appState.barCounts[p.id]) {
-      if (p.id === 'granizados') {
-        appState.barCounts[p.id] = { con_mango: 0, sencillo: 0 };
-      } else {
-        appState.barCounts[p.id] = { mangochelada: 0, michelada: 0, botella: 0 };
-      }
+  BEVERAGES.forEach(b => {
+    if (!appState.barCounts[b.id]) {
+      appState.barCounts[b.id] = { mangochelada: 0, michelada: 0, botella: 0 };
+    }
+  });
+  GRANIZADOS.forEach(g => {
+    if (!appState.barCounts[g.id]) {
+      appState.barCounts[g.id] = { botella: 0, mangochelada: 0, copa_litro: 0 };
     }
   });
   if (!appState.barCounts['extras']) {
@@ -1918,185 +2134,10 @@ function initBarCounts() {
   }
 }
 
-// --- TARIFF SELECTOR HANDLER ---
-function setTariffMode(mode) {
-  playTapSound('click');
-  appState.activeTariff = mode;
-
-  const btnNormal = document.getElementById('btn-tariff-normal');
-  const btnEvent = document.getElementById('btn-tariff-event');
-  const indicator = document.getElementById('tariff-status-indicator');
-  const counterBadge = document.getElementById('counter-tariff-badge');
-
-  if (btnNormal && btnEvent) {
-    if (mode === 'normal') {
-      btnNormal.classList.add('active');
-      btnNormal.classList.remove('event-mode');
-      btnEvent.classList.remove('active', 'event-mode');
-      if (indicator) {
-        indicator.className = 'badge badge-mango';
-        indicator.innerText = '🏷️ Precios Normales';
-      }
-      if (counterBadge) counterBadge.innerText = 'Tarifa: Precios Normales';
-      showToast('Tarifa fijada: Precios Normales');
-    } else {
-      btnEvent.classList.add('active', 'event-mode');
-      btnNormal.classList.remove('active');
-      if (indicator) {
-        indicator.className = 'badge badge-lime';
-        indicator.innerText = '🎉 Precios de Eventos';
-      }
-      if (counterBadge) counterBadge.innerText = 'Tarifa: Precios de Eventos';
-      showToast('Tarifa fijada: Precios de Eventos');
-    }
-  }
-
-  // Update views that reflect pricing
-  renderCounterView();
-  renderTariffsView();
-  if (editingOrder) {
-    updateAddPricePreview();
-  }
-  saveState();
-}
-
-// --- DEFAULT SAMPLE DATA ---
-function populateSampleDataIfEmpty() {
-  if (appState.orders.length === 0 && appState.closedOrders.length === 0) {
-    appState.orders = [
-      {
-        id: 1,
-        reference: 'Mesa 4 (Julián)',
-        createdAt: '18:45:10',
-        lastModifiedAt: '19:30:22',
-        tariffMode: 'normal',
-        paymentStatus: 'pending',
-        paymentMethod: 'Nequi',
-        amountPaid: 0,
-        rondas: [
-          {
-            id: 1,
-            name: 'Ronda 1',
-            time: '18:45:10',
-            items: [
-              { beverageId: 'corona', style: 'mangochelada', name: 'Corona Extra - Mangochelada', qty: 2, price: 15000 },
-              { beverageId: 'poker', style: 'michelada', name: 'Poker - Michelada', qty: 1, price: 10000 }
-            ]
-          },
-          {
-            id: 2,
-            name: 'Ronda 2',
-            time: '19:30:22',
-            items: [
-              { beverageId: 'granizados', style: 'con_mango', name: 'Granizado Con Mango Biche', qty: 2, price: 15000 },
-              { beverageId: 'smirnoff', style: 'mangochelada', name: 'Smirnoff Ice - Mangochelada', qty: 1, price: 20000 }
-            ]
-          }
-        ]
-      },
-      {
-        id: 2,
-        reference: 'Barra 2 (Camisa Azul)',
-        createdAt: '19:10:05',
-        lastModifiedAt: '19:25:40',
-        tariffMode: 'normal',
-        paymentStatus: 'partial',
-        paymentMethod: 'Efectivo',
-        amountPaid: 20000,
-        rondas: [
-          {
-            id: 1,
-            name: 'Ronda 1',
-            time: '19:10:05',
-            items: [
-              { beverageId: 'stella', style: 'mangochelada', name: 'Stella Artois - Mangochelada', qty: 2, price: 15000 }
-            ]
-          }
-        ]
-      },
-      {
-        id: 3,
-        reference: 'Mesa 1 (Cumpleaños Laura)',
-        createdAt: '19:15:30',
-        lastModifiedAt: '19:40:15',
-        tariffMode: 'normal',
-        paymentStatus: 'paid',
-        paymentMethod: 'Daviplata',
-        amountPaid: 56000,
-        rondas: [
-          {
-            id: 1,
-            name: 'Ronda 1',
-            time: '19:15:30',
-            items: [
-              { beverageId: 'aguila', style: 'mangochelada', name: 'Águila Light - Mangochelada', qty: 4, price: 14000 }
-            ]
-          }
-        ]
-      }
-    ];
-
-    appState.closedOrders = [
-      {
-        id: 101,
-        reference: 'Mesa 3 (Terraza)',
-        createdAt: '18:10:00',
-        closedAt: '18:55:00',
-        lastModifiedAt: '18:50:00',
-        tariffMode: 'normal',
-        paymentStatus: 'paid',
-        paymentMethod: 'Efectivo',
-        amountPaid: 39000,
-        total: 39000,
-        rondas: [
-          {
-            id: 1,
-            name: 'Ronda 1',
-            time: '18:10:00',
-            items: [
-              { beverageId: 'corona', style: 'mangochelada', name: 'Corona Extra - Mangochelada', qty: 1, price: 15000 },
-              { beverageId: 'granizados', style: 'sencillo', name: 'Granizado Sencillo', qty: 1, price: 10000 },
-              { beverageId: 'bretana', style: 'mangochelada', name: 'Soda Bretaña - Mangochelada', qty: 1, price: 14000 }
-            ]
-          }
-        ]
-      }
-    ];
-
-    // Seed some bar counts
-    appState.barCounts['corona'] = { mangochelada: 4, michelada: 2, botella: 3 };
-    appState.barCounts['club'] = { mangochelada: 3, michelada: 3, botella: 2 };
-    appState.barCounts['aguila'] = { mangochelada: 5, michelada: 3, botella: 4 };
-    appState.barCounts['poker'] = { mangochelada: 4, michelada: 2, botella: 3 };
-    appState.barCounts['stella'] = { mangochelada: 2, michelada: 1, botella: 1 };
-    appState.barCounts['smirnoff'] = { mangochelada: 3, michelada: 1, botella: 2 };
-    appState.barCounts['bretana'] = { mangochelada: 2, michelada: 2, botella: 1 };
-    appState.barCounts['canada'] = { mangochelada: 2, michelada: 1, botella: 1 };
-    appState.barCounts['granizados'] = { con_mango: 6, sencillo: 4 };
-    appState.barCounts['extras'] = { total: 4 };
-
-    // Past Shift History
-    appState.shiftHistory = [
-      {
-        id: 0,
-        date: '05/11/2026',
-        hours: '17:00:00 - 23:45:00',
-        cashier: 'Mateo Restrepo',
-        ordersCount: 28,
-        unitsCount: 76,
-        totalSales: 980000,
-        cashExpected: 540000,
-        cashReal: 540000,
-        discrepancy: 0
-      }
-    ];
-  }
-}
-
 // --- NAVIGATION TABS ---
 function switchTab(tabName) {
   playTapSound('click');
-  const tabs = ['orders', 'counter', 'consolidated', 'tariffs', 'closed', 'shift'];
+  const tabs = ['orders', 'counter', 'consolidated', 'closed', 'shift'];
   tabs.forEach(t => {
     const btn = document.getElementById('tab-' + t);
     const view = document.getElementById('view-' + t);
@@ -2107,7 +2148,6 @@ function switchTab(tabName) {
   if (tabName === 'orders') renderOrders();
   if (tabName === 'counter') renderCounterView();
   if (tabName === 'consolidated') renderConsolidatedView();
-  if (tabName === 'tariffs') renderTariffsView();
   if (tabName === 'closed') renderClosedOrdersView();
   if (tabName === 'shift') renderShiftView();
   if (window.lucide) window.lucide.createIcons();
@@ -2138,40 +2178,46 @@ function renderOrders() {
 
   let filtered = appState.orders;
   if (query) {
-    filtered = filtered.filter(o => o.reference.toLowerCase().includes(query));
+    filtered = filtered.filter(o =>
+      (o.reference && o.reference.toLowerCase().includes(query)) ||
+      (o.waiter && o.waiter.toLowerCase().includes(query))
+    );
   }
 
+  // REQUIREMENT 1: Clean startup handles empty orders gracefully
   if (filtered.length === 0) {
     if (container) container.innerHTML = '';
     if (emptyState) emptyState.style.display = 'block';
     return;
   }
-  if (emptyState) emptyState.style.display = 'none';
 
+  if (emptyState) emptyState.style.display = 'none';
   let html = '';
+
   filtered.forEach(o => {
     const total = calculateOrderTotal(o);
     const amountPaid = o.amountPaid || 0;
     const balance = Math.max(0, total - amountPaid);
+    const waiterName = o.waiter || 'Sin asignar';
 
     let badgeHtml = '';
     if (o.paymentStatus === 'paid') {
-      badgeHtml = `<span class="badge badge-paid">✓ Pagado Total (${o.paymentMethod || 'Efectivo'})</span>`;
+      badgeHtml = `<span class="badge badge-paid">Pagado Total (${o.paymentMethod || 'Efectivo'})</span>`;
     } else if (o.paymentStatus === 'partial') {
-      badgeHtml = `<span class="badge badge-partial">🟡 Abono: ${formatMoney(amountPaid)} (Resta: ${formatMoney(balance)})</span>`;
+      badgeHtml = `<span class="badge badge-partial">Abonado: ${formatMoney(amountPaid)} (Resta: ${formatMoney(balance)})</span>`;
     } else {
-      badgeHtml = `<span class="badge badge-pending">🔴 Pendiente (${formatMoney(total)})</span>`;
+      badgeHtml = `<span class="badge badge-pending">Pendiente (${formatMoney(total)})</span>`;
     }
 
     let itemsHtml = '';
     o.rondas.forEach(r => {
-      itemsHtml += `<div style="font-size: 0.76rem; font-weight: 700; color: var(--primary-dark); margin-top: 0.25rem;">${r.name} (${r.time})</div>`;
+      itemsHtml += `<div style="font-size: 0.76rem; font-weight: 700; color: var(--outline); margin-top: 0.25rem;">${r.name} (${r.time})</div>`;
       if (r.items) {
         r.items.forEach(it => {
           itemsHtml += `
             <div class="order-item-row">
               <span><span class="order-item-qty">${it.qty}x</span> ${it.name}</span>
-              <span style="font-weight: 700; font-size: 0.85rem;">${formatMoney(it.price * it.qty)}</span>
+              <span style="font-weight: 600;">${formatMoney(it.price * it.qty)}</span>
             </div>
           `;
         });
@@ -2183,13 +2229,18 @@ function renderOrders() {
         <div class="order-card-header">
           <div>
             <div class="order-ref">${o.reference}</div>
-            <div class="timestamp-box" style="margin-top: 0.25rem;">
-              <i data-lucide="clock" style="width: 14px; height: 14px; color: var(--primary-dark);"></i>
+            <!-- REQUIREMENT 2: Mostrar Mesero o Atendedor en la tarjeta -->
+            <div class="order-waiter-badge" title="Mesero o Atendedor Responsable">
+              <i data-lucide="user" style="width: 12px; height: 12px;"></i>
+              <span>Atiende: <strong>${waiterName}</strong></span>
+            </div>
+            <div class="timestamp-box" style="margin-top: 0.35rem;">
+              <i data-lucide="clock" style="width: 13px; height: 13px;"></i>
               <span>Último: <strong>${o.lastModifiedAt || o.createdAt}</strong></span>
             </div>
           </div>
           <div style="text-align: right;">
-            <span class="badge badge-mango">#${o.id}</span>
+            <span class="badge badge-coffee">#${o.id}</span>
             <div style="font-size: 0.72rem; color: var(--on-surface-variant); margin-top: 0.2rem;">Inicio: ${o.createdAt}</div>
           </div>
         </div>
@@ -2206,8 +2257,8 @@ function renderOrders() {
               <div class="order-price">${formatMoney(total)}</div>
             </div>
             <div style="display: flex; gap: 0.35rem;" onclick="event.stopPropagation()">
-              <button type="button" class="btn btn-secondary btn-circle" style="width: 38px; height: 38px;" onclick="quickWhatsAppOrder(${o.id})" title="Enviar WhatsApp">
-                <i data-lucide="share-2" style="width: 17px; height: 17px;"></i>
+              <button type="button" class="btn btn-secondary btn-circle-sm" onclick="quickWhatsAppOrder(${o.id})" title="Enviar WhatsApp al Cliente o Barra">
+                <i data-lucide="share-2" style="width: 16px; height: 16px;"></i>
               </button>
               <button type="button" class="btn btn-primary btn-sm" onclick="openOrderModalById(${o.id})">
                 <i data-lucide="edit-3"></i>
@@ -2224,169 +2275,170 @@ function renderOrders() {
   if (window.lucide) window.lucide.createIcons();
 }
 
-// --- TAB 2: CONTADOR DE BARRA ---
+// --- TAB 2: CONTADOR DE BARRA (MENU PROTOTIPO) ---
 function renderCounterView() {
   const container = document.getElementById('counter-cards-container');
   if (!container) return;
-  const currentTariff = appState.activeTariff || 'normal';
-
+  const tariff = appState.currentShift.tariffMode || 'normal';
   let html = '';
 
-  PRODUCTS.forEach(p => {
-    if (p.id === 'granizados') {
-      // DEDICATED CARD FOR GRANIZADOS (PROTECTED ITEM)
-      const counts = appState.barCounts['granizados'] || { con_mango: 0, sencillo: 0 };
-      const prices = p.prices[currentTariff];
+  // 1. Render Beers and Sodas
+  BEVERAGES.forEach(b => {
+    const counts = appState.barCounts[b.id] || { mangochelada: 0, michelada: 0, botella: 0 };
+    const priceTable = b.prices[tariff] || b.prices['normal'];
+    const totalServidas = counts.mangochelada + counts.michelada + counts.botella;
 
-      html += `
-        <div class="counter-card" style="border: 2px solid var(--primary); box-shadow: var(--shadow-mango);">
-          <div class="counter-card-header" style="background: linear-gradient(90deg, #fef08a 0%, #ecfccb 100%);">
-            <div class="counter-card-title">
-              <i data-lucide="ice-cream" style="width: 22px; height: 22px; color: var(--tertiary);"></i>
-              <span>${p.name}</span>
-            </div>
-            <span class="badge badge-protected">
-              <i data-lucide="shield-check" style="width: 13px; height: 13px;"></i>
-              <span>Protegido</span>
-            </span>
+    html += `
+      <div class="counter-card">
+        <div class="counter-card-header">
+          <div class="counter-card-title">
+            <i data-lucide="beer" style="width: 22px; height: 22px; color: var(--primary-dark);"></i>
+            <span>${b.name}</span>
           </div>
-
-          <div class="counter-rows">
-            <!-- Row: Con Mango -->
-            <div class="counter-row">
-              <div class="counter-row-label">
-                <div class="counter-row-name">
-                  <span>🥭 Granizado Con Mango</span>
-                </div>
-                <span class="counter-row-price">${formatMoney(prices.con_mango)} (con mango biche picado)</span>
-              </div>
-              <div class="counter-controls">
-                <button type="button" class="btn btn-danger btn-circle" onclick="adjustBarCount('granizados', 'con_mango', -1)">
-                  <i data-lucide="minus"></i>
-                </button>
-                <span class="counter-num" id="counter-granizados-con_mango">${counts.con_mango}</span>
-                <button type="button" class="btn btn-primary btn-circle" onclick="adjustBarCount('granizados', 'con_mango', 1)">
-                  <i data-lucide="plus"></i>
-                </button>
-              </div>
+          <span class="badge badge-lime">${totalServidas} servidas</span>
+        </div>
+        <div class="counter-rows">
+          <!-- Row: MANGOCHELADA -->
+          <div class="counter-row">
+            <div class="counter-row-label">
+              <div class="counter-row-name"><span>🥭 Mangochelada</span></div>
+              <span class="counter-row-price">${formatMoney(priceTable.mangochelada)} (con mango biche picado)</span>
             </div>
-
-            <!-- Row: Sencillo -->
-            <div class="counter-row">
-              <div class="counter-row-label">
-                <div class="counter-row-name">
-                  <span>❄️ Granizado Sencillo</span>
-                </div>
-                <span class="counter-row-price">${formatMoney(prices.sencillo)} (hielo cítrico sin mango)</span>
-              </div>
-              <div class="counter-controls">
-                <button type="button" class="btn btn-danger btn-circle" onclick="adjustBarCount('granizados', 'sencillo', -1)">
-                  <i data-lucide="minus"></i>
-                </button>
-                <span class="counter-num" id="counter-granizados-sencillo">${counts.sencillo}</span>
-                <button type="button" class="btn btn-secondary btn-circle" onclick="adjustBarCount('granizados', 'sencillo', 1)">
-                  <i data-lucide="plus"></i>
-                </button>
-              </div>
+            <div class="counter-controls">
+              <button type="button" class="btn btn-danger btn-circle" onclick="adjustBarCount('${b.id}', 'mangochelada', -1)">
+                <i data-lucide="minus"></i>
+              </button>
+              <span class="counter-num" id="counter-${b.id}-mangochelada">${counts.mangochelada}</span>
+              <button type="button" class="btn btn-primary btn-circle" onclick="adjustBarCount('${b.id}', 'mangochelada', 1)">
+                <i data-lucide="plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- Row: MICHELADA -->
+          <div class="counter-row">
+            <div class="counter-row-label">
+              <div class="counter-row-name"><span>🍋 Michelada</span></div>
+              <span class="counter-row-price">${formatMoney(priceTable.michelada)} (sal, limón & escarcha)</span>
+            </div>
+            <div class="counter-controls">
+              <button type="button" class="btn btn-danger btn-circle" onclick="adjustBarCount('${b.id}', 'michelada', -1)">
+                <i data-lucide="minus"></i>
+              </button>
+              <span class="counter-num" id="counter-${b.id}-michelada">${counts.michelada}</span>
+              <button type="button" class="btn btn-secondary btn-circle" onclick="adjustBarCount('${b.id}', 'michelada', 1)">
+                <i data-lucide="plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- Row: BOTELLA -->
+          <div class="counter-row">
+            <div class="counter-row-label">
+              <div class="counter-row-name"><span>🍾 Botella</span></div>
+              <span class="counter-row-price">${formatMoney(priceTable.botella)} (fría directa)</span>
+            </div>
+            <div class="counter-controls">
+              <button type="button" class="btn btn-danger btn-circle" onclick="adjustBarCount('${b.id}', 'botella', -1)">
+                <i data-lucide="minus"></i>
+              </button>
+              <span class="counter-num" id="counter-${b.id}-botella">${counts.botella}</span>
+              <button type="button" class="btn btn-coffee btn-circle" onclick="adjustBarCount('${b.id}', 'botella', 1)">
+                <i data-lucide="plus"></i>
+              </button>
             </div>
           </div>
         </div>
-      `;
-    } else {
-      // STANDARD BEVERAGE CARD (BEER / SODA / LIQUOR)
-      const counts = appState.barCounts[p.id] || { mangochelada: 0, michelada: 0, botella: 0 };
-      const totalServed = counts.mangochelada + counts.michelada + counts.botella;
-      const prices = p.prices[currentTariff];
-
-      html += `
-        <div class="counter-card">
-          <div class="counter-card-header">
-            <div class="counter-card-title">
-              <i data-lucide="beer" style="width: 22px; height: 22px; color: var(--primary-dark);"></i>
-              <span>${p.name}</span>
-            </div>
-            <span class="badge badge-lime">${totalServed} servidas</span>
-          </div>
-
-          <div class="counter-rows">
-            <!-- Row: Mangochelada -->
-            <div class="counter-row">
-              <div class="counter-row-label">
-                <div class="counter-row-name">
-                  <span>🥭 Mangochelada</span>
-                </div>
-                <span class="counter-row-price">${formatMoney(prices.mangochelada)} (con mango biche picado)</span>
-              </div>
-              <div class="counter-controls">
-                <button type="button" class="btn btn-danger btn-circle" onclick="adjustBarCount('${p.id}', 'mangochelada', -1)">
-                  <i data-lucide="minus"></i>
-                </button>
-                <span class="counter-num" id="counter-${p.id}-mangochelada">${counts.mangochelada}</span>
-                <button type="button" class="btn btn-primary btn-circle" onclick="adjustBarCount('${p.id}', 'mangochelada', 1)">
-                  <i data-lucide="plus"></i>
-                </button>
-              </div>
-            </div>
-
-            <!-- Row: Michelada -->
-            <div class="counter-row">
-              <div class="counter-row-label">
-                <div class="counter-row-name">
-                  <span>🍋 Michelada</span>
-                </div>
-                <span class="counter-row-price">${formatMoney(prices.michelada)} (sal, limón & escarcha)</span>
-              </div>
-              <div class="counter-controls">
-                <button type="button" class="btn btn-danger btn-circle" onclick="adjustBarCount('${p.id}', 'michelada', -1)">
-                  <i data-lucide="minus"></i>
-                </button>
-                <span class="counter-num" id="counter-${p.id}-michelada">${counts.michelada}</span>
-                <button type="button" class="btn btn-secondary btn-circle" onclick="adjustBarCount('${p.id}', 'michelada', 1)">
-                  <i data-lucide="plus"></i>
-                </button>
-              </div>
-            </div>
-
-            <!-- Row: Botella -->
-            <div class="counter-row">
-              <div class="counter-row-label">
-                <div class="counter-row-name">
-                  <span>🍾 Botella</span>
-                </div>
-                <span class="counter-row-price">${formatMoney(prices.botella)} (fría directa)</span>
-              </div>
-              <div class="counter-controls">
-                <button type="button" class="btn btn-danger btn-circle" onclick="adjustBarCount('${p.id}', 'botella', -1)">
-                  <i data-lucide="minus"></i>
-                </button>
-                <span class="counter-num" id="counter-${p.id}-botella">${counts.botella}</span>
-                <button type="button" class="btn btn-primary btn-circle" onclick="adjustBarCount('${p.id}', 'botella', 1)">
-                  <i data-lucide="plus"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    }
+      </div>
+    `;
   });
 
-  // Extra Toppings Card
+  // 2. Render GRANIZADOS (Protected against deletion)
+  GRANIZADOS.forEach(g => {
+    const counts = appState.barCounts[g.id] || { botella: 0, mangochelada: 0, copa_litro: 0 };
+    const priceTable = g.prices[tariff] || g.prices['normal'];
+    const totalServidos = counts.botella + counts.mangochelada + counts.copa_litro;
+
+    html += `
+      <div class="counter-card protected-card">
+        <div class="counter-card-header ice-header">
+          <div class="counter-card-title">
+            <i data-lucide="sparkles" style="width: 22px; height: 22px; color: #0284c7;"></i>
+            <span>${g.shortName}</span>
+          </div>
+          <span class="badge badge-protected" title="Receta protegida contra borrado">
+            <i data-lucide="shield-check" style="width: 12px; height: 12px;"></i>
+            ${totalServidos} servidos
+          </span>
+        </div>
+        <div class="counter-rows">
+          <!-- Row: Vaso Personal -->
+          <div class="counter-row">
+            <div class="counter-row-label">
+              <div class="counter-row-name"><span>🍧 Vaso Personal (14 oz)</span></div>
+              <span class="counter-row-price">${formatMoney(priceTable.botella)} (granizado artesanal)</span>
+            </div>
+            <div class="counter-controls">
+              <button type="button" class="btn btn-danger btn-circle" onclick="adjustBarCount('${g.id}', 'botella', -1)">
+                <i data-lucide="minus"></i>
+              </button>
+              <span class="counter-num" id="counter-${g.id}-botella">${counts.botella}</span>
+              <button type="button" class="btn btn-primary btn-circle" onclick="adjustBarCount('${g.id}', 'botella', 1)">
+                <i data-lucide="plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- Row: Mangochelada Granizada con Cerveza -->
+          <div class="counter-row">
+            <div class="counter-row-label">
+              <div class="counter-row-name"><span>🍺🍧 Mangochelada Granizada</span></div>
+              <span class="counter-row-price">${formatMoney(priceTable.mangochelada)} (con cerveza invertida)</span>
+            </div>
+            <div class="counter-controls">
+              <button type="button" class="btn btn-danger btn-circle" onclick="adjustBarCount('${g.id}', 'mangochelada', -1)">
+                <i data-lucide="minus"></i>
+              </button>
+              <span class="counter-num" id="counter-${g.id}-mangochelada">${counts.mangochelada}</span>
+              <button type="button" class="btn btn-secondary btn-circle" onclick="adjustBarCount('${g.id}', 'mangochelada', 1)">
+                <i data-lucide="plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- Row: Copa Litro Familiar -->
+          <div class="counter-row">
+            <div class="counter-row-label">
+              <div class="counter-row-name"><span>👑 Copa Litro Familiar</span></div>
+              <span class="counter-row-price">${formatMoney(priceTable.copa_litro)} (para compartir)</span>
+            </div>
+            <div class="counter-controls">
+              <button type="button" class="btn btn-danger btn-circle" onclick="adjustBarCount('${g.id}', 'copa_litro', -1)">
+                <i data-lucide="minus"></i>
+              </button>
+              <span class="counter-num" id="counter-${g.id}-copa_litro">${counts.copa_litro}</span>
+              <button type="button" class="btn btn-coffee btn-circle" onclick="adjustBarCount('${g.id}', 'copa_litro', 1)">
+                <i data-lucide="plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  // 3. Toppings and Extras
   const extraCount = (appState.barCounts['extras'] && appState.barCounts['extras'].total) || 0;
   html += `
     <div class="counter-card">
       <div class="counter-card-header" style="background: #fef08a;">
         <div class="counter-card-title">
-          <i data-lucide="sparkles" style="width: 22px; height: 22px; color: var(--tertiary);"></i>
+          <i data-lucide="flame" style="width: 22px; height: 22px; color: var(--tertiary);"></i>
           <span>Toppings & Adicionales</span>
         </div>
-        <span class="badge badge-mango">${extraCount} porciones</span>
+        <span class="badge badge-mango">${extraCount} servidos</span>
       </div>
       <div class="counter-rows">
         <div class="counter-row">
           <div class="counter-row-label">
-            <div class="counter-row-name">Extra Mango / Salsas / Gomitas</div>
-            <span class="counter-row-price">$2.000 - $4.000 COP</span>
+            <div class="counter-row-name">Porción Mango / Salsas Chamoy / Gomitas</div>
+            <span class="counter-row-price">$2.000 - $3.000 (Toppings especiales)</span>
           </div>
           <div class="counter-controls">
             <button type="button" class="btn btn-danger btn-circle" onclick="adjustBarCount('extras', 'total', -1)">
@@ -2406,115 +2458,119 @@ function renderCounterView() {
   if (window.lucide) window.lucide.createIcons();
 }
 
-function adjustBarCount(productId, style, delta) {
-  if (!appState.barCounts[productId]) {
-    if (productId === 'granizados') {
-      appState.barCounts[productId] = { con_mango: 0, sencillo: 0 };
-    } else if (productId === 'extras') {
-      appState.barCounts[productId] = { total: 0 };
-    } else {
-      appState.barCounts[productId] = { mangochelada: 0, michelada: 0, botella: 0 };
-    }
+function adjustBarCount(id, style, delta) {
+  if (!appState.barCounts[id]) {
+    appState.barCounts[id] = { mangochelada: 0, michelada: 0, botella: 0, copa_litro: 0 };
   }
-
-  const cur = appState.barCounts[productId][style] || 0;
+  const cur = appState.barCounts[id][style] || 0;
   const next = Math.max(0, cur + delta);
-  appState.barCounts[productId][style] = next;
-
+  appState.barCounts[id][style] = next;
   playTapSound(delta > 0 ? 'plus' : 'minus');
-  const el = document.getElementById(`counter-${productId}-${style}`);
-  if (el) el.innerText = next;
 
+  const el = document.getElementById(`counter-${id}-${style}`);
+  if (el) el.innerText = next;
   saveState();
 }
 
 function resetBarCounters() {
-  if (!confirm('¿Deseas reiniciar los contadores rápidos de la barra a cero?')) return;
-  PRODUCTS.forEach(p => {
-    if (p.id === 'granizados') {
-      appState.barCounts[p.id] = { con_mango: 0, sencillo: 0 };
-    } else {
-      appState.barCounts[p.id] = { mangochelada: 0, michelada: 0, botella: 0 };
-    }
-  });
-  appState.barCounts['extras'] = { total: 0 };
+  if (!confirm('¿Deseas reiniciar los contadores de la barra a cero? (Las comandas se mantendrán)')) return;
+  initBarCounts();
   renderCounterView();
   saveState();
-  showToast('Contadores de barra reiniciados a cero');
+  showToast('Contadores de barra reiniciados');
 }
 
-// --- TAB 3: CONSOLIDATED VIEW TABLE ---
+// --- TAB 3: CONSOLIDATED METRICS CALCULATION ---
 function computeConsolidatedMetrics() {
-  const currentTariff = appState.activeTariff || 'normal';
-
+  const tariff = appState.currentShift.tariffMode || 'normal';
   const matrix = {};
-  PRODUCTS.forEach(p => {
-    if (p.id === 'granizados') {
-      matrix[p.id] = {
-        name: p.name,
-        isGranizado: true,
-        con_mango: 0,
-        sencillo: 0,
-        totalQty: 0,
-        totalSales: 0
-      };
-    } else {
-      matrix[p.id] = {
-        name: p.name,
-        isGranizado: false,
-        mangochelada: 0,
-        michelada: 0,
-        botella: 0,
-        totalQty: 0,
-        totalSales: 0
-      };
-    }
+
+  // Setup beverages
+  BEVERAGES.forEach(b => {
+    matrix[b.id] = {
+      name: b.name,
+      mangochelada: 0,
+      michelada: 0,
+      botella: 0,
+      granizado: 0,
+      totalQty: 0,
+      totalSales: 0
+    };
   });
 
-  // 1. Add from Bar Counts
-  PRODUCTS.forEach(p => {
-    const c = appState.barCounts[p.id];
-    if (!c) return;
-    if (p.id === 'granizados') {
-      matrix[p.id].con_mango += (c.con_mango || 0);
-      matrix[p.id].sencillo += (c.sencillo || 0);
-    } else {
-      matrix[p.id].mangochelada += (c.mangochelada || 0);
-      matrix[p.id].michelada += (c.michelada || 0);
-      matrix[p.id].botella += (c.botella || 0);
-    }
+  // Setup granizados
+  GRANIZADOS.forEach(g => {
+    matrix[g.id] = {
+      name: g.name,
+      mangochelada: 0,
+      michelada: 0,
+      botella: 0,
+      granizado: 0,
+      totalQty: 0,
+      totalSales: 0
+    };
   });
 
-  // 2. Add from Orders (Active + Closed)
-  const allOrders = [...appState.orders, ...appState.closedOrders];
+  // 1. Add bar counts
+  BEVERAGES.forEach(b => {
+    const c = appState.barCounts[b.id] || { mangochelada: 0, michelada: 0, botella: 0 };
+    matrix[b.id].mangochelada += c.mangochelada;
+    matrix[b.id].michelada += c.michelada;
+    matrix[b.id].botella += c.botella;
+  });
+
+  GRANIZADOS.forEach(g => {
+    const c = appState.barCounts[g.id] || { botella: 0, mangochelada: 0, copa_litro: 0 };
+    matrix[g.id].botella += c.botella;
+    matrix[g.id].mangochelada += c.mangochelada;
+    matrix[g.id].granizado += c.copa_litro;
+  });
+
   let extrasTotalQty = (appState.barCounts['extras'] && appState.barCounts['extras'].total) || 0;
-  let extrasTotalSales = extrasTotalQty * (currentTariff === 'event' ? 3500 : 2500);
+  let extrasTotalSales = extrasTotalQty * 2500;
+
+  // 2. Add from all orders (Active + Closed)
+  const allOrders = [...appState.orders, ...appState.closedOrders];
+  const waiterStats = {}; // { waiterName: { orders: n, units: n, sales: n, pending: n } }
 
   allOrders.forEach(o => {
-    if (!o.rondas) return;
-    o.rondas.forEach(r => {
-      if (!r.items) return;
-      r.items.forEach(it => {
-        if (it.beverageId === 'granizados') {
-          if (it.style === 'con_mango') {
-            matrix['granizados'].con_mango += (it.qty || 0);
-          } else {
-            matrix['granizados'].sencillo += (it.qty || 0);
+    const w = (o.waiter && o.waiter.trim()) ? o.waiter.trim() : 'Sin asignar';
+    if (!waiterStats[w]) {
+      waiterStats[w] = { orders: 0, units: 0, sales: 0, pending: 0 };
+    }
+    waiterStats[w].orders += 1;
+
+    let orderTotal = 0;
+    if (o.rondas) {
+      o.rondas.forEach(r => {
+        if (!r.items) return;
+        r.items.forEach(it => {
+          const qty = it.qty || 0;
+          const price = it.price || 0;
+          orderTotal += qty * price;
+          waiterStats[w].units += qty;
+
+          if (matrix[it.beverageId]) {
+            const style = it.style || 'mangochelada';
+            if (style === 'mangochelada') matrix[it.beverageId].mangochelada += qty;
+            else if (style === 'michelada') matrix[it.beverageId].michelada += qty;
+            else if (style === 'botella') matrix[it.beverageId].botella += qty;
+            else if (style === 'copa_litro' || style === 'granizado') matrix[it.beverageId].granizado += qty;
+            else matrix[it.beverageId].botella += qty;
+          } else if (it.style === 'adicional' || it.beverageId.startsWith('extra_')) {
+            extrasTotalQty += qty;
+            extrasTotalSales += qty * price;
           }
-        } else if (matrix[it.beverageId]) {
-          const style = it.style || 'mangochelada';
-          if (matrix[it.beverageId][style] !== undefined) {
-            matrix[it.beverageId][style] += (it.qty || 0);
-          }
-        } else if (it.style === 'adicional' || it.beverageId.startsWith('extra_')) {
-          extrasTotalQty += (it.qty || 0);
-          extrasTotalSales += (it.qty || 0) * (it.price || 3000);
-        }
+        });
       });
-    });
+    }
+
+    const paid = o.amountPaid || (o.paymentStatus === 'paid' ? orderTotal : 0);
+    waiterStats[w].sales += paid;
+    waiterStats[w].pending += Math.max(0, orderTotal - paid);
   });
 
-  // Compute subtotals & revenues
+  // Calculate row revenues
   let grandMangocheladas = 0;
   let grandMicheladas = 0;
   let grandBotellas = 0;
@@ -2522,24 +2578,31 @@ function computeConsolidatedMetrics() {
   let grandUnits = 0;
   let grandTotalRevenue = 0;
 
-  PRODUCTS.forEach(p => {
-    const row = matrix[p.id];
-    const prices = p.prices[currentTariff];
+  BEVERAGES.forEach(b => {
+    const row = matrix[b.id];
+    const pt = b.prices[tariff] || b.prices['normal'];
+    row.totalQty = row.mangochelada + row.michelada + row.botella;
+    row.totalSales = (row.mangochelada * pt.mangochelada) +
+                     (row.michelada * pt.michelada) +
+                     (row.botella * pt.botella);
 
-    if (p.id === 'granizados') {
-      row.totalQty = row.con_mango + row.sencillo;
-      row.totalSales = (row.con_mango * prices.con_mango) + (row.sencillo * prices.sencillo);
-      grandGranizados += row.totalQty;
-    } else {
-      row.totalQty = row.mangochelada + row.michelada + row.botella;
-      row.totalSales = (row.mangochelada * prices.mangochelada) +
-                       (row.michelada * prices.michelada) +
-                       (row.botella * prices.botella);
-      grandMangocheladas += row.mangochelada;
-      grandMicheladas += row.michelada;
-      grandBotellas += row.botella;
-    }
+    grandMangocheladas += row.mangochelada;
+    grandMicheladas += row.michelada;
+    grandBotellas += row.botella;
+    grandUnits += row.totalQty;
+    grandTotalRevenue += row.totalSales;
+  });
 
+  GRANIZADOS.forEach(g => {
+    const row = matrix[g.id];
+    const pt = g.prices[tariff] || g.prices['normal'];
+    row.totalQty = row.botella + row.mangochelada + row.granizado;
+    row.totalSales = (row.botella * pt.botella) +
+                     (row.mangochelada * pt.mangochelada) +
+                     (row.granizado * pt.copa_litro);
+
+    grandGranizados += row.botella + row.granizado;
+    grandMangocheladas += row.mangochelada;
     grandUnits += row.totalQty;
     grandTotalRevenue += row.totalSales;
   });
@@ -2549,6 +2612,7 @@ function computeConsolidatedMetrics() {
 
   return {
     matrix,
+    waiterStats,
     extrasTotalQty,
     extrasTotalSales,
     grandMangocheladas,
@@ -2563,159 +2627,112 @@ function computeConsolidatedMetrics() {
 function renderConsolidatedView() {
   const tbody = document.getElementById('consolidated-tbody');
   const tfoot = document.getElementById('consolidated-tfoot');
+  const waitersTbody = document.getElementById('waiters-consolidated-tbody');
   if (!tbody || !tfoot) return;
 
   const data = computeConsolidatedMetrics();
-  const currentTariff = appState.activeTariff || 'normal';
-
   let bodyHtml = '';
 
-  PRODUCTS.forEach(p => {
-    const row = data.matrix[p.id];
-    const prices = p.prices[currentTariff];
-
-    if (p.id === 'granizados') {
-      bodyHtml += `
-        <tr style="background-color: #fefce8;">
-          <td style="font-weight: 700; color: var(--on-surface);">
-            <i data-lucide="ice-cream" style="width: 15px; height: 15px; display: inline-block; vertical-align: middle; margin-right: 0.35rem; color: var(--tertiary);"></i>
-            ${row.name} <span class="badge badge-protected" style="font-size: 0.68rem; padding: 0.1rem 0.4rem;">Protegido</span>
-          </td>
-          <td style="text-align: center; color: var(--on-surface-variant);">-</td>
-          <td style="text-align: center; color: var(--on-surface-variant);">-</td>
-          <td style="text-align: center; color: var(--on-surface-variant);">-</td>
-          <td style="text-align: center;">
-            <strong>${row.totalQty}</strong>
-            <div style="font-size: 0.72rem; color: var(--on-surface-variant);">(${row.con_mango} mango / ${row.sencillo} senc.)</div>
-          </td>
-          <td style="text-align: center; font-weight: 700; font-size: 1rem; color: var(--on-surface);">${row.totalQty}</td>
-          <td style="text-align: right; font-weight: 700; color: var(--on-surface);">${formatMoney(row.totalSales)}</td>
-        </tr>
-      `;
-    } else {
-      bodyHtml += `
-        <tr>
-          <td style="font-weight: 700; color: var(--on-surface);">
-            <i data-lucide="beer" style="width: 15px; height: 15px; display: inline-block; vertical-align: middle; margin-right: 0.35rem; color: var(--primary);"></i>
-            ${row.name}
-          </td>
-          <td style="text-align: center;"><strong>${row.mangochelada}</strong> <span style="font-size: 0.74rem; color: var(--on-surface-variant);">(${formatMoney(row.mangochelada * prices.mangochelada)})</span></td>
-          <td style="text-align: center;"><strong>${row.michelada}</strong> <span style="font-size: 0.74rem; color: var(--on-surface-variant);">(${formatMoney(row.michelada * prices.michelada)})</span></td>
-          <td style="text-align: center;"><strong>${row.botella}</strong> <span style="font-size: 0.74rem; color: var(--on-surface-variant);">(${formatMoney(row.botella * prices.botella)})</span></td>
-          <td style="text-align: center; color: var(--on-surface-variant);">-</td>
-          <td style="text-align: center; font-weight: 700; font-size: 1rem; color: var(--on-surface);">${row.totalQty}</td>
-          <td style="text-align: right; font-weight: 700; color: var(--on-surface);">${formatMoney(row.totalSales)}</td>
-        </tr>
-      `;
-    }
+  // Render Beverages
+  BEVERAGES.forEach(b => {
+    const row = data.matrix[b.id];
+    bodyHtml += `
+      <tr>
+        <td style="font-weight: 700; color: var(--brand-coffee);">
+          <i data-lucide="beer" style="width: 15px; height: 15px; display: inline-block; vertical-align: middle; margin-right: 0.35rem; color: var(--primary);"></i>
+          ${row.name}
+        </td>
+        <td style="text-align: center;"><strong>${row.mangochelada}</strong></td>
+        <td style="text-align: center;"><strong>${row.michelada}</strong></td>
+        <td style="text-align: center;"><strong>${row.botella}</strong></td>
+        <td style="text-align: center; color: var(--on-surface-variant);">-</td>
+        <td style="text-align: center; font-weight: 700; font-size: 1rem; color: var(--brand-coffee);">${row.totalQty}</td>
+        <td style="text-align: right; font-weight: 700; color: var(--brand-coffee);">${formatMoney(row.totalSales)}</td>
+      </tr>
+    `;
   });
 
-  // Extras row
+  // Render Granizados
+  GRANIZADOS.forEach(g => {
+    const row = data.matrix[g.id];
+    bodyHtml += `
+      <tr style="background-color: #f0fdf4;">
+        <td style="font-weight: 700; color: #047857;">
+          <i data-lucide="sparkles" style="width: 15px; height: 15px; display: inline-block; vertical-align: middle; margin-right: 0.35rem; color: #0284c7;"></i>
+          ${g.shortName} <span class="badge badge-protected" style="font-size: 0.68rem;">Protegido</span>
+        </td>
+        <td style="text-align: center;"><strong>${row.mangochelada}</strong></td>
+        <td style="text-align: center; color: var(--on-surface-variant);">-</td>
+        <td style="text-align: center;"><strong>${row.botella}</strong> (Vasos)</td>
+        <td style="text-align: center;"><strong>${row.granizado}</strong> (Litro)</td>
+        <td style="text-align: center; font-weight: 700; font-size: 1rem; color: var(--brand-coffee);">${row.totalQty}</td>
+        <td style="text-align: right; font-weight: 700; color: #047857;">${formatMoney(row.totalSales)}</td>
+      </tr>
+    `;
+  });
+
+  // Render Extras
   bodyHtml += `
     <tr>
-      <td style="font-weight: 700; color: var(--on-surface);">
-        <i data-lucide="sparkles" style="width: 15px; height: 15px; display: inline-block; vertical-align: middle; margin-right: 0.35rem; color: var(--tertiary);"></i>
-        Toppings y Adicionales
+      <td style="font-weight: 700; color: var(--brand-coffee);">
+        <i data-lucide="flame" style="width: 15px; height: 15px; display: inline-block; vertical-align: middle; margin-right: 0.35rem; color: var(--tertiary);"></i>
+        Adicionales (Mango Picado, Salsas Chamoy, Tajín, Gomitas)
       </td>
       <td style="text-align: center; color: var(--on-surface-variant);">-</td>
       <td style="text-align: center; color: var(--on-surface-variant);">-</td>
       <td style="text-align: center; color: var(--on-surface-variant);">-</td>
       <td style="text-align: center; color: var(--on-surface-variant);">-</td>
-      <td style="text-align: center; font-weight: 700; color: var(--on-surface);">${data.extrasTotalQty}</td>
-      <td style="text-align: right; font-weight: 700; color: var(--on-surface);">${formatMoney(data.extrasTotalSales)}</td>
+      <td style="text-align: center; font-weight: 700; color: var(--brand-coffee);">${data.extrasTotalQty}</td>
+      <td style="text-align: right; font-weight: 700; color: var(--brand-coffee);">${formatMoney(data.extrasTotalSales)}</td>
     </tr>
   `;
-
   tbody.innerHTML = bodyHtml;
 
+  // Render Table Footer Totals
   tfoot.innerHTML = `
     <tr class="total-row">
-      <td>TOTAL CONSOLIDADO</td>
+      <td>TOTAL GENERAL DEL TURNO</td>
       <td style="text-align: center; font-size: 1.05rem;">${data.grandMangocheladas} 🥭</td>
       <td style="text-align: center; font-size: 1.05rem;">${data.grandMicheladas} 🍋</td>
       <td style="text-align: center; font-size: 1.05rem;">${data.grandBotellas} 🍾</td>
       <td style="text-align: center; font-size: 1.05rem;">${data.grandGranizados} 🍧</td>
       <td style="text-align: center; font-size: 1.25rem;">${data.grandUnits} und</td>
-      <td style="text-align: right; font-size: 1.25rem; color: var(--on-surface);">${formatMoney(data.grandTotalRevenue)}</td>
+      <td style="text-align: right; font-size: 1.25rem; color: var(--brand-coffee);">${formatMoney(data.grandTotalRevenue)}</td>
     </tr>
   `;
 
-  if (window.lucide) window.lucide.createIcons();
-}
-
-// --- TAB 4: CATÁLOGO Y MATRIZ DE TARIFAS ---
-function renderTariffsView() {
-  const tbody = document.getElementById('tariffs-tbody');
-  if (!tbody) return;
-
-  let html = '';
-  PRODUCTS.forEach(p => {
-    if (p.id === 'granizados') {
-      html += `
-        <tr style="background: #fefce8;">
-          <td style="font-weight: 700; color: var(--on-surface);">
-            <div style="display: flex; align-items: center; gap: 0.4rem;">
-              <i data-lucide="ice-cream" style="width: 16px; height: 16px; color: var(--tertiary);"></i>
-              <span>${p.name}</span>
-            </div>
-          </td>
-          <td><span class="badge badge-mango">${p.category}</span></td>
-          <td style="color: var(--on-surface-variant);">-</td>
-          <td style="color: var(--on-surface-variant);">-</td>
-          <td style="color: var(--on-surface-variant);">-</td>
-          <td>
-            <div>🥭 Con Mango: <strong>${formatMoney(p.prices.normal.con_mango)}</strong> <span style="font-size: 0.74rem; color: var(--tertiary);">(Evento: ${formatMoney(p.prices.event.con_mango)})</span></div>
-            <div>❄️ Sencillo: <strong>${formatMoney(p.prices.normal.sencillo)}</strong> <span style="font-size: 0.74rem; color: var(--tertiary);">(Evento: ${formatMoney(p.prices.event.sencillo)})</span></div>
-          </td>
-          <td style="text-align: center;">
-            <button type="button" class="btn btn-ghost btn-sm" onclick="showProtectedItemAlert('${p.name}')" style="color: #0369a1; border-color: #bae6fd; background: #e0f2fe;">
-              <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
-              <span>🔒 Protegido (No Eliminable)</span>
-            </button>
-          </td>
-        </tr>
-      `;
+  // REQUIREMENT 2: Render Waiters Breakdown Table
+  if (waitersTbody) {
+    const waiterKeys = Object.keys(data.waiterStats);
+    if (waiterKeys.length === 0) {
+      waitersTbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--on-surface-variant); padding: var(--space-md);">Aún no hay pedidos registrados con meseros asignados.</td></tr>`;
     } else {
-      html += `
-        <tr>
-          <td style="font-weight: 700; color: var(--on-surface);">
-            <div style="display: flex; align-items: center; gap: 0.4rem;">
-              <i data-lucide="beer" style="width: 16px; height: 16px; color: var(--primary);"></i>
-              <span>${p.name}</span>
-            </div>
-          </td>
-          <td><span class="badge badge-lime">${p.category}</span></td>
-          <td>
-            <strong>${formatMoney(p.prices.normal.mangochelada)}</strong>
-            <span style="font-size: 0.74rem; color: var(--tertiary); display: block;">Evento: ${formatMoney(p.prices.event.mangochelada)}</span>
-          </td>
-          <td>
-            <strong>${formatMoney(p.prices.normal.michelada)}</strong>
-            <span style="font-size: 0.74rem; color: var(--tertiary); display: block;">Evento: ${formatMoney(p.prices.event.michelada)}</span>
-          </td>
-          <td>
-            <strong>${formatMoney(p.prices.normal.botella)}</strong>
-            <span style="font-size: 0.74rem; color: var(--tertiary); display: block;">Evento: ${formatMoney(p.prices.event.botella)}</span>
-          </td>
-          <td style="color: var(--on-surface-variant);">-</td>
-          <td style="text-align: center;">
-            <span class="badge badge-lime">✓ Activo en Menú</span>
-          </td>
-        </tr>
-      `;
+      let wHtml = '';
+      waiterKeys.forEach(w => {
+        const ws = data.waiterStats[w];
+        const pct = data.grandTotalRevenue > 0 ? Math.round((ws.sales / data.grandTotalRevenue) * 100) : 0;
+        wHtml += `
+          <tr>
+            <td style="font-weight: 700; color: var(--brand-coffee);">
+              <i data-lucide="user-check" style="width: 15px; height: 15px; display: inline-block; vertical-align: middle; margin-right: 0.35rem; color: var(--positive);"></i>
+              ${w}
+            </td>
+            <td style="text-align: center; font-weight: 600;">${ws.orders}</td>
+            <td style="text-align: center; font-weight: 600;">${ws.units}</td>
+            <td style="text-align: right; font-weight: 700; color: #166534;">${formatMoney(ws.sales)}</td>
+            <td style="text-align: right; font-weight: 600; color: var(--error);">${formatMoney(ws.pending)}</td>
+            <td style="text-align: center;"><span class="badge badge-mango">${pct}%</span></td>
+          </tr>
+        `;
+      });
+      waitersTbody.innerHTML = wHtml;
     }
-  });
+  }
 
-  tbody.innerHTML = html;
   if (window.lucide) window.lucide.createIcons();
 }
 
-function showProtectedItemAlert(productName) {
-  playTapSound('click');
-  alert(`🔒 REGLA INSTITUCIONAL DE MANGOCheladas:\n\nEl producto "${productName}" es un ítem institucional protegido de alta rotación.\n\nPor políticas comerciales y de inventario de Mangocheladas, NO se permite su retiro o eliminación del catálogo.`);
-}
-
-// --- TAB 5: CLOSED ORDERS VIEW ---
+// --- TAB 4: CLOSED ORDERS VIEW ---
 function renderClosedOrdersView() {
   const tbody = document.getElementById('closed-orders-tbody');
   const empty = document.getElementById('closed-empty-state');
@@ -2726,25 +2743,29 @@ function renderClosedOrdersView() {
     if (empty) empty.style.display = 'block';
     return;
   }
-  if (empty) empty.style.display = 'none';
 
+  if (empty) empty.style.display = 'none';
   let html = '';
+
   appState.closedOrders.forEach(o => {
     const total = o.total || calculateOrderTotal(o);
+    const waiterName = o.waiter || 'Sin asignar';
     html += `
       <tr>
         <td style="font-weight: 700;">#${o.id}</td>
-        <td style="font-weight: 600; color: var(--on-surface);">${o.reference}</td>
+        <td style="font-weight: 600; color: var(--brand-coffee);">${o.reference}</td>
+        <!-- REQUIREMENT 2: Mesero en tabla de pedidos cobrados -->
+        <td><span class="badge badge-lime">${waiterName}</span></td>
         <td>${o.createdAt}</td>
         <td>${o.closedAt || o.lastModifiedAt}</td>
         <td><span class="badge badge-paid">${o.paymentMethod || 'Efectivo'}</span></td>
-        <td style="text-align: right; font-weight: 700; font-size: 1rem; color: var(--on-surface);">${formatMoney(total)}</td>
+        <td style="text-align: right; font-weight: 700; font-size: 1rem; color: var(--brand-coffee);">${formatMoney(total)}</td>
         <td style="text-align: center;">
           <div style="display: inline-flex; gap: 0.3rem;">
-            <button type="button" class="btn btn-ghost btn-circle" style="width: 32px; height: 32px;" onclick="printTicketForOrder(${o.id})" title="Imprimir Ticket">
+            <button type="button" class="btn btn-ghost btn-circle-sm" onclick="printTicketForOrder(${o.id})" title="Imprimir Ticket">
               <i data-lucide="printer" style="width: 15px; height: 15px;"></i>
             </button>
-            <button type="button" class="btn btn-secondary btn-circle" style="width: 32px; height: 32px;" onclick="quickWhatsAppOrder(${o.id}, true)" title="Enviar WhatsApp">
+            <button type="button" class="btn btn-secondary btn-circle-sm" onclick="quickWhatsAppOrder(${o.id}, true)" title="Enviar WhatsApp">
               <i data-lucide="share-2" style="width: 15px; height: 15px;"></i>
             </button>
           </div>
@@ -2757,7 +2778,7 @@ function renderClosedOrdersView() {
   if (window.lucide) window.lucide.createIcons();
 }
 
-// --- TAB 6: SHIFT VIEW ---
+// --- TAB 5: SHIFT VIEW ---
 function renderShiftView() {
   const s = appState.currentShift;
   const isOpen = s && s.isOpen;
@@ -2783,11 +2804,11 @@ function renderShiftView() {
     if (infoText) infoText.innerText = 'Turno Cerrado — Abre un nuevo turno';
   }
 
-  // Financial Stats
+  // Financial statistics
   let totalSales = 0;
   let totalCollected = 0;
   let totalPending = 0;
-  let ordersCount = appState.closedOrders.length;
+  const ordersCount = appState.closedOrders.length;
 
   appState.closedOrders.forEach(o => {
     const t = o.total || calculateOrderTotal(o);
@@ -2809,31 +2830,24 @@ function renderShiftView() {
   const statBase = document.getElementById('shift-stat-base');
   const statCashier = document.getElementById('shift-stat-cashier');
   const statOrdersCount = document.getElementById('shift-stat-orders-count');
+  const histBadge = document.getElementById('history-count-badge');
 
   if (statTotal) statTotal.innerText = formatMoney(totalSales);
   if (statCollected) statCollected.innerText = formatMoney(totalCollected);
   if (statPending) statPending.innerText = formatMoney(totalPending);
   if (statBase) statBase.innerText = formatMoney(s ? s.baseCash : 50000);
   if (statCashier) statCashier.innerText = `Cajero: ${s ? s.cashier : 'Sin asignar'}`;
-  if (statOrdersCount) statOrdersCount.innerText = `${ordersCount} comandas facturadas`;
+  if (statOrdersCount) statOrdersCount.innerText = `${ordersCount} comandas cobradas`;
+  if (histBadge) histBadge.innerText = `${appState.shiftHistory.length} turnos archivados`;
 
-  // Render shift history table
+  // Shift History Table
   const historyTbody = document.getElementById('shift-history-tbody');
   if (historyTbody) {
     if (appState.shiftHistory.length === 0) {
-      historyTbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--on-surface-variant); padding: var(--space-md);">No hay turnos archivados aún.</td></tr>`;
+      historyTbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--on-surface-variant); padding: var(--space-md);">No hay turnos archivados aún.</td></tr>`;
     } else {
       let histHtml = '';
       appState.shiftHistory.forEach(h => {
-        let diffBadge = '';
-        if (h.discrepancy === 0) {
-          diffBadge = `<span class="badge badge-paid">$0 (Exacto)</span>`;
-        } else if (h.discrepancy > 0) {
-          diffBadge = `<span class="badge badge-partial">+${formatMoney(h.discrepancy)}</span>`;
-        } else {
-          diffBadge = `<span class="badge badge-pending">${formatMoney(h.discrepancy)}</span>`;
-        }
-
         histHtml += `
           <tr>
             <td style="font-weight: 700;">#${h.id}</td>
@@ -2841,10 +2855,9 @@ function renderShiftView() {
             <td>${h.cashier}</td>
             <td>${h.ordersCount} pedidos</td>
             <td>${h.unitsCount || '--'} unds</td>
-            <td style="font-weight: 700; color: var(--on-surface);">${formatMoney(h.totalSales)}</td>
-            <td>${diffBadge}</td>
+            <td style="font-weight: 700; color: var(--brand-coffee);">${formatMoney(h.totalSales)}</td>
             <td style="text-align: center;">
-              <button type="button" class="btn btn-ghost btn-circle" style="width: 32px; height: 32px;" onclick="printHistoricalShiftReceipt(${h.id})" title="Ver Reporte">
+              <button type="button" class="btn btn-ghost btn-circle-sm" onclick="showHistoricalShiftSummary(${h.id})" title="Ver Resumen">
                 <i data-lucide="file-text" style="width: 15px; height: 15px;"></i>
               </button>
             </td>
@@ -2858,7 +2871,13 @@ function renderShiftView() {
   if (window.lucide) window.lucide.createIcons();
 }
 
-// --- ORDER MODAL LOGIC (EDIT / CREATE) ---
+function showHistoricalShiftSummary(shiftId) {
+  const h = appState.shiftHistory.find(x => x.id === shiftId);
+  if (!h) return;
+  alert(`Reporte Turno #${h.id}\nFecha: ${h.date} (${h.hours})\nCajero: ${h.cashier}\nPedidos: ${h.ordersCount}\nTotal Ventas: ${formatMoney(h.totalSales)}\nDiferencia en Caja: ${formatMoney(h.discrepancy)}`);
+}
+
+// --- ORDER MODAL LOGIC (CREATE / EDIT) ---
 function openNewOrderModal() {
   playTapSound('click');
   const nextId = (appState.orders.length > 0 || appState.closedOrders.length > 0)
@@ -2868,9 +2887,9 @@ function openNewOrderModal() {
   editingOrder = {
     id: nextId,
     reference: '',
+    waiter: appState.currentShift.defaultWaiter || 'Carlos',
     createdAt: formatTimeNow(),
     lastModifiedAt: formatTimeNow(),
-    tariffMode: appState.activeTariff || 'normal',
     paymentStatus: 'pending',
     paymentMethod: 'Efectivo',
     amountPaid: 0,
@@ -2903,11 +2922,13 @@ function loadEditingOrderToModal() {
   const title = document.getElementById('modal-order-title');
   const timeBadge = document.getElementById('modal-order-timestamp');
   const refInput = document.getElementById('order-ref-input');
+  const waiterInput = document.getElementById('order-waiter-input');
   const methodSelect = document.getElementById('order-payment-method');
 
   if (title) title.innerText = `Comanda #${editingOrder.id}`;
-  if (timeBadge) timeBadge.innerText = `Apertura: ${editingOrder.createdAt}`;
+  if (timeBadge) timeBadge.innerText = `Iniciado: ${editingOrder.createdAt}`;
   if (refInput) refInput.value = editingOrder.reference || '';
+  if (waiterInput) waiterInput.value = editingOrder.waiter || appState.currentShift.defaultWaiter || '';
   if (methodSelect) methodSelect.value = editingOrder.paymentMethod || 'Efectivo';
 
   setPaymentStatus(editingOrder.paymentStatus || 'pending', false);
@@ -2916,9 +2937,10 @@ function loadEditingOrderToModal() {
     if (partInput) partInput.value = editingOrder.amountPaid || 0;
   }
 
-  onBeverageSelectChange();
   renderModalRondas();
   updateModalTotals();
+  updateAddPricePreview();
+  updateTariffUI();
 
   if (modal) modal.classList.add('open');
   if (window.lucide) window.lucide.createIcons();
@@ -2940,64 +2962,13 @@ function setRefPreset(name) {
   }
 }
 
-function onBeverageSelectChange() {
-  const bevSelect = document.getElementById('add-beverage-select');
-  const styleSelect = document.getElementById('add-style-select');
-  if (!bevSelect || !styleSelect) return;
-
-  const bevId = bevSelect.value;
-  styleSelect.innerHTML = '';
-
-  if (bevId === 'granizados') {
-    styleSelect.innerHTML = `
-      <option value="con_mango">🥭 Con Mango Biche</option>
-      <option value="sencillo">❄️ Sencillo (Sin Mango)</option>
-    `;
-  } else if (bevId.startsWith('extra_')) {
-    styleSelect.innerHTML = `<option value="adicional">⭐ Porción Adicional</option>`;
-  } else {
-    styleSelect.innerHTML = `
-      <option value="mangochelada">🥭 Mangochelada</option>
-      <option value="michelada">🍋 Michelada</option>
-      <option value="botella">🍾 Botella</option>
-    `;
+function setWaiterPreset(name) {
+  playTapSound('click');
+  const input = document.getElementById('order-waiter-input');
+  if (input) {
+    input.value = name;
+    if (editingOrder) editingOrder.waiter = name;
   }
-
-  updateAddPricePreview();
-}
-
-function updateAddPricePreview() {
-  const bevSelect = document.getElementById('add-beverage-select');
-  const styleSelect = document.getElementById('add-style-select');
-  const pricePreview = document.getElementById('add-item-price-preview');
-  const tariffLabel = document.getElementById('modal-tariff-applied-label');
-  if (!bevSelect || !styleSelect || !pricePreview) return;
-
-  const bevId = bevSelect.value;
-  const styleId = styleSelect.value;
-  const currentTariff = appState.activeTariff || 'normal';
-
-  if (tariffLabel) {
-    tariffLabel.innerText = currentTariff === 'event' ? 'Evento (+Festivo)' : 'Normal';
-  }
-
-  let price = 14000;
-
-  if (bevId === 'granizados') {
-    const p = PRODUCTS.find(x => x.id === 'granizados');
-    const priceTable = p ? p.prices[currentTariff] : { con_mango: 15000, sencillo: 10000 };
-    price = styleId === 'sencillo' ? priceTable.sencillo : priceTable.con_mango;
-  } else if (bevId.startsWith('extra_')) {
-    const ext = EXTRAS.find(e => e.id === bevId);
-    price = ext ? ext.prices[currentTariff] : 3000;
-  } else {
-    const bev = PRODUCTS.find(b => b.id === bevId);
-    if (bev && bev.prices && bev.prices[currentTariff]) {
-      price = bev.prices[currentTariff][styleId] || 14000;
-    }
-  }
-
-  pricePreview.innerText = formatMoney(price);
 }
 
 function renderModalRondas() {
@@ -3005,7 +2976,7 @@ function renderModalRondas() {
   const activeLabel = document.getElementById('modal-active-round-label');
   const lastModSpan = document.getElementById('modal-last-product-time');
 
-  if (lastModSpan) lastModSpan.innerText = editingOrder.lastModifiedAt || 'Sin registros';
+  if (lastModSpan) lastModSpan.innerText = editingOrder.lastModifiedAt || 'Sin cambios';
   if (!container || !editingOrder) return;
 
   if (!editingOrder.rondas || editingOrder.rondas.length === 0) {
@@ -3014,35 +2985,35 @@ function renderModalRondas() {
   }
 
   if (activeLabel) {
-    activeLabel.innerText = editingOrder.rondas[activeRoundIndex] ? `Destino: ${editingOrder.rondas[activeRoundIndex].name}` : 'Destino: Ronda 1';
+    activeLabel.innerText = editingOrder.rondas[activeRoundIndex] ? editingOrder.rondas[activeRoundIndex].name : 'Ronda 1';
   }
 
   let html = '';
   editingOrder.rondas.forEach((r, idx) => {
     const isActive = (idx === activeRoundIndex);
-
     let itemsHtml = '';
+
     if (r.items.length === 0) {
       itemsHtml = `<div style="font-size: 0.82rem; color: var(--on-surface-variant); font-style: italic; padding: 0.4rem 0;">No hay productos en esta ronda aún. Usa el selector abajo para agregar.</div>`;
     } else {
       r.items.forEach((it, itIdx) => {
         itemsHtml += `
-          <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid rgba(217,119,6,0.14); gap: var(--space-sm);">
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid rgba(217,119,6,0.12);">
             <div style="flex: 1;">
-              <strong style="color: var(--on-surface); font-size: 0.92rem;">${it.name}</strong>
-              <div style="font-size: 0.78rem; color: var(--on-surface-variant);">${formatMoney(it.price)} c/u</div>
+              <strong style="color: var(--brand-coffee);">${it.name}</strong>
+              <div style="font-size: 0.76rem; color: var(--on-surface-variant);">${formatMoney(it.price)} c/u</div>
             </div>
             <div style="display: flex; align-items: center; gap: 0.45rem;">
-              <button type="button" class="btn btn-danger btn-circle" style="width: 32px; height: 32px;" onclick="adjustItemQtyInRound(${idx}, ${itIdx}, -1)" title="Restar o eliminar">
+              <button type="button" class="btn btn-danger btn-circle-sm" onclick="adjustItemQtyInRound(${idx}, ${itIdx}, -1)">
                 <i data-lucide="minus" style="width: 14px; height: 14px;"></i>
               </button>
               <span style="font-family: var(--font-headline); font-size: 1.15rem; min-width: 28px; text-align: center;">${it.qty}</span>
-              <button type="button" class="btn btn-primary btn-circle" style="width: 32px; height: 32px;" onclick="adjustItemQtyInRound(${idx}, ${itIdx}, 1)" title="Sumar una unidad">
+              <button type="button" class="btn btn-primary btn-circle-sm" onclick="adjustItemQtyInRound(${idx}, ${itIdx}, 1)">
                 <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
               </button>
-              <strong style="min-width: 80px; text-align: right; color: var(--on-surface); font-size: 0.95rem;">${formatMoney(it.price * it.qty)}</strong>
-              <button type="button" class="btn btn-ghost btn-circle" style="width: 28px; height: 28px; color: var(--error);" onclick="removeItemWithPrompt(${idx}, ${itIdx})" title="Eliminar ítem">
-                <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+              <strong style="min-width: 80px; text-align: right; color: var(--brand-coffee); font-size: 0.92rem;">${formatMoney(it.price * it.qty)}</strong>
+              <button type="button" class="btn btn-ghost btn-circle-sm" style="color: var(--error);" onclick="removeItemFromRound(${idx}, ${itIdx})" title="Eliminar ítem">
+                <i data-lucide="trash" style="width: 13px; height: 13px;"></i>
               </button>
             </div>
           </div>
@@ -3054,12 +3025,12 @@ function renderModalRondas() {
       <div class="round-box" style="border: 2px solid ${isActive ? 'var(--primary)' : 'var(--outline-variant)'}; background: ${isActive ? '#ffffff' : 'var(--surface-container)'};">
         <div class="round-header">
           <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <span class="badge ${isActive ? 'badge-mango' : 'badge-lime'}">${r.name}</span>
-            <span style="font-size: 0.78rem; color: var(--on-surface-variant);"><i data-lucide="clock" style="width: 12px; height: 12px; display: inline;"></i> ${r.time}</span>
+            <span class="badge ${isActive ? 'badge-mango' : 'badge-coffee'}">${r.name}</span>
+            <span style="font-size: 0.78rem; color: var(--on-surface-variant);">${r.time}</span>
           </div>
           <div style="display: flex; align-items: center; gap: 0.4rem;">
-            ${!isActive ? `<button type="button" class="btn btn-ghost btn-sm" onclick="setActiveRound(${idx})">Seleccionar ronda</button>` : `<span class="badge badge-lime">Ronda Activa</span>`}
-            ${editingOrder.rondas.length > 1 ? `<button type="button" class="btn btn-ghost btn-sm" style="color: var(--error);" onclick="deleteRoundWithPrompt(${idx})" title="Eliminar ronda"><i data-lucide="x" style="width: 14px; height: 14px;"></i></button>` : ''}
+            ${!isActive ? `<button type="button" class="btn btn-ghost btn-sm" onclick="setActiveRound(${idx})">Seleccionar para agregar</button>` : `<span class="badge badge-lime">Ronda Seleccionada</span>`}
+            ${editingOrder.rondas.length > 1 ? `<button type="button" class="btn btn-ghost btn-sm" style="color: var(--error);" onclick="deleteRound(${idx})" title="Eliminar ronda"><i data-lucide="x" style="width: 14px; height: 14px;"></i></button>` : ''}
           </div>
         </div>
         <div style="display: flex; flex-direction: column;">
@@ -3082,75 +3053,63 @@ function addNewRoundToCurrentOrder() {
   playTapSound('click');
   if (!editingOrder) return;
   const roundNum = editingOrder.rondas.length + 1;
-  const now = formatTimeNow();
-
   editingOrder.rondas.push({
     id: roundNum,
     name: `Ronda ${roundNum}`,
-    time: now,
+    time: formatTimeNow(),
     items: []
   });
-
   activeRoundIndex = editingOrder.rondas.length - 1;
-  editingOrder.lastModifiedAt = now;
+  editingOrder.lastModifiedAt = formatTimeNow();
   renderModalRondas();
   showToast(`Nueva Ronda ${roundNum} agregada`);
 }
 
-function deleteRoundWithPrompt(idx) {
-  playTapSound('click');
-  const round = editingOrder.rondas[idx];
-  const roundName = round ? round.name : `Ronda ${idx + 1}`;
-  if (!confirm(`¿Estás seguro de eliminar la "${roundName}" con todos sus ítems?`)) return;
-
+function deleteRound(idx) {
+  if (!confirm('¿Eliminar esta ronda completa?')) return;
   editingOrder.rondas.splice(idx, 1);
   activeRoundIndex = Math.max(0, activeRoundIndex - 1);
   editingOrder.lastModifiedAt = formatTimeNow();
   renderModalRondas();
   updateModalTotals();
-  showToast(`${roundName} eliminada`);
+}
+
+function updateAddPricePreview() {
+  const bevSelect = document.getElementById('add-beverage-select');
+  const styleSelect = document.getElementById('add-style-select');
+  const pricePreview = document.getElementById('add-item-price-preview');
+  if (!bevSelect || !styleSelect || !pricePreview) return;
+
+  const bevId = bevSelect.value;
+  const styleId = styleSelect.value;
+  const price = getItemPrice(bevId, styleId);
+  pricePreview.innerText = formatMoney(price);
 }
 
 function addItemToActiveRound() {
   if (!editingOrder) return;
   playTapSound('plus');
-
   const bevSelect = document.getElementById('add-beverage-select');
   const styleSelect = document.getElementById('add-style-select');
   if (!bevSelect || !styleSelect) return;
 
   const bevId = bevSelect.value;
   const styleId = styleSelect.value;
-  const currentTariff = appState.activeTariff || 'normal';
-
   let itemName = '';
-  let unitPrice = 14000;
+  const unitPrice = getItemPrice(bevId, styleId);
 
-  if (bevId === 'granizados') {
-    const p = PRODUCTS.find(x => x.id === 'granizados');
-    const priceTable = p ? p.prices[currentTariff] : { con_mango: 15000, sencillo: 10000 };
-    if (styleId === 'con_mango') {
-      itemName = 'Granizado Con Mango Biche 🥭';
-      unitPrice = priceTable.con_mango;
-    } else {
-      itemName = 'Granizado Sencillo ❄️';
-      unitPrice = priceTable.sencillo;
-    }
-  } else if (bevId.startsWith('extra_')) {
+  if (bevId.startsWith('extra_')) {
     const ext = EXTRAS.find(e => e.id === bevId);
-    itemName = ext ? ext.name : 'Porción Adicional';
-    unitPrice = ext ? ext.prices[currentTariff] : 3000;
+    itemName = ext ? ext.name : 'Adicional';
+  } else if (bevId.startsWith('granizado_')) {
+    const gran = GRANIZADOS.find(g => g.id === bevId);
+    const styleName = styleId === 'botella' ? 'Vaso Personal' : (styleId === 'mangochelada' ? 'Mangochelada Granizada' : 'Copa Litro');
+    itemName = `${gran ? gran.shortName : 'Granizado'} - ${styleName}`;
   } else {
-    const bev = PRODUCTS.find(b => b.id === bevId);
+    const bev = BEVERAGES.find(b => b.id === bevId);
     const bevName = bev ? bev.name : 'Bebida';
-    let styleLabel = 'Mangochelada 🥭';
-    if (styleId === 'michelada') styleLabel = 'Michelada 🍋';
-    if (styleId === 'botella') styleLabel = 'Botella 🍾';
-    itemName = `${bevName} - ${styleLabel}`;
-
-    if (bev && bev.prices && bev.prices[currentTariff]) {
-      unitPrice = bev.prices[currentTariff][styleId] || 14000;
-    }
+    const styleName = styleId === 'mangochelada' ? 'Mangochelada 🥭' : (styleId === 'michelada' ? 'Michelada 🍋' : 'Botella 🍾');
+    itemName = `${bevName} - ${styleName}`;
   }
 
   const targetRound = editingOrder.rondas[activeRoundIndex];
@@ -3169,11 +3128,10 @@ function addItemToActiveRound() {
     });
   }
 
-  // Record precise timestamp of last product addition
   editingOrder.lastModifiedAt = formatTimeNow();
   renderModalRondas();
   updateModalTotals();
-  showToast(`${itemName} agregado a ${targetRound.name}`);
+  showToast(`${itemName} agregado a la comanda`);
 }
 
 function adjustItemQtyInRound(roundIdx, itemIdx, delta) {
@@ -3181,32 +3139,25 @@ function adjustItemQtyInRound(roundIdx, itemIdx, delta) {
   const round = editingOrder.rondas[roundIdx];
   if (!round || !round.items[itemIdx]) return;
   const item = round.items[itemIdx];
-
-  if (delta < 0 && item.qty <= 1) {
-    removeItemWithPrompt(roundIdx, itemIdx);
-    return;
-  }
-
+  const next = item.qty + delta;
   playTapSound(delta > 0 ? 'plus' : 'minus');
-  item.qty += delta;
+
+  if (next <= 0) {
+    round.items.splice(itemIdx, 1);
+  } else {
+    item.qty = next;
+  }
   editingOrder.lastModifiedAt = formatTimeNow();
   renderModalRondas();
   updateModalTotals();
 }
 
-function removeItemWithPrompt(roundIdx, itemIdx) {
-  playTapSound('click');
-  const round = editingOrder.rondas[roundIdx];
-  if (!round || !round.items[itemIdx]) return;
-  const item = round.items[itemIdx];
-
-  if (!confirm(`¿Deseas eliminar definitivamente "${item.name}" de la ${round.name}?`)) return;
-
-  round.items.splice(itemIdx, 1);
+function removeItemFromRound(roundIdx, itemIdx) {
+  if (!editingOrder) return;
+  editingOrder.rondas[roundIdx].items.splice(itemIdx, 1);
   editingOrder.lastModifiedAt = formatTimeNow();
   renderModalRondas();
   updateModalTotals();
-  showToast(`Ítem retirado de la comanda`);
 }
 
 function updateModalTotals() {
@@ -3220,7 +3171,6 @@ function updateModalTotals() {
 function setPaymentStatus(status, updateState = true) {
   playTapSound('click');
   if (editingOrder && updateState) editingOrder.paymentStatus = status;
-
   const btnPending = document.getElementById('btn-pay-status-pending');
   const btnPartial = document.getElementById('btn-pay-status-partial');
   const btnPaid = document.getElementById('btn-pay-status-paid');
@@ -3234,9 +3184,9 @@ function setPaymentStatus(status, updateState = true) {
 
   if (status === 'pending') {
     if (btnPending) {
-      btnPending.style.background = '#fee2e2';
+      btnPending.style.background = 'var(--error-bg)';
       btnPending.style.color = '#991b1b';
-      btnPending.style.boxShadow = '0 0 0 2px #dc2626';
+      btnPending.style.boxShadow = '0 0 0 2px var(--error)';
       btnPending.style.fontWeight = '700';
     }
     if (btnPartial) { btnPartial.style.background = 'var(--surface-container)'; btnPartial.style.color = 'var(--on-surface)'; }
@@ -3245,9 +3195,9 @@ function setPaymentStatus(status, updateState = true) {
     if (editingOrder) editingOrder.amountPaid = 0;
   } else if (status === 'partial') {
     if (btnPartial) {
-      btnPartial.style.background = '#fef3c7';
+      btnPartial.style.background = 'var(--warning-bg)';
       btnPartial.style.color = '#92400e';
-      btnPartial.style.boxShadow = '0 0 0 2px #d97706';
+      btnPartial.style.boxShadow = '0 0 0 2px var(--outline)';
       btnPartial.style.fontWeight = '700';
     }
     if (btnPending) { btnPending.style.background = 'var(--surface-container)'; btnPending.style.color = 'var(--on-surface)'; }
@@ -3255,17 +3205,18 @@ function setPaymentStatus(status, updateState = true) {
     if (partialControls) partialControls.style.display = 'block';
   } else if (status === 'paid') {
     if (btnPaid) {
-      btnPaid.style.background = '#dcfce7';
+      btnPaid.style.background = 'var(--positive-bg)';
       btnPaid.style.color = '#166534';
-      btnPaid.style.boxShadow = '0 0 0 2px #16a34a';
+      btnPaid.style.boxShadow = '0 0 0 2px var(--positive)';
       btnPaid.style.fontWeight = '700';
     }
     if (btnPending) { btnPending.style.background = 'var(--surface-container)'; btnPending.style.color = 'var(--on-surface)'; }
     if (btnPartial) { btnPartial.style.background = 'var(--surface-container)'; btnPartial.style.color = 'var(--on-surface)'; }
     if (partialControls) partialControls.style.display = 'none';
-    if (editingOrder) editingOrder.amountPaid = calculateOrderTotal(editingOrder);
+    if (editingOrder) {
+      editingOrder.amountPaid = calculateOrderTotal(editingOrder);
+    }
   }
-
   updatePartialPaymentCalculations();
 }
 
@@ -3274,8 +3225,8 @@ function updatePartialPaymentCalculations() {
   const total = calculateOrderTotal(editingOrder);
   const partInput = document.getElementById('partial-amount-input');
   const balanceEl = document.getElementById('partial-balance-due');
-
   let paid = 0;
+
   if (editingOrder.paymentStatus === 'paid') {
     paid = total;
   } else if (editingOrder.paymentStatus === 'partial') {
@@ -3290,17 +3241,36 @@ function updatePartialPaymentCalculations() {
 function saveAndCloseOrderModal() {
   if (!editingOrder) return;
   playTapSound('click');
-
   const refInput = document.getElementById('order-ref-input');
+  const waiterInput = document.getElementById('order-waiter-input');
   const methodSelect = document.getElementById('order-payment-method');
 
   editingOrder.reference = (refInput && refInput.value.trim()) ? refInput.value.trim() : `Mesa #${editingOrder.id}`;
+  // REQUIREMENT 2: Guardar nombre del mesero/atendedor
+  editingOrder.waiter = (waiterInput && waiterInput.value.trim()) ? waiterInput.value.trim() : 'Sin asignar';
   editingOrder.paymentMethod = methodSelect ? methodSelect.value : 'Efectivo';
   editingOrder.lastModifiedAt = formatTimeNow();
 
   const total = calculateOrderTotal(editingOrder);
+
+  // If order is fully paid, user can keep it in active or close it
   if (editingOrder.paymentStatus === 'paid') {
     editingOrder.amountPaid = total;
+    // Offer to finalize or leave open
+    if (confirm(`La comanda #${editingOrder.id} está pagada totalmente (${formatMoney(total)}). ¿Deseas cerrarla y moverla al historial de pedidos cobrados?`)) {
+      editingOrder.closedAt = formatTimeNow();
+      editingOrder.total = total;
+      appState.orders = appState.orders.filter(o => o.id !== editingOrder.id);
+      appState.closedOrders.unshift(editingOrder);
+      closeOrderModal();
+      renderOrders();
+      renderClosedOrdersView();
+      renderConsolidatedView();
+      renderShiftView();
+      saveState();
+      showToast(`Comanda #${editingOrder.id} cerrada y cobrada exitosamente`);
+      return;
+    }
   }
 
   const existingIdx = appState.orders.findIndex(o => o.id === editingOrder.id);
@@ -3312,48 +3282,141 @@ function saveAndCloseOrderModal() {
 
   closeOrderModal();
   renderOrders();
+  renderConsolidatedView();
   renderShiftView();
   saveState();
-  showToast('Comanda guardada con éxito');
+  showToast('Comanda guardada correctamente');
 }
 
 function deleteCurrentOrderPrompt() {
   if (!editingOrder) return;
-  if (!confirm(`¿Eliminar definitivamente la comanda #${editingOrder.id} (${editingOrder.reference || 'Mesa'})?`)) return;
-
+  if (!confirm(`¿Eliminar definitivamente la comanda #${editingOrder.id}? Esta acción no se puede deshacer.`)) return;
   appState.orders = appState.orders.filter(o => o.id !== editingOrder.id);
   closeOrderModal();
   renderOrders();
+  renderConsolidatedView();
   renderShiftView();
   saveState();
   showToast('Comanda eliminada');
 }
 
-// --- WHATSAPP EXPORT LOGIC ---
+// --- REQUIREMENT 3: REINICIAR TODO / BORRAR TURNO CON CONFIRMACIÓN SEGURA ---
+function openResetTurnModal() {
+  playTapSound('click');
+  const modal = document.getElementById('reset-turn-modal');
+  const input = document.getElementById('reset-confirm-word-input');
+  const btn = document.getElementById('btn-confirm-reset-turn');
+
+  if (input) input.value = '';
+  if (btn) {
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+    btn.style.cursor = 'not-allowed';
+  }
+
+  if (modal) modal.classList.add('open');
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function closeResetTurnModal() {
+  const modal = document.getElementById('reset-turn-modal');
+  if (modal) modal.classList.remove('open');
+}
+
+function checkResetWordConfirmation() {
+  const input = document.getElementById('reset-confirm-word-input');
+  const btn = document.getElementById('btn-confirm-reset-turn');
+  if (!input || !btn) return;
+
+  const isConfirmed = (input.value.trim().toUpperCase() === 'BORRAR');
+  btn.disabled = !isConfirmed;
+  btn.style.opacity = isConfirmed ? '1' : '0.5';
+  btn.style.cursor = isConfirmed ? 'pointer' : 'not-allowed';
+}
+
+function executeResetTurn() {
+  playTapSound('click');
+  const shouldArchive = document.getElementById('reset-archive-checkbox').checked;
+
+  if (shouldArchive) {
+    // Save current shift data to history if there was any activity
+    const m = computeConsolidatedMetrics();
+    let totalSales = 0;
+    [...appState.orders, ...appState.closedOrders].forEach(o => {
+      totalSales += calculateOrderTotal(o);
+    });
+
+    if (totalSales > 0 || m.grandUnits > 0) {
+      appState.shiftHistory.unshift({
+        id: appState.currentShift.id,
+        date: formatDateNow(),
+        hours: `${appState.currentShift.startTime} - ${formatTimeNow()}`,
+        cashier: appState.currentShift.cashier,
+        ordersCount: appState.orders.length + appState.closedOrders.length,
+        unitsCount: m.grandUnits,
+        totalSales: totalSales,
+        discrepancy: 0
+      });
+    }
+  }
+
+  // WIPE ACTIVE DATA: clean start for shift
+  appState.orders = [];
+  appState.closedOrders = [];
+  initBarCounts();
+
+  // Increment Shift ID and reset timestamp
+  const nextId = (appState.currentShift ? appState.currentShift.id : 0) + 1;
+  appState.currentShift = {
+    id: nextId,
+    isOpen: true,
+    cashier: appState.currentShift.cashier || 'Mateo Restrepo',
+    defaultWaiter: appState.currentShift.defaultWaiter || 'Carlos',
+    tariffMode: 'normal',
+    startTime: formatTimeNow(),
+    startDate: formatDateNow(),
+    startTimestamp: Date.now(),
+    baseCash: appState.currentShift.baseCash || 50000,
+    notes: 'Turno Reiniciado'
+  };
+
+  closeResetTurnModal();
+  renderOrders();
+  renderCounterView();
+  renderConsolidatedView();
+  renderClosedOrdersView();
+  renderShiftView();
+  saveState();
+
+  showToast(`¡Turno #${nextId} reiniciado limpiamente! Granizados y catálogo protegidos.`, 'check-circle');
+}
+
+// --- REQUIREMENT 2: WHATSAPP EXPORTS WITH WAITER NAME ---
 function generateWhatsAppText(order) {
   if (!order) return '';
   const total = calculateOrderTotal(order);
   const paid = order.amountPaid || 0;
   const balance = Math.max(0, total - paid);
+  const waiterName = order.waiter || 'Sin asignar';
 
-  let text = `🥭 *MANGOCHELADAS - CONTROL DE COMANDA* 🥭\n`;
+  let text = `🥭 *MANGOCHELADAS - COMPROBANTE DE COMANDA* 🥭\n`;
   text += `━━━━━━━━━━━━━━━━━━━━━━━\n`;
   text += `📍 *Referencia:* ${order.reference || 'Mesa #' + order.id}\n`;
-  text += `⏰ *Apertura:* ${order.createdAt} | *Último pedido:* ${order.lastModifiedAt || order.createdAt}\n`;
-  text += `👤 *Atendido por:* ${appState.currentShift.cashier || 'Cajero'}\n`;
-  text += `🏷️ *Tarifa:* ${order.tariffMode === 'event' ? 'Precios de Evento 🎉' : 'Precios Normales 🏷️'}\n`;
+  text += `👤 *Mesero / Atendedor:* ${waiterName}\n`;
+  text += `⏰ *Hora inicio:* ${order.createdAt} | *Último pedido:* ${order.lastModifiedAt || order.createdAt}\n`;
+  text += `🍹 *Tarifa aplicada:* ${appState.currentShift.tariffMode === 'evento' ? 'Tarifa Eventos' : 'Tarifa Normal'}\n`;
   text += `━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  text += `📋 *DETALLE DE RONDAS Y PRODUCTOS:*\n\n`;
+  text += `📋 *PRODUCTOS Y RONDAS:*\n\n`;
 
   if (order.rondas) {
     order.rondas.forEach(r => {
       text += `🔹 *${r.name}* (${r.time}):\n`;
       if (r.items && r.items.length > 0) {
         r.items.forEach(it => {
-          text += `  • ${it.qty}x ${it.name} — ${formatMoney(it.price * it.qty)}\n`;
+          text += `   • ${it.qty}x ${it.name} — ${formatMoney(it.price * it.qty)}\n`;
         });
       } else {
-        text += `  • (Sin productos registrados)\n`;
+        text += `   • (Sin productos registrados)\n`;
       }
       text += `\n`;
     });
@@ -3361,6 +3424,7 @@ function generateWhatsAppText(order) {
 
   text += `━━━━━━━━━━━━━━━━━━━━━━━\n`;
   text += `💰 *TOTAL CUENTA:* ${formatMoney(total)} COP\n`;
+
   if (order.paymentStatus === 'paid') {
     text += `💵 *ESTADO DE PAGO:* ✅ Pagado Total (${order.paymentMethod || 'Efectivo'})\n`;
   } else if (order.paymentStatus === 'partial') {
@@ -3370,8 +3434,7 @@ function generateWhatsAppText(order) {
     text += `💵 *ESTADO DE PAGO:* 🔴 Pendiente de Cobro\n`;
   }
   text += `━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  text += `🌴 *¡Gracias por preferir Mangocheladas!* 🍻🥭\n`;
-
+  text += `🌴 *Mangocheladas Cocktails & Bar* 🍻🥭\n`;
   return text;
 }
 
@@ -3386,6 +3449,68 @@ function quickWhatsAppOrder(orderId, isClosed = false) {
 function exportCurrentOrderToWhatsApp() {
   if (!editingOrder) return;
   openWhatsAppModal(generateWhatsAppText(editingOrder));
+}
+
+function exportConsolidatedToWhatsApp() {
+  const m = computeConsolidatedMetrics();
+  let text = `🥭 *MANGOCHELADAS - REPORTE CONSOLIDADO DE TURNO* 🥭\n`;
+  text += `━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  text += `📅 *Fecha:* ${formatDateNow()} | *Hora:* ${formatTimeNow()}\n`;
+  text += `👤 *Cajero Responsable:* ${appState.currentShift.cashier || 'Mateo'}\n`;
+  text += `🎪 *Modalidad:* ${appState.currentShift.tariffMode === 'evento' ? 'Tarifa Eventos / Festival' : 'Tarifa Normal Local'}\n`;
+  text += `━━━━━━━━━━━━━━━━━━━━━━━\n`;
+
+  // Waiters Breakdown
+  text += `👥 *VENTAS POR MESERO / ATENDEDOR:*\n`;
+  const waiterKeys = Object.keys(m.waiterStats);
+  if (waiterKeys.length > 0) {
+    waiterKeys.forEach(w => {
+      const ws = m.waiterStats[w];
+      text += `  • *${w}:* ${ws.orders} pedidos | ${ws.units} unds | ${formatMoney(ws.sales)}\n`;
+    });
+  } else {
+    text += `  • Sin registros de meseros aún\n`;
+  }
+  text += `\n━━━━━━━━━━━━━━━━━━━━━━━\n`;
+
+  // Products Breakdown
+  text += `📦 *DESGLOSE DE PRODUCTOS:*\n\n`;
+  BEVERAGES.forEach(b => {
+    const row = m.matrix[b.id];
+    if (row.totalQty > 0) {
+      text += `🍺 *${row.name}:* ${row.totalQty} unds (${formatMoney(row.totalSales)})\n`;
+      if (row.mangochelada > 0) text += `   🥭 Mangocheladas: ${row.mangochelada}\n`;
+      if (row.michelada > 0) text += `   🍋 Micheladas: ${row.michelada}\n`;
+      if (row.botella > 0) text += `   🍾 Botellas: ${row.botella}\n`;
+    }
+  });
+
+  GRANIZADOS.forEach(g => {
+    const row = m.matrix[g.id];
+    if (row.totalQty > 0) {
+      text += `🍧 *${g.shortName}:* ${row.totalQty} unds (${formatMoney(row.totalSales)})\n`;
+      if (row.botella > 0) text += `   • Vasos Personales: ${row.botella}\n`;
+      if (row.mangochelada > 0) text += `   • Mangocheladas Granizadas: ${row.mangochelada}\n`;
+      if (row.granizado > 0) text += `   • Copas Litro: ${row.granizado}\n`;
+    }
+  });
+
+  if (m.extrasTotalQty > 0) {
+    text += `\n⭐ *Toppings & Adicionales:* ${m.extrasTotalQty} unds (${formatMoney(m.extrasTotalSales)})\n`;
+  }
+
+  text += `\n━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  text += `📊 *TOTALES GENERALES:*\n`;
+  text += `  • Mangocheladas totales: ${m.grandMangocheladas} 🥭\n`;
+  text += `  • Micheladas totales: ${m.grandMicheladas} 🍋\n`;
+  text += `  • Botellas totales: ${m.grandBotellas} 🍾\n`;
+  text += `  • Granizados totales: ${m.grandGranizados} 🍧\n`;
+  text += `  👉 *GRAN TOTAL UNIDADES:* ${m.grandUnits} unds\n`;
+  text += `  💵 *GRAN TOTAL VENTAS:* ${formatMoney(m.grandTotalRevenue)} COP\n`;
+  text += `━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  text += `🌴 *Mangocheladas Cocktails & Bar* 🍻🥭\n`;
+
+  openWhatsAppModal(text);
 }
 
 function openWhatsAppModal(text) {
@@ -3409,7 +3534,7 @@ function copyWhatsAppText() {
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(textarea.value).then(() => {
-      showToast('¡Texto copiado al portapapeles!');
+      showToast('¡Mensaje copiado al portapapeles!');
       const btn = document.getElementById('btn-copy-wa');
       if (btn) btn.innerHTML = `<i data-lucide="check"></i><span>¡Copiado!</span>`;
       if (window.lucide) window.lucide.createIcons();
@@ -3432,7 +3557,7 @@ function fallbackCopyText(elem) {
     document.execCommand('copy');
     showToast('¡Texto copiado al portapapeles!');
   } catch (e) {
-    showToast('Por favor selecciona y copia el texto');
+    showToast('Selecciona el texto para copiar');
   }
 }
 
@@ -3452,53 +3577,7 @@ function shareViaNavigator() {
   }
 }
 
-function exportConsolidatedToWhatsApp() {
-  const metrics = computeConsolidatedMetrics();
-  const currentTariff = appState.activeTariff || 'normal';
-
-  let text = `🥭 *MANGOCHELADAS - CONSOLIDADO DEL TURNO* 🥭\n`;
-  text += `━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  text += `📅 *Fecha:* ${formatDateNow()} | *Hora:* ${formatTimeNow()}\n`;
-  text += `👤 *Cajero Responsable:* ${appState.currentShift.cashier || 'Mateo'}\n`;
-  text += `🏷️ *Tarifa:* ${currentTariff === 'event' ? 'Precios de Eventos' : 'Precios Normales'}\n`;
-  text += `━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  text += `📦 *DESGLOSE DE PRODUCTOS:*\n\n`;
-
-  PRODUCTS.forEach(p => {
-    const row = metrics.matrix[p.id];
-    if (row.totalQty > 0) {
-      if (p.id === 'granizados') {
-        text += `🍧 *${row.name}:* ${row.totalQty} unds (${formatMoney(row.totalSales)})\n`;
-        if (row.con_mango > 0) text += `   🥭 Con Mango: ${row.con_mango}\n`;
-        if (row.sencillo > 0) text += `   ❄️ Sencillo: ${row.sencillo}\n`;
-      } else {
-        text += `🍺 *${row.name}:* ${row.totalQty} unds (${formatMoney(row.totalSales)})\n`;
-        if (row.mangochelada > 0) text += `   🥭 Mangocheladas: ${row.mangochelada}\n`;
-        if (row.michelada > 0) text += `   🍋 Micheladas: ${row.michelada}\n`;
-        if (row.botella > 0) text += `   🍾 Botellas: ${row.botella}\n`;
-      }
-    }
-  });
-
-  if (metrics.extrasTotalQty > 0) {
-    text += `\n⭐ *Toppings & Adicionales:* ${metrics.extrasTotalQty} unds (${formatMoney(metrics.extrasTotalSales)})\n`;
-  }
-
-  text += `\n━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  text += `📊 *TOTALES GENERALES:*\n`;
-  text += `  • Mangocheladas totales: ${metrics.grandMangocheladas} 🥭\n`;
-  text += `  • Micheladas totales: ${metrics.grandMicheladas} 🍋\n`;
-  text += `  • Botellas totales: ${metrics.grandBotellas} 🍾\n`;
-  text += `  • Granizados totales: ${metrics.grandGranizados} 🍧\n`;
-  text += `  👉 *Gran Total Unidades:* ${metrics.grandUnits} unds\n`;
-  text += `  💵 *GRAN TOTAL VENTAS:* ${formatMoney(metrics.grandTotalRevenue)} COP\n`;
-  text += `━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  text += `Mangocheladas Cocktails & Bar Tropical 🌴🍻\n`;
-
-  openWhatsAppModal(text);
-}
-
-// --- PURE JS PDF 1.4 GENERATOR (STANDALONE, OFFLINE & ZERO BLANK SCREEN) ---
+// --- PURE JS PDF 1.4 GENERATOR (STANDALONE & OFFLINE) ---
 function buildSimplePdf(title, lines) {
   function escPdf(str) {
     return (str || '')
@@ -3532,7 +3611,6 @@ function buildSimplePdf(title, lines) {
 
   const enc = new TextEncoder();
   const sBytes = enc.encode(contentStream);
-
   const obj1 = '1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n';
   const obj2 = '2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n';
   const obj3 = '3 0 obj\n<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /MediaBox [0 0 612 792] /Contents 6 0 R >>\nendobj\n';
@@ -3567,7 +3645,6 @@ function buildSimplePdf(title, lines) {
 
   const total = pos + bXref.length + bTrailer.length;
   const out = new Uint8Array(total);
-
   let c = 0;
   out.set(hBytes, c); c += hBytes.length;
   out.set(b1, c); c += b1.length;
@@ -3600,7 +3677,7 @@ function triggerPdfDownload(blob, filename) {
     };
     reader.readAsDataURL(blob);
   } catch (e) {
-    // Silent
+    // Continue with standard blob download
   }
 
   const url = URL.createObjectURL(blob);
@@ -3613,18 +3690,20 @@ function triggerPdfDownload(blob, filename) {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }, 1000);
-  showToast(`Descargado: ${filename}`);
+  showToast(`Descargando ${filename}`);
 }
 
+// Download PDF Ticket for Order (incorporates Mesero/Atendedor)
 function downloadCurrentOrderPdf() {
   if (!editingOrder) return;
   const total = calculateOrderTotal(editingOrder);
+  const waiterName = editingOrder.waiter || 'Sin asignar';
 
   const lines = [
     { text: `Fecha: ${formatDateNow()} - Hora: ${formatTimeNow()}`, isBold: false },
     { text: `Referencia: ${editingOrder.reference || 'Mesa #' + editingOrder.id}`, isBold: true },
-    { text: `Responsable: ${appState.currentShift.cashier || 'Cajero'}`, isBold: false },
-    { text: `Tarifa Aplicada: ${editingOrder.tariffMode === 'event' ? 'Precios de Eventos' : 'Precios Normales'}`, isBold: false },
+    { text: `Mesero / Atendedor: ${waiterName}`, isBold: true },
+    { text: `Cajero de Turno: ${appState.currentShift.cashier || 'Cajero'}`, isBold: false },
     { text: `Ultimo producto anadido: ${editingOrder.lastModifiedAt || editingOrder.createdAt}`, isBold: false },
     { isSep: true }
   ];
@@ -3645,31 +3724,48 @@ function downloadCurrentOrderPdf() {
   lines.push({ text: `Estado de Pago: ${editingOrder.paymentStatus} (${editingOrder.paymentMethod || 'Efectivo'})`, isBold: false });
   lines.push({ text: `Abonado: ${formatMoney(editingOrder.amountPaid || 0)} - Saldo: ${formatMoney(Math.max(0, total - (editingOrder.amountPaid || 0)))}`, isBold: false });
   lines.push({ isSep: true });
-  lines.push({ text: 'Mangocheladas Cocktails & Bar Tropical', isBold: false });
+  lines.push({ text: 'Mangocheladas Cocktails & Bar - Gracias por su preferencia', isBold: false });
 
   const blob = buildSimplePdf(`MANGOCHELADAS - TICKET #${editingOrder.id}`, lines);
-  const filename = `Ventas_del_${getCompliantDateStamp()}.pdf`;
+  const filename = `Ticket_Mesa_${editingOrder.id}_${getFormattedDateForFilename()}.pdf`;
   triggerPdfDownload(blob, filename);
 }
 
+// Download Shift Consolidated PDF (Filename: Ventas_del_DD_MM_AAAA_HH_MM.pdf)
 function downloadConsolidatedPdf() {
   const m = computeConsolidatedMetrics();
-  const currentTariff = appState.activeTariff || 'normal';
+  const dateStr = getFormattedDateForFilename();
+  const filename = `Ventas_del_${dateStr}.pdf`;
 
   const lines = [
     { text: `Fecha Reporte: ${formatDateNow()} ${formatTimeNow()}`, isBold: false },
-    { text: `Turno Activo: #${appState.currentShift.id} - Responsable: ${appState.currentShift.cashier}`, isBold: true },
-    { text: `Tarifa: ${currentTariff === 'event' ? 'Precios de Evento' : 'Precios Normales'}`, isBold: false },
-    { isSep: true }
+    { text: `Turno Activo: #${appState.currentShift.id} - Cajero: ${appState.currentShift.cashier}`, isBold: true },
+    { text: `Modalidad: ${appState.currentShift.tariffMode === 'evento' ? 'Tarifa Evento' : 'Tarifa Normal'}`, isBold: false },
+    { isSep: true },
+    { text: 'VENTAS POR MESERO / ATENDEDOR:', isBold: true }
   ];
 
-  PRODUCTS.forEach(p => {
-    const row = m.matrix[p.id];
-    if (p.id === 'granizados') {
-      lines.push({ text: `${row.name}: Con Mango: ${row.con_mango} | Sencillos: ${row.sencillo} => Total: ${row.totalQty} und (${formatMoney(row.totalSales)})`, isBold: false });
-    } else {
-      lines.push({ text: `${row.name}: Mangocheladas: ${row.mangochelada} | Micheladas: ${row.michelada} | Botellas: ${row.botella} => Total: ${row.totalQty} und (${formatMoney(row.totalSales)})`, isBold: false });
-    }
+  const waiterKeys = Object.keys(m.waiterStats);
+  if (waiterKeys.length > 0) {
+    waiterKeys.forEach(w => {
+      const ws = m.waiterStats[w];
+      lines.push({ text: `  * ${w}: ${ws.orders} pedidos | ${ws.units} unds | Cobrado: ${formatMoney(ws.sales)} | Saldo: ${formatMoney(ws.pending)}`, isBold: false });
+    });
+  } else {
+    lines.push({ text: '  * Sin comandas asignadas a meseros', isBold: false });
+  }
+
+  lines.push({ isSep: true });
+  lines.push({ text: 'DESGLOSE DE PRODUCTOS Y BEBIDAS:', isBold: true });
+
+  BEVERAGES.forEach(b => {
+    const row = m.matrix[b.id];
+    lines.push({ text: `${row.name}: Mangocheladas: ${row.mangochelada} | Micheladas: ${row.michelada} | Botellas: ${row.botella} => Total: ${row.totalQty} und (${formatMoney(row.totalSales)})`, isBold: false });
+  });
+
+  GRANIZADOS.forEach(g => {
+    const row = m.matrix[g.id];
+    lines.push({ text: `${g.shortName}: Vasos: ${row.botella} | Mangochelada Granizada: ${row.mangochelada} | Copa Litro: ${row.granizado} => Total: ${row.totalQty} und (${formatMoney(row.totalSales)})`, isBold: false });
   });
 
   if (m.extrasTotalQty > 0) {
@@ -3677,13 +3773,12 @@ function downloadConsolidatedPdf() {
   }
 
   lines.push({ isSep: true });
-  lines.push({ text: `RESUMEN: Mangocheladas: ${m.grandMangocheladas} | Micheladas: ${m.grandMicheladas} | Botellas: ${m.grandBotellas} | Granizados: ${m.grandGranizados}`, isBold: true });
+  lines.push({ text: `TOTALES: Mangocheladas: ${m.grandMangocheladas} | Micheladas: ${m.grandMicheladas} | Botellas: ${m.grandBotellas} | Granizados: ${m.grandGranizados}`, isBold: true });
   lines.push({ text: `GRAN TOTAL UNIDADES: ${m.grandUnits} unidades`, isBold: true });
   lines.push({ text: `GRAN TOTAL VENTAS: ${formatMoney(m.grandTotalRevenue)} COP`, isBold: true });
   lines.push({ isSep: true });
 
   const blob = buildSimplePdf('MANGOCHELADAS - CONSOLIDADO GENERAL', lines);
-  const filename = `Ventas_del_${getCompliantDateStamp()}.pdf`;
   triggerPdfDownload(blob, filename);
 }
 
@@ -3695,11 +3790,23 @@ function printConsolidatedReceipt() {
 
   let html = `
     <div style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 5px; margin-bottom: 8px;">
-      <h2 style="margin: 0; font-size: 14pt;">MANGOCHELADAS</h2>
-      <p style="margin: 2px 0; font-size: 9pt;">Cocktails & Cervezas Artesanales</p>
-      <p style="margin: 2px 0; font-size: 8pt;">CONSOLIDADO DE VENTAS</p>
+      <h2 style="margin: 0; font-size: 13pt;">MANGOCHELADAS</h2>
+      <p style="margin: 2px 0; font-size: 8.5pt;">Cocktails & Granizados Artesanales</p>
+      <p style="margin: 2px 0; font-size: 8pt; font-weight: bold;">CONSOLIDADO GENERAL DE TURNO</p>
       <p style="margin: 2px 0; font-size: 8pt;">Fecha: ${formatDateNow()} - ${formatTimeNow()}</p>
       <p style="margin: 2px 0; font-size: 8pt;">Cajero: ${appState.currentShift.cashier}</p>
+    </div>
+
+    <div style="font-size: 8pt; margin-bottom: 6px;">
+      <strong>ATENDEDORES / MESEROS:</strong><br>
+  `;
+
+  Object.keys(m.waiterStats).forEach(w => {
+    const ws = m.waiterStats[w];
+    html += `• ${w}: ${ws.orders} ped. | ${formatMoney(ws.sales)}<br>`;
+  });
+
+  html += `
     </div>
     <table style="width: 100%; font-size: 8pt; border-collapse: collapse;">
       <thead>
@@ -3712,16 +3819,23 @@ function printConsolidatedReceipt() {
       <tbody>
   `;
 
-  PRODUCTS.forEach(p => {
-    const row = m.matrix[p.id];
-    let qtyDesc = `${row.mangochelada}/${row.michelada}/${row.botella}`;
-    if (p.id === 'granizados') {
-      qtyDesc = `${row.con_mango}M/${row.sencillo}S`;
-    }
+  BEVERAGES.forEach(b => {
+    const row = m.matrix[b.id];
     html += `
       <tr>
-        <td>${row.name}</td>
-        <td style="text-align: center;">${qtyDesc}</td>
+        <td>${b.name}</td>
+        <td style="text-align: center;">${row.mangochelada}/${row.michelada}/${row.botella}</td>
+        <td style="text-align: right;">${formatMoney(row.totalSales)}</td>
+      </tr>
+    `;
+  });
+
+  GRANIZADOS.forEach(g => {
+    const row = m.matrix[g.id];
+    html += `
+      <tr>
+        <td>${g.shortName}</td>
+        <td style="text-align: center;">${row.mangochelada}/${row.botella}/${row.granizado}</td>
         <td style="text-align: right;">${formatMoney(row.totalSales)}</td>
       </tr>
     `;
@@ -3730,11 +3844,11 @@ function printConsolidatedReceipt() {
   html += `
       </tbody>
     </table>
-    <div style="border-top: 1px dashed #000; margin-top: 8px; padding-top: 5px; font-size: 9pt;">
+    <div style="border-top: 1px dashed #000; margin-top: 8px; padding-top: 5px; font-size: 8.5pt;">
       <div>Mangocheladas: <strong>${m.grandMangocheladas}</strong> | Micheladas: <strong>${m.grandMicheladas}</strong></div>
       <div>Botellas: <strong>${m.grandBotellas}</strong> | Granizados: <strong>${m.grandGranizados}</strong></div>
       <div style="margin-top: 5px; font-size: 11pt; font-weight: bold; text-align: right;">
-        TOTAL: ${formatMoney(m.grandTotalRevenue)}
+        GRAN TOTAL: ${formatMoney(m.grandTotalRevenue)}
       </div>
     </div>
   `;
@@ -3748,25 +3862,26 @@ function printConsolidatedReceipt() {
 function printTicketForOrder(orderId) {
   const order = appState.closedOrders.find(o => o.id === orderId) || appState.orders.find(o => o.id === orderId);
   if (!order) return;
-
   const printDiv = document.getElementById('print-ticket-area');
   if (!printDiv) return;
 
   const total = calculateOrderTotal(order);
+  const waiterName = order.waiter || 'Sin asignar';
+
   let html = `
     <div style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 5px; margin-bottom: 8px;">
-      <h2 style="margin: 0; font-size: 14pt;">MANGOCHELADAS</h2>
+      <h2 style="margin: 0; font-size: 13pt;">MANGOCHELADAS</h2>
       <p style="margin: 2px 0; font-size: 8pt;">TICKET DE VENTA #${order.id}</p>
       <p style="margin: 2px 0; font-size: 9pt; font-weight: bold;">${order.reference}</p>
-      <p style="margin: 2px 0; font-size: 8pt;">Apertura: ${order.createdAt} | Cierre: ${order.closedAt || order.lastModifiedAt}</p>
-      <p style="margin: 2px 0; font-size: 8pt;">Cajero: ${appState.currentShift.cashier}</p>
+      <p style="margin: 2px 0; font-size: 8pt;"><strong>Mesero / Atiende:</strong> ${waiterName}</p>
+      <p style="margin: 2px 0; font-size: 7.5pt;">Fecha: ${order.createdAt} | Cierre: ${order.closedAt || order.lastModifiedAt}</p>
     </div>
-    <div style="font-size: 8.5pt;">
+    <div style="font-size: 8pt;">
   `;
 
   if (order.rondas) {
     order.rondas.forEach(r => {
-      html += `<div style="font-weight: bold; margin-top: 5px;">${r.name} (${r.time})</div>`;
+      html += `<div style="font-weight: bold; margin-top: 4px;">${r.name} (${r.time})</div>`;
       if (r.items) {
         r.items.forEach(it => {
           html += `
@@ -3787,12 +3902,12 @@ function printTicketForOrder(orderId) {
         <span>TOTAL:</span>
         <span>${formatMoney(total)}</span>
       </div>
-      <div style="font-size: 8pt; margin-top: 4px;">
+      <div style="font-size: 8pt; margin-top: 3px;">
         Pago: ${order.paymentMethod || 'Efectivo'} (${order.paymentStatus})
       </div>
     </div>
     <div style="text-align: center; margin-top: 10px; font-size: 8pt;">
-      ¡Gracias por su visita!<br>Mangocheladas Cocktails & Bar Tropical
+      ¡Gracias por elegir Mangocheladas! 🌴🍻
     </div>
   `;
 
@@ -3800,12 +3915,6 @@ function printTicketForOrder(orderId) {
   printDiv.style.display = 'block';
   window.print();
   setTimeout(() => { printDiv.style.display = 'none'; }, 1000);
-}
-
-function printHistoricalShiftReceipt(shiftId) {
-  const h = appState.shiftHistory.find(x => x.id === shiftId);
-  if (!h) return;
-  alert(`Reporte Turno #${h.id}\nFecha: ${h.date} (${h.hours})\nResponsable: ${h.cashier}\nPedidos: ${h.ordersCount}\nTotal Ventas: ${formatMoney(h.totalSales)}\nDiferencia en Caja: ${formatMoney(h.discrepancy)}`);
 }
 
 // --- SHIFT MANAGEMENT MODALS ---
@@ -3828,12 +3937,14 @@ function confirmStartNewShift() {
   const cashier = document.getElementById('new-shift-cashier').value.trim() || 'Cajero';
   const base = parseFloat(document.getElementById('new-shift-base').value) || 50000;
   const notes = document.getElementById('new-shift-notes').value.trim();
-
   const nextShiftId = (appState.currentShift ? appState.currentShift.id : 0) + 1;
+
   appState.currentShift = {
     id: nextShiftId,
     isOpen: true,
     cashier: cashier,
+    defaultWaiter: 'Carlos',
+    tariffMode: 'normal',
     startTime: formatTimeNow(),
     startDate: formatDateNow(),
     startTimestamp: Date.now(),
@@ -3900,7 +4011,6 @@ function closeCloseShiftModal() {
 function calculateCashDiscrepancy() {
   const base = appState.currentShift.baseCash || 50000;
   let cashSales = 0;
-
   [...appState.orders, ...appState.closedOrders].forEach(o => {
     const paid = o.amountPaid || (o.paymentStatus === 'paid' ? calculateOrderTotal(o) : 0);
     if (o.paymentMethod === 'Efectivo') cashSales += paid;
@@ -3913,15 +4023,15 @@ function calculateCashDiscrepancy() {
   if (!box) return;
 
   if (diff === 0) {
-    box.style.background = '#dcfce7';
+    box.style.background = 'var(--positive-bg)';
     box.style.color = '#166534';
-    box.innerText = '✅ Caja exactamente cuadrada ($0 de diferencia)';
+    box.innerText = '✅ Caja perfectamente cuadrada ($0 de diferencia)';
   } else if (diff > 0) {
-    box.style.background = '#fef3c7';
+    box.style.background = 'var(--warning-bg)';
     box.style.color = '#92400e';
     box.innerText = `🟡 Sobrante de dinero: +${formatMoney(diff)}`;
   } else {
-    box.style.background = '#fee2e2';
+    box.style.background = 'var(--error-bg)';
     box.style.color = '#991b1b';
     box.innerText = `🔴 Faltante de dinero: ${formatMoney(diff)}`;
   }
@@ -3929,7 +4039,7 @@ function calculateCashDiscrepancy() {
 
 function confirmShiftClosure() {
   if (appState.orders.length > 0) {
-    if (!confirm(`Aún tienes ${appState.orders.length} comandas activas sin cerrar. ¿Deseas cerrar el turno de todas formas?`)) return;
+    if (!confirm(`Aún tienes ${appState.orders.length} comandas activas sin cobrar. ¿Deseas cerrar el turno de todas formas?`)) return;
   }
 
   playTapSound('click');
@@ -3969,7 +4079,7 @@ function confirmShiftClosure() {
   showToast('¡Turno cerrado y archivado correctamente!');
 }
 
-// --- STATE PERSISTENCE (NOTEBOOK SHIM API) ---
+// --- STATE PERSISTENCE WITH NOTEBOOK SHIM API ---
 async function loadState() {
   try {
     if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
@@ -3979,10 +4089,9 @@ async function loadState() {
       }
     }
   } catch (e) {
-    console.warn('Could not read state from notebook shim', e);
+    console.warn('Could not read state from shim', e);
   }
   initBarCounts();
-  populateSampleDataIfEmpty();
 }
 
 async function saveState() {
@@ -3991,7 +4100,7 @@ async function saveState() {
       await window.notebookAppApi.setAppState(appState);
     }
   } catch (e) {
-    console.warn('Could not save state to notebook shim', e);
+    console.warn('Could not save state to shim', e);
   }
 }
 
@@ -4005,31 +4114,24 @@ if (soundBtn) {
       icon.setAttribute('data-lucide', appState.soundEnabled ? 'volume-2' : 'volume-x');
     }
     if (window.lucide) window.lucide.createIcons();
-    showToast(appState.soundEnabled ? 'Sonido activado' : 'Sonido silenciado');
+    showToast(appState.soundEnabled ? 'Sonidos activados' : 'Sonidos silenciados');
     saveState();
   });
 }
 
-// --- INITIALIZATION ---
+// --- INITIAL APPLICATION BOOTSTRAP ---
 window.addEventListener('DOMContentLoaded', async () => {
   await loadState();
-
-  // Initialize UI with saved tariff
-  if (appState.activeTariff === 'event') {
-    setTariffMode('event');
-  } else {
-    setTariffMode('normal');
-  }
-
+  updateRealTimeClock();
+  updateTariffUI();
   renderOrders();
   renderCounterView();
   renderConsolidatedView();
-  renderTariffsView();
   renderClosedOrdersView();
   renderShiftView();
-
   if (window.lucide) window.lucide.createIcons();
 
+  // Notify NotebookAppApi that app is ready
   if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === 'function') {
     window.notebookAppApi.notifyAppReady();
   }
